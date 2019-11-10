@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">DoAn</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="username">Username</string>
+    <string name="login">Login</string>
+    <string name="signUp">Sign Up</string>
+    <string name="passwordConfirm">Confirm password</string>
+    <string name="email">Email</string>
+    <string name="signUpPrompt">Don"'t have an account?</string>
+    <string name="signUpLink"><u>Sign up</u></string>
+    <string name="loginPrompt">Already have an account?</string>
+    <string name="loginLink"><u>Login</u></string>
+    <string name="forgotPasswordPrompt">Forgot password?</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="topTours"><b>Top Tours</b></string>
+    <string name="forYou">for you</string>
+    <string name="tourNamePH">Nha Trang to Ho Chi Minh</string>
+    <string name="tourPricePH">500,000 - 1,000,000</string>
+    <string name="tourStartDatePH">17/08/2019</string>
+    <string name="tourEndDatePH">19/08/2019</string>
+    <string name="tourPeoplePH">3 adults</string>
+</resources>
