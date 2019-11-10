@@ -1,2 +1,0 @@
-- Tuần 1:
-	+ 1712914: tạo layout màn hình đăng nhập, đăng ký, danh sách tour gợi ý và card item trong danh sách.
