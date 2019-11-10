@@ -25,7 +25,7 @@
             app:srcCompat="@drawable/ic_sign_in" />
 
         <EditText
-            android:id="@+id/username"
+            android:id="@+id/usernameLogin"
             android:layout_width="300dp"
             android:layout_height="55dp"
             android:layout_marginTop="30dp"
@@ -37,7 +37,7 @@
             android:textAlignment="center"
             />
         <EditText
-            android:id="@+id/password"
+            android:id="@+id/passwordLogin"
             android:layout_width="300dp"
             android:layout_height="55dp"
             android:layout_marginTop="10dp"
@@ -106,7 +106,7 @@
                 android:textAlignment="center"
                 android:textColor="@color/textColor"/>
             <TextView
-                android:id="@+id/signUpLink"
+                android:id="@+id/loginLink"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/signUpLink"

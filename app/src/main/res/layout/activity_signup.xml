@@ -19,16 +19,16 @@
 
         <ImageView
             android:id="@+id/signUpImg"
-            android:layout_width="309dp"
-            android:layout_height="230dp"
+            android:layout_width="288dp"
+            android:layout_height="209dp"
             android:layout_gravity="center_horizontal"
             app:srcCompat="@drawable/ic_sign_up" />
 
         <EditText
-            android:id="@+id/username"
+            android:id="@+id/usernameSignUp"
             android:layout_width="300dp"
             android:layout_height="55dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:hint="@string/username"
             android:inputType="textEmailAddress"
             android:selectAllOnFocus="true"
@@ -37,30 +37,30 @@
             android:textAlignment="center"
             />
         <EditText
-            android:id="@+id/email"
+            android:id="@+id/emailSignUp"
             android:layout_width="300dp"
             android:layout_height="55dp"
             android:layout_marginTop="10dp"
             android:hint="@string/email"
-            android:inputType="textPassword"
+            android:inputType="textEmailAddress"
             android:selectAllOnFocus="true"
             android:background="@drawable/form"
             android:layout_gravity="center_horizontal"
             android:textAlignment="center"/>
         <EditText
-            android:id="@+id/password"
+            android:id="@+id/passwordSignUp"
             android:layout_width="300dp"
             android:layout_height="55dp"
             android:layout_marginTop="10dp"
             android:hint="@string/prompt_password"
-            android:inputType="textEmailAddress"
+            android:inputType="textPassword"
             android:selectAllOnFocus="true"
             android:background="@drawable/form"
             android:layout_gravity="center_horizontal"
             android:textAlignment="center"
             />
         <EditText
-            android:id="@+id/passwordConfirm"
+            android:id="@+id/passwordConfirmSignUp"
             android:layout_width="300dp"
             android:layout_height="55dp"
             android:layout_marginTop="10dp"
@@ -72,7 +72,7 @@
             android:textAlignment="center"/>
 
         <Button
-            android:id="@+id/login"
+            android:id="@+id/signUp"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
@@ -125,7 +125,7 @@
                 android:textAlignment="center"
                 android:textColor="@color/textColor"/>
             <TextView
-                android:id="@+id/signUpLink"
+                android:id="@+id/loginLink"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/loginLink"
