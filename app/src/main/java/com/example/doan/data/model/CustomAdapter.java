@@ -37,6 +37,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
             mTourStartDate = (TextView) view.findViewById(R.id.tourStartDate);
             mTourPeoplePH = (TextView) view.findViewById(R.id.tourPeople);
             mTourEndDate = (TextView)view.findViewById(R.id.tourEndDate);
+            mTourImage = (ImageView)view.findViewById(R.id.tourImage);
             //mTourImage .... avatar return url
         }
     }
