@@ -30,4 +30,12 @@
     <string name="tourStartDatePH">17/08/2019</string>
     <string name="tourEndDatePH">19/08/2019</string>
     <string name="tourPeoplePH">3 adults</string>
+    <string name="title_topTours">Top tours</string>
+    <string name="title_myTours">My tours</string>
+    <string name="title_settings">Settings</string>
+    <string name="title_addTour">Add tour</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

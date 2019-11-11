@@ -2,18 +2,28 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_home_black_24dp"
+        android:id="@+id/navigation_topTours"
+        android:icon="@drawable/ic_toptours"
         android:title="@string/title_home" />
 
     <item
-        android:id="@+id/navigation_dashboard"
-        android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="@string/title_dashboard" />
+        android:id="@+id/navigation_myTours"
+        android:icon="@drawable/ic_mytours"
+        android:title="@string/title_myTours" />
+
+    <item
+        android:id="@+id/navigation_addTour"
+        android:icon="@drawable/ic_add_button"
+        android:title="@string/title_addTour" />
 
     <item
         android:id="@+id/navigation_notifications"
-        android:icon="@drawable/ic_notifications_black_24dp"
+        android:icon="@drawable/ic_notifications"
         android:title="@string/title_notifications" />
+
+    <item
+        android:id="@+id/navigation_settings"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/title_settings" />
 
 </menu>

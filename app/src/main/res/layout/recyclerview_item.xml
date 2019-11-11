@@ -7,8 +7,9 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="11dp"
-        android:elevation="10dp">
+        app:cardCornerRadius="20dp"
+        app:cardUseCompatPadding="true"
+        android:elevation="11dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -26,28 +27,49 @@
                 android:layout_marginTop="5dp"
                 android:text="@string/tourNamePH"
                 android:textSize="20sp"
-                android:layout_gravity="center_horizontal"/>
-            <TextView
-                android:id="@+id/tourPrice"
+                android:layout_gravity="center_horizontal"
+                android:maxLines="1"
+                android:ellipsize="end"/>
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="@string/tourPricePH"
-                android:textSize="15sp"
-                android:layout_gravity="center_horizontal"/>
+                android:orientation="vertical"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp">
+                <TextView
+                    android:id="@+id/tourPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
+                    android:text="@string/tourPricePH"
+                    android:textSize="15sp"
+                    android:layout_gravity="center_horizontal"
+                    android:maxLines="1"
+                    android:ellipsize="end"/>
+
+                <TextView
+                    android:id="@+id/tourPeople"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textSize="15sp"
+                    android:text="@string/tourPeoplePH"
+                    android:layout_gravity="center_horizontal"/>
+            </LinearLayout>
+
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="20dp">
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp">
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_gravity="center_horizontal"
                     android:layout_alignParentStart="true"
-                    android:layout_marginStart="30dp">
+                    android:layout_marginStart="60dp">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -61,6 +83,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginTop="8dp"
+                        android:maxLength="10"
                         android:text="@string/tourStartDatePH"/>
                 </LinearLayout>
                 <LinearLayout
@@ -69,7 +92,14 @@
                     android:orientation="vertical"
                     android:layout_gravity="center_horizontal"
                     android:layout_centerHorizontal="true"
-                    >
+                    />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="60dp">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -77,34 +107,13 @@
                         android:layout_gravity="center_horizontal"
                         android:foregroundTintMode="src_over"
                         android:tint="@color/purpleRedAccent"
-                        app:srcCompat="@drawable/ic_multiple_users_silhouette" />
-                    <TextView
-                        android:id="@+id/tourPeople"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="8dp"
-                        android:text="@string/tourPeoplePH"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="30dp">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_horizontal"
-                        android:foregroundTintMode="src_over"
-                        android:tint="@color/yellowAccent"
                         app:srcCompat="@drawable/ic_maps_and_flags" />
                     <TextView
                         android:id="@+id/tourEndDate"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginTop="8dp"
+                        android:maxLength="10"
                         android:text="@string/tourEndDatePH"/>
                 </LinearLayout>
 

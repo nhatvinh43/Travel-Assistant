@@ -3,6 +3,9 @@ package com.example.doan;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.doan.data.model.CustomAdapter;
@@ -12,7 +15,12 @@ import com.example.doan.data.remote.API;
 import com.example.doan.data.remote.retrofit;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -27,55 +35,65 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
-    private ArrayList<Tour> dataSet = new ArrayList<>();
-    private RecyclerView mRecyclerView;
-    private CustomAdapter adapter;
+    final Fragment fragment1 = new fragment_topTours();
+    final Fragment fragment2 = new fragment_myTours();
+    final Fragment fragment3 = new fragment_addTour();
+    final Fragment fragment4 = new fragment_notification();
+    final Fragment fragment5 = new fragment_settings();
+
     private ProgressDialog spinner;
+    private Fragment fragment;
+    private FragmentManager fragmentManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mRecyclerView = (RecyclerView)findViewById(R.id.mRecyclerView);
-        adapter = new CustomAdapter(this,dataSet);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
 
-        API api = retrofit.getClient().create(API.class);
-        Call<ListTour> call1 = api.getListTour(API.authKey,"1");
-        call1.enqueue(new Callback<ListTour>() {
+        BottomNavigationView navView = findViewById(R.id.nav_view);
+        fragmentManager = getSupportFragmentManager();
+
+        fragmentManager.beginTransaction().add(R.id.frame_container,fragment5).hide(fragment5).commit();
+        fragmentManager.beginTransaction().add(R.id.frame_container,fragment4).hide(fragment4).commit();
+        fragmentManager.beginTransaction().add(R.id.frame_container,fragment3).hide(fragment3).commit();
+        fragmentManager.beginTransaction().add(R.id.frame_container,fragment2).hide(fragment2).commit();
+        fragmentManager.beginTransaction().add(R.id.frame_container,fragment1).commit();
+
+        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) navView.getLayoutParams();
+        layoutParams.setBehavior(new BottomNavigationBehavior());
+
+        navView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onResponse(Call<ListTour> call, Response<ListTour> response) {
-                Log.d("TAG",response.code()+" ");
-                ListTour resource = response.body();
-                ArrayList<Tour> data = resource.getTours();
-                for (Tour tour : data){
-                    Tour temp = new Tour(tour.getId(),tour.getStatus(),tour.getName(),tour.getMinCost(),tour.getMaxCost(),
-                            tour.getStartDate(),tour.getEndDate(),tour.getAdults(),tour.getChilds(),tour.getIsPrivate(),tour.getAvatar());
-                    dataSet.add(temp);
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId())
+                {
+                    case R.id.navigation_topTours:
+                        fragmentManager.beginTransaction().hide(fragment).add(R.id.frame_container,fragment1);
+                        fragment = fragment1;
+                        return true;
+                    case R.id.navigation_myTours:
+                        fragmentManager.beginTransaction().hide(fragment).add(R.id.frame_container,fragment2);
+                        fragment = fragment2;
+                        return true;
+                    case R.id.navigation_addTour:
+                        fragmentManager.beginTransaction().hide(fragment).add(R.id.frame_container,fragment3);
+                        fragment = fragment3;
+                        return true;
+                    case R.id.navigation_notifications:
+                        fragmentManager.beginTransaction().hide(fragment).add(R.id.frame_container,fragment4);
+                        fragment = fragment4;
+                        return true;
+                    case R.id.navigation_settings:
+                        fragmentManager.beginTransaction().hide(fragment).add(R.id.frame_container,fragment5);
+                        fragment = fragment5;
+                        return true;
+
                 }
-                //loading.dismiss();
-                adapter.notifyDataSetChanged();
-                Toast.makeText(MainActivity.this, String.valueOf(resource.getTours().size()),
-                        Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(Call<ListTour> call, Throwable t) {
-                Toast.makeText(MainActivity.this, t.getMessage(),
-                        Toast.LENGTH_SHORT).show();
+                return false;
             }
         });
-        /*BottomNavigationView navView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(navView, navController);*/
+
+
     }
 
 }
