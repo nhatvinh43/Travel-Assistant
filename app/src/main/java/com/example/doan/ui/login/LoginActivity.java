@@ -12,11 +12,8 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.KeyEvent;
+import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -24,8 +21,17 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.doan.MainActivity;
 import com.example.doan.R;
+import com.example.doan.data.model.LoginResponse;
+import com.example.doan.data.remote.API;
 import com.example.doan.signup;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.example.doan.data.remote.retrofit.getClient;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -58,7 +64,35 @@ public class LoginActivity extends AppCompatActivity {
         View.OnClickListener loginBtn = new View.OnClickListener(){
             public void onClick(View v)
             {
+                API api = getClient().create(API.class);
 
+                Call<LoginResponse> call = api.login(usernameEditText.getText().toString(),passwordEditText.getText().toString());
+
+                call.enqueue(new Callback<LoginResponse>() {
+                    @Override
+                    public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                        if (!response.isSuccessful()) {
+                            if (response.code()==400){
+                                Toast.makeText(LoginActivity.this,"Missing username/password",Toast.LENGTH_LONG).show();
+                            }else if(response.code()==404){
+                                Toast.makeText(LoginActivity.this,"Wrong username/password",Toast.LENGTH_LONG).show();
+                            }
+                            return;
+                        }
+                        LoginResponse loginResponse = response.body();
+
+                        Intent intent1 = new Intent(LoginActivity.this, MainActivity.class);
+                        intent1.putExtra("userId",loginResponse.getUserId());
+                        intent1.putExtra("token",loginResponse.getToken());
+                        startActivity(intent1);
+                        finish();
+                    }
+
+                    @Override
+                    public void onFailure(Call<LoginResponse> call, Throwable t) {
+                        Toast.makeText(LoginActivity.this,t.getMessage(),Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         };
         login.setOnClickListener(loginBtn);
