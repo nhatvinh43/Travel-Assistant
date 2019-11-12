@@ -1,7 +1,10 @@
 package com.example.doan.data.remote;
 
+import androidx.annotation.Nullable;
+
 import com.example.doan.data.model.ListTour;
 import com.example.doan.data.model.LoginResponse;
+import com.example.doan.data.model.RegisterResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -24,5 +27,17 @@ public interface API {
     Call<LoginResponse> login(
             @Field("emailPhone") String emailPhone,
             @Field("password") String password
+    );
+
+    @FormUrlEncoded
+    @POST("user/register")
+    Call<RegisterResponse> register(
+            @Field("password") String password,
+            @Nullable @Field("fullName") String fullName,
+            @Field("email") String email,
+            @Field("phone") String phone,
+            @Nullable @Field("address") String address,
+            @Nullable @Field("dob") String dob,
+            @Nullable @Field("gender") int gender
     );
 }

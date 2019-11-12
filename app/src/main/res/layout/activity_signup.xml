@@ -25,12 +25,12 @@
             app:srcCompat="@drawable/ic_sign_up" />
 
         <EditText
-            android:id="@+id/usernameSignUp"
+            android:id="@+id/phoneSignUp"
             android:layout_width="300dp"
             android:layout_height="55dp"
             android:layout_marginTop="20dp"
-            android:hint="@string/username"
-            android:inputType="textEmailAddress"
+            android:hint="@string/phone"
+            android:inputType="phone"
             android:selectAllOnFocus="true"
             android:background="@drawable/form"
             android:layout_gravity="center_horizontal"
