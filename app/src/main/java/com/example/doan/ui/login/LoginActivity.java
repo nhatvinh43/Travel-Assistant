@@ -27,6 +27,8 @@ import com.example.doan.data.model.LoginResponse;
 import com.example.doan.data.remote.API;
 import com.example.doan.signup;
 
+import java.io.IOException;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -72,10 +74,11 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                         if (!response.isSuccessful()) {
-                            if (response.code()==400){
-                                Toast.makeText(LoginActivity.this,"Missing username/password",Toast.LENGTH_LONG).show();
-                            }else if(response.code()==404){
-                                Toast.makeText(LoginActivity.this,"Wrong username/password",Toast.LENGTH_LONG).show();
+                            try{
+                                Toast.makeText(LoginActivity.this, response.errorBody().string(),Toast.LENGTH_SHORT).show();
+                            } catch (IOException e){
+                                Toast.makeText(LoginActivity.this, "Unknown Error", Toast.LENGTH_SHORT).show();
+                                e.printStackTrace();
                             }
                             return;
                         }

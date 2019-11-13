@@ -17,7 +17,9 @@ import com.example.doan.data.model.ListTour;
 import com.example.doan.data.model.Tour;
 import com.example.doan.data.remote.API;
 import com.example.doan.data.remote.retrofit;
+import com.example.doan.ui.login.LoginActivity;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -47,6 +49,15 @@ public class fragment_topTours extends Fragment {
             @Override
             public void onResponse(Call<ListTour> call, Response<ListTour> response) {
                 Log.d("TAG",response.code()+" ");
+                if (!response.isSuccessful()) {
+                    try{
+                        Toast.makeText(fragment_topTours.this.getContext(),response.errorBody().string(),Toast.LENGTH_SHORT).show();
+                    } catch (IOException e){
+                        Toast.makeText(fragment_topTours.this.getContext(), "Unknown Error", Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
+                    }
+                    return;
+                }
                 ListTour resource = response.body();
                 ArrayList<Tour> data = resource.getTours();
                 for (Tour tour : data){

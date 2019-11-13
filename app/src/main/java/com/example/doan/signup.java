@@ -14,6 +14,8 @@ import com.example.doan.data.model.RegisterResponse;
 import com.example.doan.data.remote.API;
 import com.example.doan.ui.login.LoginActivity;
 
+import java.io.IOException;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -65,15 +67,15 @@ public class signup extends AppCompatActivity {
                     public void onResponse(Call<RegisterResponse> call,
                                            Response<RegisterResponse> response) {
                         if (!response.isSuccessful()) {
-                            if (response.code()==400){
-                                Toast.makeText(signup.this,
-                                        "Wrong data",Toast.LENGTH_LONG).show();
-                            }else if (response.code()==503){
-                                Toast.makeText(signup.this,
-                                        "Server error on creating user",Toast.LENGTH_LONG).show();
+                            try{
+                                Toast.makeText(signup.this, response.errorBody().string(),Toast.LENGTH_SHORT).show();
+                            } catch (IOException e){
+                                Toast.makeText(signup.this, "Unknown Error", Toast.LENGTH_SHORT).show();
+                                e.printStackTrace();
                             }
                             return;
                         }
+
                         RegisterResponse registerResponse = response.body();
 
                         Toast.makeText(signup.this,
