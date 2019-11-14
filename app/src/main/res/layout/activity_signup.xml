@@ -28,60 +28,66 @@
             android:id="@+id/phoneSignUp"
             android:layout_width="300dp"
             android:layout_height="55dp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
+            android:background="@drawable/form"
+            android:fontFamily="@font/quicksand"
             android:hint="@string/phone"
             android:inputType="phone"
             android:selectAllOnFocus="true"
-            android:background="@drawable/form"
-            android:layout_gravity="center_horizontal"
-            android:textAlignment="center"
-            />
+            android:textAlignment="center" />
+
         <EditText
             android:id="@+id/emailSignUp"
             android:layout_width="300dp"
             android:layout_height="55dp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
+            android:background="@drawable/form"
+            android:fontFamily="@font/quicksand"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:selectAllOnFocus="true"
-            android:background="@drawable/form"
-            android:layout_gravity="center_horizontal"
-            android:textAlignment="center"/>
+            android:textAlignment="center" />
+
         <EditText
             android:id="@+id/passwordSignUp"
             android:layout_width="300dp"
             android:layout_height="55dp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
+            android:background="@drawable/form"
+            android:fontFamily="@font/quicksand"
             android:hint="@string/prompt_password"
             android:inputType="textPassword"
             android:selectAllOnFocus="true"
-            android:background="@drawable/form"
-            android:layout_gravity="center_horizontal"
-            android:textAlignment="center"
-            />
+            android:textAlignment="center" />
+
         <EditText
             android:id="@+id/passwordConfirmSignUp"
             android:layout_width="300dp"
             android:layout_height="55dp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
+            android:background="@drawable/form"
+            android:fontFamily="@font/quicksand"
             android:hint="@string/passwordConfirm"
             android:inputType="textPassword"
             android:selectAllOnFocus="true"
-            android:background="@drawable/form"
-            android:layout_gravity="center_horizontal"
-            android:textAlignment="center"/>
+            android:textAlignment="center" />
 
         <Button
             android:id="@+id/signUp"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
             android:background="@drawable/button"
-            android:textColor="@color/textColor"
+            android:fontFamily="@font/quicksand"
             android:text="@string/signUp"
             android:textAllCaps="false"
-            android:textStyle="normal"/>
+            android:textColor="@color/textColor"
+            android:textStyle="normal" />
 
 
         <LinearLayout
@@ -117,21 +123,24 @@
             android:textAlignment="center"
             android:layout_gravity="center_horizontal|bottom"
             android:layout_marginTop="30dp">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/quicksand"
                 android:text="@string/loginPrompt"
                 android:textAlignment="center"
-                android:textColor="@color/textColor"/>
+                android:textColor="@color/textColor" />
+
             <TextView
                 android:id="@+id/loginLink"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:fontFamily="@font/quicksand"
                 android:text="@string/loginLink"
                 android:textAlignment="center"
-                android:layout_marginLeft="5dp"
-                android:textColor="@color/linkColor"
-                />
+                android:textColor="@color/linkColor" />
         </LinearLayout>
 
         <ProgressBar

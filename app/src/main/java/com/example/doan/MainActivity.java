@@ -1,6 +1,8 @@
 package com.example.doan;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -40,9 +42,10 @@ public class MainActivity extends AppCompatActivity {
     final Fragment fragment3 = new fragment_addTour();
     final Fragment fragment4 = new fragment_notification();
     final Fragment fragment5 = new fragment_settings();
+    final Context context = this;
 
     private ProgressDialog spinner;
-    private Fragment fragment;
+    private Fragment fragment = fragment1;
     private FragmentManager fragmentManager;
 
     @Override
@@ -50,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        BottomNavigationView navView = findViewById(R.id.nav_view);
+        final BottomNavigationView navView = findViewById(R.id.nav_view);
         fragmentManager = getSupportFragmentManager();
 
         fragmentManager.beginTransaction().add(R.id.frame_container,fragment5).hide(fragment5).commit();
@@ -76,8 +79,9 @@ public class MainActivity extends AppCompatActivity {
                         fragment = fragment2;
                         return true;
                     case R.id.navigation_addTour:
-                        fragmentManager.beginTransaction().hide(fragment).add(R.id.frame_container,fragment3);
-                        fragment = fragment3;
+                        navView.setSelectedItemId(R.id.navigation_topTours);
+                        Intent intent = new Intent(context, AddTour.class);
+                        startActivity(intent);
                         return true;
                     case R.id.navigation_notifications:
                         fragmentManager.beginTransaction().hide(fragment).add(R.id.frame_container,fragment4);

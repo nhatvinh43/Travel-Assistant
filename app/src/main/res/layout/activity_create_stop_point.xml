@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/card"
+        android:backgroundTint="@color/cardBackground"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_weight="0.17"
+        android:layout_marginTop="-5dp"
+        app:cardElevation="0dp">
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/stopPointAvatar"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:cardElevation="2dp"
+        android:elevation="2dp"
+        app:cardCornerRadius="20dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.2"
+        android:layout_marginTop="-80dp"
+        android:layout_marginBottom="20dp">
+        <ImageView
+            android:layout_width="180dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/ic_sign_up"
+            android:elevation="10dp"
+            android:layout_alignTop="@id/tourNameText"/>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:cardCornerRadius="20dp"
+        android:layout_gravity="center_horizontal|center|top"
+        app:cardElevation="1dp"
+        android:layout_weight="0.72"
+        >
+        <ScrollView
+            android:layout_marginBottom="70dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="60dp"
+            android:paddingEnd="60dp"
+            android:scrollbars="none">
+
+            <RelativeLayout
+                android:id="@+id/mainInfoContainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <EditText
+                    android:id="@+id/stopPointName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:fontFamily="@font/quicksand_medium"
+                    android:textAlignment="center"
+                    android:hint="@string/stopPointName"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="25sp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@android:color/transparent">
+
+                </EditText>
+                <RelativeLayout
+                    android:layout_below="@+id/tourNameText"
+                    android:id="@+id/firstRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal"
+                    >
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/firstSPRow"
+                    android:layout_below="@id/stopPointName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center_horizontal"
+                    android:paddingBottom="20dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/quicksand"
+                            android:text="@string/serviceType"
+                            android:textSize="20sp" />
+                        <LinearLayout
+                            android:layout_marginTop="15dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_gravity="center_horizontal">
+
+                            <ImageButton
+                                android:id="@+id/hotelSP"
+                                style="?android:attr/borderlessButtonStyle"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:layout_marginEnd="30dp"
+                                android:background="@drawable/form"
+                                android:backgroundTint="#F7F69D"
+                                android:src="@drawable/ic_hotel" />
+
+                            <ImageButton
+                                android:id="@+id/restaurantSP"
+                                style="?android:attr/borderlessButtonStyle"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:background="@drawable/form"
+                                android:backgroundTint="@color/adultCountBg"
+                                android:src="@drawable/ic_burger" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/secondRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_below="@+id/firstSPRow"
+                    android:gravity="center_horizontal"
+                    android:paddingBottom="20dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/quicksand"
+                            android:text="@string/address"
+                            android:textSize="20sp" />
+
+                        <EditText
+                            android:id="@+id/addressSP"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/form"
+                            android:fontFamily="@font/quicksand"
+                            android:textAlignment="center"/>
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/thirdRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/secondRow"
+                    android:paddingBottom="20dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/quicksand"
+                            android:text="@string/arrival"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/arrivalDate"
+                            android:layout_width="200dp"
+                            android:layout_height="50dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/form"
+                            android:fontFamily="@font/quicksand"
+                            android:textAlignment="center" />
+                    </LinearLayout>
+
+                    <ImageButton
+                        android:id="@+id/arrivalDateButton"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:background="@drawable/form"
+                        android:src="@drawable/ic_calendar" />
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/fourthRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/thirdRow"
+                    android:paddingBottom="20dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/quicksand"
+                            android:text="@string/leave"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/leaveDate"
+                            android:layout_width="200dp"
+                            android:layout_height="50dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/form"
+                            android:fontFamily="@font/quicksand"
+                            android:textAlignment="center" />
+                    </LinearLayout>
+
+                    <ImageButton
+                        android:id="@+id/leaveDateButton"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:background="@drawable/form"
+                        android:src="@drawable/ic_calendar" />
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/fifthRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/fourthRow"
+                    android:paddingBottom="20dp">
+
+                    <LinearLayout
+                        android:id="@+id/costContainer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/quicksand"
+                            android:text="@string/budgetAttr"
+                            android:textSize="20sp" />
+
+                        <EditText
+                            android:id="@+id/minCostSP"
+                            android:layout_width="115dp"
+                            android:layout_height="50dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/form"
+                            android:fontFamily="@font/quicksand"
+                            android:textAlignment="center" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:textAlignment="center"
+                        android:layout_alignParentBottom="true"
+                        android:paddingTop="10dp"
+                        android:text="@string/to"
+                        android:fontFamily="@font/quicksand"
+                        android:textSize="15sp"/>
+
+                    <EditText
+                        android:id="@+id/maxCostSP"
+                        android:layout_width="115dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="-1dp"
+                        android:layout_marginBottom="23dp"
+                        android:background="@drawable/form"
+                        android:fontFamily="@font/quicksand"
+                        android:textAlignment="center" />
+
+                </RelativeLayout>
+            </RelativeLayout>
+        </ScrollView>
+
+        <RelativeLayout
+            android:id="@+id/sixthRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="40dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_centerInParent="true">
+
+                <ImageButton
+                    android:id="@+id/confirmButtonSP"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_accept"
+                    android:background="@null"
+                    android:layout_marginEnd="50dp"/>
+
+                <ImageButton
+                    android:id="@+id/cancelButtonSP"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_cancel"
+                    android:background="@null"
+                    android:layout_marginStart="50dp"/>
+
+
+            </LinearLayout>
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+
+</LinearLayout>

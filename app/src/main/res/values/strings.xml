@@ -29,14 +29,32 @@
     <string name="tourPricePH">500,000 - 1,000,000</string>
     <string name="tourStartDatePH">17/08/2019</string>
     <string name="tourEndDatePH">19/08/2019</string>
-    <string name="tourPeoplePH">3 adults</string>
+    <string name="tourPeoplePH">max 3</string>
     <string name="title_topTours">Top tours</string>
     <string name="title_myTours">My tours</string>
     <string name="title_settings">Settings</string>
     <string name="title_addTour">Add tour</string>
+    <string name="tourNamePrompt">Tour name</string>
+    <string name="privateAttr">Private</string>
+    <string name="statusAttr">Status</string>
+    <string name="startDateAttr">Start date</string>
+    <string name="endDateAttr">End date</string>
+    <string name="budgetAttr">Budget</string>
+    <string name="to">-</string>
+    <string name="stopPointName">Stop point name</string>
+    <string name="serviceType">Service type</string>
+    <string name="address">Address</string>
+    <string name="arrival">Arrival</string>
+    <string name="leave">Leave</string>
+    <string name="saved">Saved</string>
+    <string name="stopPoint">Stop Point</string>
+    <string name="savedStopPointNamePH">Hotel California</string>
+    <string name="savedStopPointAddressPH">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="phone">Phone</string>
+    <string name="title_activity_stop_points">Map</string>
 
 </resources>

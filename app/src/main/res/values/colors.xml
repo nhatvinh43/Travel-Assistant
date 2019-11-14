@@ -11,5 +11,11 @@
     <color name="purpleRedAccent">#8B383E</color>
     <color name = "background">#FFFFFF</color>
     <color name="black_alpha_40">#66000000</color>
-    <color name="form">#F5F5F5</color>
+    <color name="form">#F2F2F2</color>
+    <color name="white">#FFFFFF</color>
+    <color name="cardTitle">#FFFA80</color>
+    <color name="cardBackground">#F7CE65</color>
+    <color name="adultCountBg">#BDF392</color>
+    <color name="childrenCountBg">#B7E0CA</color>
+
 </resources>

@@ -1,12 +1,18 @@
 package com.example.doan.ui.login;
 
+import android.app.Activity;
+
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,11 +23,9 @@ import android.widget.Toast;
 
 import com.example.doan.MainActivity;
 import com.example.doan.R;
-import com.example.doan.data.model.ErrorLogin;
+import com.example.doan.data.model.LoginResponse;
 import com.example.doan.data.remote.API;
 import com.example.doan.signup;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,8 +44,9 @@ public class LoginActivity extends AppCompatActivity {
         loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
 
-        final EditText usernameEditText = findViewById(R.id.usernameLogin);
+        final EditText emailEditText = findViewById(R.id.emailLogin);
         final EditText passwordEditText = findViewById(R.id.passwordLogin);
+        final Button loginButton = findViewById(R.id.login);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
         final TextView signUpLink = findViewById(R.id.loginLink);
 
@@ -61,28 +66,30 @@ public class LoginActivity extends AppCompatActivity {
             {
                 API api = getClient().create(API.class);
 
-                Call<JsonObject> call = api.login(usernameEditText.getText().toString(),passwordEditText.getText().toString());
+                Call<LoginResponse> call = api.login(emailEditText.getText().toString(),passwordEditText.getText().toString());
 
-                call.enqueue(new Callback<JsonObject>() {
+                call.enqueue(new Callback<LoginResponse>() {
                     @Override
-                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                    public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                         if (!response.isSuccessful()) {
-                            Gson gson = new Gson();
-                            ErrorLogin errorLogin =gson.fromJson(response.errorBody().charStream(),ErrorLogin.class);
-                            Toast.makeText(LoginActivity.this,errorLogin.getMessage(),Toast.LENGTH_LONG).show();
+                            if (response.code()==400){
+                                Toast.makeText(LoginActivity.this,"Missing email/password",Toast.LENGTH_LONG).show();
+                            }else if(response.code()==404){
+                                Toast.makeText(LoginActivity.this,"Wrong email/password",Toast.LENGTH_LONG).show();
+                            }
                             return;
                         }
-                        JsonObject loginResponse = response.body();
+                        LoginResponse loginResponse = response.body();
 
                         Intent intent1 = new Intent(LoginActivity.this, MainActivity.class);
-                        intent1.putExtra("userId",loginResponse.get("userId").toString());
-                        intent1.putExtra("token",loginResponse.get("token").toString());
+                        intent1.putExtra("userId",loginResponse.getUserId());
+                        intent1.putExtra("token",loginResponse.getToken());
                         startActivity(intent1);
                         finish();
                     }
 
                     @Override
-                    public void onFailure(Call<JsonObject> call, Throwable t) {
+                    public void onFailure(Call<LoginResponse> call, Throwable t) {
                         Toast.makeText(LoginActivity.this,t.getMessage(),Toast.LENGTH_LONG).show();
                     }
                 });

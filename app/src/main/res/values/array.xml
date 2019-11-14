@@ -1,0 +1,8 @@
+<resources>
+    <string-array name="spinnerItems">
+        <item>Canceled</item>
+        <item>Open</item>
+        <item>Started</item>
+        <item>Closed</item>
+    </string-array>
+</resources>

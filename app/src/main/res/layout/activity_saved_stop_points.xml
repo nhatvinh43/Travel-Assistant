@@ -7,32 +7,33 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingEnd="20dp"
-    >
+    android:paddingEnd="20dp">
 
     <LinearLayout
-        android:paddingTop="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="15dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="15dp"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:fontFamily="@font/quicksand_bold"
-            android:text="@string/topTours"
-            android:textSize="30sp"
-            android:textStyle="bold" />
+            android:fontFamily="@font/quicksand"
+            android:text="@string/saved"
+            android:textSize="20sp"
+            />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="30dp"
-            android:fontFamily="@font/quicksand_light"
-            android:text="@string/forYou"
-            android:textSize="20sp"
+
+            android:fontFamily="@font/quicksand_bold"
+            android:text="@string/stopPoint"
+            android:textSize="25sp"
             android:textStyle="bold" />
 
         <com.google.android.material.appbar.AppBarLayout
@@ -63,19 +64,19 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_marginTop="10dp"
-            android:id="@+id/mRecyclerView"
+            android:id="@+id/savedStopPointsList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
 
     <ImageButton
-        android:id="@+id/userButton"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:id="@+id/closeWindow"
+        android:layout_width="20dp"
+        android:layout_height="15dp"
         android:layout_gravity="end|top"
         android:layout_marginTop="45dp"
         android:layout_marginEnd="20dp"
-        android:background="@drawable/ic_user"
+        android:background="@drawable/ic_accept"
         android:backgroundTint="@color/buttonColor"
         android:elevation="0dp"
         android:textColor="@color/form"
