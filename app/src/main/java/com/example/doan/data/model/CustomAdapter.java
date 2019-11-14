@@ -27,7 +27,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
     public class CustomViewHolder extends RecyclerView.ViewHolder{
         public ImageView mTourImage;
-        public TextView mTourName, mTourPrice, mTourStartDate, mTourPeoplePH, mTourEndDate;
+        public TextView mTourName, mTourPrice, mTourStartDate, mTourPeople, mTourChildren, mTourEndDate;
 
         public CustomViewHolder(View view){
             super(view);
@@ -35,7 +35,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
             mTourName = (TextView) view.findViewById(R.id.tourName);
             mTourPrice = (TextView) view.findViewById(R.id.tourPrice);
             mTourStartDate = (TextView) view.findViewById(R.id.tourStartDate);
-            mTourPeoplePH = (TextView) view.findViewById(R.id.tourPeople);
+            mTourPeople = (TextView) view.findViewById(R.id.tourPeople);
+            mTourChildren = (TextView) view.findViewById(R.id.tourPeopleChildren);
             mTourEndDate = (TextView)view.findViewById(R.id.tourEndDate);
             mTourImage = (ImageView)view.findViewById(R.id.tourImage);
             //mTourImage .... avatar return url
@@ -63,8 +64,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         holder.mTourName.setText(t.getName());
         holder.mTourStartDate.setText(t.getStartDate());
         holder.mTourEndDate.setText(t.getEndDate());
-        String tempPP = t.getAdults() + " Aldults + " +t.getChilds()+" Childs";
-        holder.mTourPeoplePH.setText(tempPP);
+        String adults = "max "+t.getAdults();
+        holder.mTourPeople.setText(adults);
+        String child = "max "+t.getChilds();
+        holder.mTourChildren.setText(child);
         holder.mTourImage.setColorFilter(000000);
     }
 }

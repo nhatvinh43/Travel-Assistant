@@ -17,6 +17,9 @@ import com.example.doan.data.model.ListTour;
 import com.example.doan.data.model.Tour;
 import com.example.doan.data.remote.API;
 import com.example.doan.data.remote.retrofit;
+import com.example.doan.ui.login.LoginActivity;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 
@@ -42,11 +45,17 @@ public class fragment_topTours extends Fragment {
         adapter.notifyDataSetChanged();
 
         API api = retrofit.getClient().create(API.class);
-        Call<ListTour> call1 = api.getListTour(API.authKey,"1");
+        Call<ListTour> call1 = api.getListTour(API.authKey,"10");
         call1.enqueue(new Callback<ListTour>() {
             @Override
             public void onResponse(Call<ListTour> call, Response<ListTour> response) {
                 Log.d("TAG",response.code()+" ");
+                if (!response.isSuccessful()) {
+                    Gson gson = new Gson();
+                    JsonObject errorLogin =gson.fromJson(response.errorBody().charStream(),JsonObject.class);
+                    Toast.makeText(fragment_topTours.this.getContext() ,errorLogin.get("message").getAsString(),Toast.LENGTH_LONG).show();
+                    return;
+                }
                 ListTour resource = response.body();
                 ArrayList<Tour> data = resource.getTours();
                 for (Tour tour : data){
