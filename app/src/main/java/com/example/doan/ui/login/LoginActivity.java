@@ -1,18 +1,12 @@
 package com.example.doan.ui.login;
 
-import android.app.Activity;
-
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,9 +17,10 @@ import android.widget.Toast;
 
 import com.example.doan.MainActivity;
 import com.example.doan.R;
-import com.example.doan.data.model.LoginResponse;
 import com.example.doan.data.remote.API;
 import com.example.doan.signup;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -66,30 +61,28 @@ public class LoginActivity extends AppCompatActivity {
             {
                 API api = getClient().create(API.class);
 
-                Call<LoginResponse> call = api.login(emailEditText.getText().toString(),passwordEditText.getText().toString());
+                Call<JsonObject> call = api.login(emailEditText.getText().toString(),passwordEditText.getText().toString());
 
-                call.enqueue(new Callback<LoginResponse>() {
+                call.enqueue(new Callback<JsonObject>() {
                     @Override
-                    public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                         if (!response.isSuccessful()) {
-                            if (response.code()==400){
-                                Toast.makeText(LoginActivity.this,"Missing email/password",Toast.LENGTH_LONG).show();
-                            }else if(response.code()==404){
-                                Toast.makeText(LoginActivity.this,"Wrong email/password",Toast.LENGTH_LONG).show();
-                            }
+                            Gson gson = new Gson();
+                            JsonObject errorLogin =gson.fromJson(response.errorBody().charStream(),JsonObject.class);
+                            Toast.makeText(LoginActivity.this,errorLogin.get("message").getAsString(),Toast.LENGTH_LONG).show();
                             return;
                         }
-                        LoginResponse loginResponse = response.body();
+                        JsonObject loginResponse = response.body();
 
                         Intent intent1 = new Intent(LoginActivity.this, MainActivity.class);
-                        intent1.putExtra("userId",loginResponse.getUserId());
-                        intent1.putExtra("token",loginResponse.getToken());
+                        intent1.putExtra("userId",loginResponse.get("userId").getAsString());
+                        intent1.putExtra("token",loginResponse.get("token").getAsString());
                         startActivity(intent1);
                         finish();
                     }
 
                     @Override
-                    public void onFailure(Call<LoginResponse> call, Throwable t) {
+                    public void onFailure(Call<JsonObject> call, Throwable t) {
                         Toast.makeText(LoginActivity.this,t.getMessage(),Toast.LENGTH_LONG).show();
                     }
                 });

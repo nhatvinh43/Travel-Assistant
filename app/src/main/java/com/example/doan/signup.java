@@ -10,16 +10,17 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.doan.data.model.RegisterResponse;
 import com.example.doan.data.remote.API;
 import com.example.doan.ui.login.LoginActivity;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.doan.data.remote.retrofit.getClient;
-import static com.example.doan.data.remote.retrofit.retrofit;
 
 public class signup extends AppCompatActivity {
 
@@ -56,35 +57,39 @@ public class signup extends AppCompatActivity {
 
                 API api = getClient().create(API.class);
 
-                Call<RegisterResponse> call = api.register(passwordSignUp.getText().toString(),
+                Call<JsonObject> call = api.register(passwordSignUp.getText().toString(),
                         null, emailSignUp.getText().toString(),
                         phoneSignUp.getText().toString(),null,null,1);
 
-                call.enqueue(new Callback<RegisterResponse>() {
+                call.enqueue(new Callback<JsonObject>() {
                     @Override
-                    public void onResponse(Call<RegisterResponse> call,
-                                           Response<RegisterResponse> response) {
+                    public void onResponse(Call<JsonObject> call,
+                                           Response<JsonObject> response) {
                         if (!response.isSuccessful()) {
-                            if (response.code()==400){
-                                Toast.makeText(signup.this,
-                                        "Wrong data",Toast.LENGTH_LONG).show();
-                            }else if (response.code()==503){
-                                Toast.makeText(signup.this,
-                                        "Server error on creating user",Toast.LENGTH_LONG).show();
+                            Gson gson = new Gson();
+                            JsonObject errorSignup =gson.fromJson(response.errorBody().charStream(),JsonObject.class);
+                            String ErrorContent = "";
+                            int total_err = errorSignup.get("error").getAsInt();
+                            JsonArray err_array = errorSignup.get("message").getAsJsonArray();
+                            for (int i = 0;i < total_err - 1;i++){
+                                JsonObject err = err_array.get(i).getAsJsonObject();
+                                ErrorContent += err.get("msg").getAsString() + "\n";
                             }
+                            JsonObject err = err_array.get(total_err - 1).getAsJsonObject();
+                            ErrorContent += err.get("msg").getAsString();
+
+                            Toast.makeText(signup.this,ErrorContent,Toast.LENGTH_LONG).show();
                             return;
                         }
-                        RegisterResponse registerResponse = response.body();
 
                         Toast.makeText(signup.this,
                                 "Sign up successfully. Please sign in",Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(signup.this,LoginActivity.class);
-                        startActivity(intent);
+
                         finish();
                     }
 
                     @Override
-                    public void onFailure(Call<RegisterResponse> call, Throwable t) {
+                    public void onFailure(Call<JsonObject> call, Throwable t) {
                         Toast.makeText(signup.this, t.getMessage(),Toast.LENGTH_LONG).show();
                     }
                 });

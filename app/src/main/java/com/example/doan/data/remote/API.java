@@ -3,15 +3,13 @@ package com.example.doan.data.remote;
 import androidx.annotation.Nullable;
 
 import com.example.doan.data.model.ListTour;
-import com.example.doan.data.model.LoginResponse;
-import com.example.doan.data.model.RegisterResponse;
+import com.google.gson.JsonObject;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
@@ -24,14 +22,14 @@ public interface API {
 
     @FormUrlEncoded
     @POST("user/login")
-    Call<LoginResponse> login(
+    Call<JsonObject> login(
             @Field("emailPhone") String emailPhone,
             @Field("password") String password
     );
 
     @FormUrlEncoded
     @POST("user/register")
-    Call<RegisterResponse> register(
+    Call<JsonObject> register(
             @Field("password") String password,
             @Nullable @Field("fullName") String fullName,
             @Field("email") String email,
