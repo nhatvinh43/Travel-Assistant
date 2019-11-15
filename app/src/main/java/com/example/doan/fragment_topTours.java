@@ -1,5 +1,6 @@
 package com.example.doan;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -43,9 +44,10 @@ public class fragment_topTours extends Fragment {
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-
+        Intent intent = getActivity().getIntent();
+        String Token = intent.getStringExtra("token");
         API api = retrofit.getClient().create(API.class);
-        Call<ListTour> call1 = api.getListTour(API.authKey,"10");
+        Call<ListTour> call1 = api.getListTour(Token,"10");
         call1.enqueue(new Callback<ListTour>() {
             @Override
             public void onResponse(Call<ListTour> call, Response<ListTour> response) {
