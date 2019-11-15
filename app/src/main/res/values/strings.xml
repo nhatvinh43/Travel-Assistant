@@ -40,6 +40,8 @@
     <string name="startDateAttr">Start date</string>
     <string name="endDateAttr">End date</string>
     <string name="budgetAttr">Budget</string>
+    <string name="startLocationAttr">Start Location</string>
+    <string name="endLocationAttr">End Location</string>
     <string name="to">-</string>
     <string name="stopPointName">Stop point name</string>
     <string name="serviceType">Service type</string>

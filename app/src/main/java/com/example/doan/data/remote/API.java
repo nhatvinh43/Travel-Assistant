@@ -14,7 +14,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface API {
-    public static String authKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInVzZXJuYW1lIjoidGhpbmg5NyIsImVtYWlsIjoibmd1eWVubWluaHRoaW5oOTdAZ21haWwuY29tIiwiZXhwIjoxNTUzODczNDU1NTY2LCJpYXQiOjE1NTEyODE0NTV9.lQ-RkLSwD3UyRXWvSRaTIsn1f_3ZRMWd-nfRutcwXFw";
+    //public static String authKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInVzZXJuYW1lIjoidGhpbmg5NyIsImVtYWlsIjoibmd1eWVubWluaHRoaW5oOTdAZ21haWwuY29tIiwiZXhwIjoxNTUzODczNDU1NTY2LCJpYXQiOjE1NTEyODE0NTV9.lQ-RkLSwD3UyRXWvSRaTIsn1f_3ZRMWd-nfRutcwXFw";
 
     @GET("/tour/list?")
     Call<ListTour> getListTour(@Header("Authorization") String authKey,
@@ -37,5 +37,24 @@ public interface API {
             @Nullable @Field("address") String address,
             @Nullable @Field("dob") String dob,
             @Nullable @Field("gender") int gender
+    );
+
+    @FormUrlEncoded
+    @POST("/tour/create")
+    Call<JsonObject> createTour(
+            @Header("Authorization") String token,
+            @Field("name") String name,
+            @Field("startDate") Integer startDate,
+            @Field("endDate") Integer endDate,
+            @Field("sourceLat") Integer sourceLat,
+            @Field("sourceLong") Integer sourceLong,
+            @Field("desLat") Integer desLat,
+            @Field("desLong") Integer desLong,
+            @Field("isPrivate") Boolean isPrivate,
+            @Nullable @Field("adults") Integer adults,
+            @Nullable @Field("childs") Integer childs,
+            @Nullable @Field("minCost") Integer minCost,
+            @Nullable @Field("maxCost") Integer maxCost,
+            @Nullable @Field("avatar") String avatar
     );
 }
