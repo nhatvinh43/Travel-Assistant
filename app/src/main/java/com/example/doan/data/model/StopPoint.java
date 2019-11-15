@@ -10,6 +10,12 @@ public class StopPoint {
     @SerializedName("name")
     @Expose
     private String name;
+    @SerializedName("address")
+    @Expose
+    private String address;
+    @SerializedName("provinceId")
+    @Expose
+    private Integer provinceId;
     @SerializedName("lat")
     @Expose
     private Integer lat;
@@ -41,10 +47,12 @@ public class StopPoint {
 
     public StopPoint(){}
 
-    public StopPoint(Integer tourId, String name, Integer lat, Integer _long, Integer arrivalAt, Integer leaveAt,
+    public StopPoint(Integer tourId, String name,String address, Integer provinceId, Integer lat, Integer _long, Integer arrivalAt, Integer leaveAt,
                      Integer minCost, Integer maxCost, Integer serviceTypeId, Integer id, String avatar){
         this.tourId = tourId;
         this.name = name;
+        this.address = address;
+        this.provinceId = provinceId;
         this.lat = lat;
         this._long = _long;
         this.arrivalAt = arrivalAt;
@@ -69,6 +77,22 @@ public class StopPoint {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Integer getProvinceId() {
+        return provinceId;
+    }
+
+    public void setProvinceId(Integer provinceId) {
+        this.provinceId = provinceId;
     }
 
     public Integer getLat() {

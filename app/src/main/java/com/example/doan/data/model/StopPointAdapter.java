@@ -54,7 +54,7 @@ public class StopPointAdapter extends RecyclerView.Adapter<StopPointAdapter.Stop
         StopPoint s = listStopPoint.get(position);
         holder.mAvatar.setColorFilter(11111);
         holder.mName.setText(s.getName());
-        String detail = s.getLat().toString() + s.getLong().toString();
-        holder.mDetail.setText(detail);
+        //String detail = s.getLat().toString() + s.getLong().toString();
+        holder.mDetail.setText(s.getAddress());
     }
 }
