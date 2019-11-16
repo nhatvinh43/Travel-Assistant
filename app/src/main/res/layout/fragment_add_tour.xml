@@ -321,7 +321,7 @@
                        android:layout_alignParentEnd="true"
                        android:layout_alignParentBottom="true"
                        android:background="@drawable/form"
-                       android:src="@android:drawable/ic_dialog_map" />
+                       android:src="@drawable/ic_location" />
 
                </RelativeLayout>
                <RelativeLayout
@@ -362,7 +362,7 @@
                        android:layout_alignParentEnd="true"
                        android:layout_alignParentBottom="true"
                        android:background="@drawable/form"
-                       android:src="@android:drawable/ic_dialog_map" />
+                       android:src="@drawable/ic_location" />
 
                </RelativeLayout>
 

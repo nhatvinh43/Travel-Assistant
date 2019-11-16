@@ -18,7 +18,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".SavedStopPoints"></activity>
+        <activity android:name=".StartEndLocationSelect"></activity>
+        <activity android:name=".SavedStopPoints" />
         <activity android:name=".CreateStopPoint" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -38,7 +39,7 @@
         <activity android:name=".AddTour" />
         <activity
             android:name=".MainActivity"
-            android:label="@string/title_activity_main"></activity>
+            android:label="@string/title_activity_main" />
         <activity android:name=".Splash" />
         <activity android:name=".signup" />
         <activity

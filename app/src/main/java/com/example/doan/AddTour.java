@@ -15,7 +15,6 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.example.doan.data.model.StopPoint;
 
 import java.util.Calendar;
 
