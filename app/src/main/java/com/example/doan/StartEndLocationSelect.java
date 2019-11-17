@@ -8,6 +8,8 @@ import androidx.fragment.app.FragmentActivity;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
@@ -24,6 +26,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 public class StartEndLocationSelect extends FragmentActivity implements OnMapReadyCallback {
 
@@ -49,6 +55,7 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
                 Intent intent =  new Intent();
                 intent.putExtra("LAT",lat);
                 intent.putExtra("LONG",lng);
+                intent.putExtra("ADDRESSLOCATION", convertToAddress(lat,lng));
                 setResult(RESULT_OK,intent);
                 finish();
             }
@@ -120,13 +127,33 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                Toast.makeText(getApplicationContext(),latLng.latitude+" "+latLng.longitude,Toast.LENGTH_SHORT).show();
+
                 newLatLng = new LatLng(latLng.latitude,latLng.longitude);
                 lat = latLng.latitude;
                 lng = latLng.longitude;
+                Toast.makeText(getApplicationContext(),convertToAddress(lat,lng),Toast.LENGTH_SHORT).show();
             }
         });
         return newLatLng;
+    }
+    public String convertToAddress(double lat, double lng){
+        String strAddr="";
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
+            if(addresses!=null){
+                Address returmAddr = addresses.get(0);
+                StringBuilder strReturnedAddr = new StringBuilder("");
+                for (int i = 0 ; i <=returmAddr.getMaxAddressLineIndex();i++){
+                    strReturnedAddr.append(returmAddr.getAddressLine(i)).append("\n");
+                }
+                strAddr = strReturnedAddr.toString();
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return strAddr;
     }
 
 }

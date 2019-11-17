@@ -44,6 +44,7 @@ public class AddTour extends AppCompatActivity {
     private static double LatStart, LatEnd, LngStart, LngEnd;
     private static int startDateTime, endDateTime;
     private static String myDayStart, myDayEnd;
+    private static String addressLocationStart, addressLocationEnd;
     private static String token;
 
     @Override
@@ -68,8 +69,8 @@ public class AddTour extends AppCompatActivity {
         ImageButton confirmButton = findViewById(R.id.confirmButton);
         ImageButton cancelButton = findViewById(R.id.cancelButton);
 
-        TextView startLocation = findViewById(R.id.startLocation);
-        TextView endLocation = findViewById(R.id.endLocation);
+        //TextView startLocation = findViewById(R.id.startLocation);
+        //TextView endLocation = findViewById(R.id.endLocation);
         ImageButton startLocationButton = findViewById(R.id.startLocationButton);
         ImageButton endLocationButton = findViewById(R.id.endLocationButton);
 
@@ -108,7 +109,7 @@ public class AddTour extends AppCompatActivity {
                         +LatEnd+" "+LngEnd+"   "+countAdults+"   "+countChilds+""+pIsPrivate;
                 Toast.makeText(getApplicationContext(),tempRes,Toast.LENGTH_SHORT).show();
                 Call<JsonObject>call = api.createTour(LoginActivity.TOKEN,pName,startDateTime,endDateTime,
-                        LatStart,LngStart,LatEnd,LngEnd,pIsPrivate,countAdults,countChilds,pMinCost,pMaxCost,"testtest");
+                        LatStart,LngStart,LatEnd,LngEnd,pIsPrivate,countAdults,countChilds,pMinCost,pMaxCost,"tcattestavatar");
                 call.enqueue(new Callback<JsonObject>() {
                     @Override
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -130,13 +131,16 @@ public class AddTour extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 c = Calendar.getInstance();
-                int day = c.get(Calendar.DAY_OF_MONTH);
-                int month = c.get(Calendar.MONTH);
-                int year = c.get(Calendar.YEAR);
+                int mYear = c.get(Calendar.YEAR);
+                int mMonth = c.get(Calendar.MONTH);
+                int mDay = c.get(Calendar.DAY_OF_MONTH);
                 dpd = new DatePickerDialog(AddTour.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         myDayStart = dayOfMonth +"/"+(month+1)+"/"+year;
+                        c.set(Calendar.YEAR, year);
+                        c.set(Calendar.MONTH,month);
+                        c.set(Calendar.DAY_OF_MONTH,dayOfMonth);
                         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
                         Date date = null;
                         try {
@@ -148,7 +152,7 @@ public class AddTour extends AppCompatActivity {
                         startDate.setText(myDayStart);
                         startDateTime = (int)milis;
                     }
-                }, day, month, year);
+                }, mYear, mMonth, mDay);
                 dpd.show();
             }
         });
@@ -156,9 +160,9 @@ public class AddTour extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 c = Calendar.getInstance();
-                int day = c.get(Calendar.DAY_OF_MONTH);
-                int month = c.get(Calendar.MONTH);
-                int year = c.get(Calendar.YEAR);
+                int mYear = c.get(Calendar.YEAR);
+                int mMonth = c.get(Calendar.MONTH);
+                int mDay = c.get(Calendar.DAY_OF_MONTH);
                 dpd = new DatePickerDialog(AddTour.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -175,7 +179,7 @@ public class AddTour extends AppCompatActivity {
                         endDate.setText(myDayEnd);
                         endDateTime = (int)milis;
                     }
-                }, day, month, year);
+                }, mYear, mMonth, mDay);
                 dpd.show();
             }
 
@@ -214,6 +218,9 @@ public class AddTour extends AppCompatActivity {
 
                    LatStart = data.getDoubleExtra("LAT",0);
                    LngStart =data.getDoubleExtra("LONG",0);
+                   addressLocationStart = data.getStringExtra("ADDRESSLOCATION");
+                   TextView locationStart = (TextView) findViewById(R.id.startLocation);
+                   locationStart.setText(addressLocationStart);
                    Toast.makeText(getApplicationContext(),LatStart + " " + LngStart,
                            Toast.LENGTH_SHORT).show();
                }
@@ -224,6 +231,10 @@ public class AddTour extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                     LatEnd  = data.getDoubleExtra("LAT",0);
                     LngEnd =data.getDoubleExtra("LONG",0);
+                    addressLocationEnd = data.getStringExtra("ADDRESSLOCATION");
+                    TextView locationEnd = (TextView) findViewById(R.id.endLocation);
+                    locationEnd.setText(addressLocationEnd);
+
                 }
             }
         }

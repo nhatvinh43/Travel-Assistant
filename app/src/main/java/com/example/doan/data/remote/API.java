@@ -44,17 +44,17 @@ public interface API {
     Call<JsonObject> createTour(
             @Header("Authorization") String token,
             @Field("name") String name,
-            @Field("startDate") Integer startDate,
-            @Field("endDate") Integer endDate,
+            @Field("startDate") int startDate,
+            @Field("endDate") int endDate,
             @Field("sourceLat") double sourceLat,
             @Field("sourceLong") double sourceLong,
             @Field("desLat") double desLat,
             @Field("desLong") double desLong,
             @Field("isPrivate") boolean isPrivate,
-            @Nullable @Field("adults") Integer adults,
-            @Nullable @Field("childs") Integer childs,
-            @Nullable @Field("minCost") Integer minCost,
-            @Nullable @Field("maxCost") Integer maxCost,
+            @Nullable @Field("adults") int adults,
+            @Nullable @Field("childs") int childs,
+            @Nullable @Field("minCost") int minCost,
+            @Nullable @Field("maxCost") int maxCost,
             @Nullable @Field("avatar") String avatar
     );
 }
