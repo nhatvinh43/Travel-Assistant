@@ -79,6 +79,7 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
         LatLng latLng = new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
         MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("I AM HERE");
         mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,15));
         mMap.addMarker(markerOptions);
         onTouch();
     }
