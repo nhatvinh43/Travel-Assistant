@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.doan.AddTour;
 import com.example.doan.MainActivity;
 import com.example.doan.R;
 import com.example.doan.data.remote.API;
@@ -28,8 +29,9 @@ import retrofit2.Response;
 
 import static com.example.doan.data.remote.retrofit.getClient;
 
-public class LoginActivity extends AppCompatActivity {
 
+public class LoginActivity extends AppCompatActivity {
+    public static String TOKEN;
     private LoginViewModel loginViewModel;
 
     @Override
@@ -77,6 +79,7 @@ public class LoginActivity extends AppCompatActivity {
                         Intent intent1 = new Intent(LoginActivity.this, MainActivity.class);
                         intent1.putExtra("userId",loginResponse.get("userId").getAsString());
                         intent1.putExtra("token",loginResponse.get("token").getAsString());
+                        TOKEN = loginResponse.get("token").getAsString();
                         startActivity(intent1);
                         finish();
                     }

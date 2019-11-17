@@ -46,6 +46,7 @@ public class fragment_topTours extends Fragment {
         adapter.notifyDataSetChanged();
         Intent intent = getActivity().getIntent();
         String Token = intent.getStringExtra("token");
+        //Toast.makeText(getContext(),Token,Toast.LENGTH_SHORT).show();
         API api = retrofit.getClient().create(API.class);
         Call<ListTour> call1 = api.getListTour(Token,"10");
         call1.enqueue(new Callback<ListTour>() {
