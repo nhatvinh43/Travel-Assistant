@@ -19,8 +19,8 @@
 
         <ImageView
             android:id="@+id/signUpImg"
-            android:layout_width="288dp"
-            android:layout_height="209dp"
+            android:layout_width="270dp"
+            android:layout_height="215dp"
             android:layout_gravity="center_horizontal"
             app:srcCompat="@drawable/ic_sign_up" />
 

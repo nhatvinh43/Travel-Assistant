@@ -52,6 +52,8 @@
     <string name="stopPoint">Stop Point</string>
     <string name="savedStopPointNamePH">Hotel California</string>
     <string name="savedStopPointAddressPH">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

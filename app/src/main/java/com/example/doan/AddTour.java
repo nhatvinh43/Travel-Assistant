@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.text.GetChars;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -66,8 +67,8 @@ public class AddTour extends AppCompatActivity {
         final TextView endDate = findViewById(R.id.endDate);
         final EditText minCost = findViewById(R.id.minCost);
         final EditText maxCost = findViewById(R.id.maxCost);
-        ImageButton confirmButton = findViewById(R.id.confirmButton);
-        ImageButton cancelButton = findViewById(R.id.cancelButton);
+        Button confirmButton = findViewById(R.id.confirmButton);
+        Button cancelButton = findViewById(R.id.cancelButton);
 
         //TextView startLocation = findViewById(R.id.startLocation);
         //TextView endLocation = findViewById(R.id.endLocation);

@@ -17,5 +17,6 @@
     <color name="cardBackground">#F7CE65</color>
     <color name="adultCountBg">#BDF392</color>
     <color name="childrenCountBg">#B7E0CA</color>
-
+    <color name="confirm">#54AF2A</color>
+    <color name="bg">#dddddd</color>
 </resources>

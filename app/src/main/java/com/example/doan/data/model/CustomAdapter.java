@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.doan.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder> {
     private ArrayList<Tour> tourList;
@@ -69,5 +70,16 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         String child = "max "+t.getChilds();
         holder.mTourChildren.setText(child);
         holder.mTourImage.setColorFilter(000000);
+    }
+
+    public void clear(){
+        tourList.clear();
+        notifyDataSetChanged();
+    }
+
+    public void addAll(ArrayList<Tour> listItems)
+    {
+        tourList.addAll(listItems);
+        notifyDataSetChanged();
     }
 }

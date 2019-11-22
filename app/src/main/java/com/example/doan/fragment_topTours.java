@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.doan.data.model.CustomAdapter;
 import com.example.doan.data.model.ListTour;
@@ -19,6 +20,7 @@ import com.example.doan.data.model.Tour;
 import com.example.doan.data.remote.API;
 import com.example.doan.data.remote.retrofit;
 import com.example.doan.ui.login.LoginActivity;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -32,10 +34,15 @@ public class fragment_topTours extends Fragment {
     private ArrayList<Tour> dataSet = new ArrayList<>();
     private RecyclerView mRecyclerView;
     private CustomAdapter adapter;
+    private SwipeRefreshLayout swipeContainer;
+    private ShimmerFrameLayout mShimmerViewContainer;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_fragment_top_tours, container, false);
+
+
+        mShimmerViewContainer = view.findViewById(R.id.shimmerContainer);
 
 
         mRecyclerView = (RecyclerView)view.findViewById(R.id.mRecyclerView);
@@ -44,6 +51,30 @@ public class fragment_topTours extends Fragment {
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+
+
+       fetchItemList();
+
+
+
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                adapter.clear();
+                mShimmerViewContainer.setVisibility(View.GONE);
+                fetchItemList();
+                adapter.addAll(dataSet);
+                swipeContainer.setRefreshing(false);
+            }
+        });
+
+
+        return view;
+    }
+
+    public void fetchItemList(){
+        mShimmerViewContainer.startShimmerAnimation();
         Intent intent = getActivity().getIntent();
         String Token = intent.getStringExtra("token");
         //Toast.makeText(getContext(),Token,Toast.LENGTH_SHORT).show();
@@ -67,6 +98,8 @@ public class fragment_topTours extends Fragment {
                     dataSet.add(temp);
                 }
                 //loading.dismiss();
+                mShimmerViewContainer.stopShimmerAnimation();
+                mShimmerViewContainer.setVisibility(View.GONE);
                 adapter.notifyDataSetChanged();
             }
 
@@ -76,6 +109,16 @@ public class fragment_topTours extends Fragment {
                         Toast.LENGTH_SHORT).show();
             }
         });
-        return view;
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        mShimmerViewContainer.startShimmerAnimation();
+    }
+
+    @Override
+    public void onPause() {
+        mShimmerViewContainer.stopShimmerAnimation();
+        super.onPause();
     }
 }
