@@ -2,8 +2,13 @@ package com.example.doan.data.remote;
 
 import androidx.annotation.Nullable;
 
+import com.example.doan.data.model.ListStopPoint;
 import com.example.doan.data.model.ListTour;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.JsonObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -57,4 +62,11 @@ public interface API {
             @Nullable @Field("maxCost") int maxCost,
             @Nullable @Field("avatar") String avatar
     );
+    @FormUrlEncoded
+    @POST("/tour/suggested-destination-list")
+    Call<ListStopPoint> getSuggestDes(
+            @Header("Authorization") String token,
+            @Field("hasOneCoordinate") Boolean orNot,
+            @Field("coordList") ArrayList<LatLng> listCoord
+            );
 }
