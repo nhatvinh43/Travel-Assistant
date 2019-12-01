@@ -18,6 +18,7 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 
@@ -39,15 +40,16 @@ import retrofit2.Response;
 
 public class AddTour extends AppCompatActivity {
 
+    String error[] = {"TourName", "StartDate", "EndDate", "StartLocation", "EndLocation"};
     Context context = this;
     private Calendar c;
     private DatePickerDialog dpd;
+
     private static double LatStart, LatEnd, LngStart, LngEnd;
     private static int startDateTime, endDateTime;
     private static String myDayStart, myDayEnd;
     private static String addressLocationStart, addressLocationEnd;
-    private static String token;
-
+    boolean flag = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         startDateTime = 0;
@@ -70,12 +72,9 @@ public class AddTour extends AppCompatActivity {
         Button confirmButton = findViewById(R.id.confirmButton);
         Button cancelButton = findViewById(R.id.cancelButton);
 
-        //TextView startLocation = findViewById(R.id.startLocation);
-        //TextView endLocation = findViewById(R.id.endLocation);
         ImageButton startLocationButton = findViewById(R.id.startLocationButton);
         ImageButton endLocationButton = findViewById(R.id.endLocationButton);
 
-        //Toast.makeText(getApplicationContext(),LoginActivity.TOKEN,Toast.LENGTH_SHORT).show();
 
         View.OnClickListener cancel = new View.OnClickListener(){
             public void onClick(View v)
@@ -85,7 +84,6 @@ public class AddTour extends AppCompatActivity {
         };
 
         cancelButton.setOnClickListener(cancel);
-
 
         View.OnClickListener confirm = new View.OnClickListener(){
 
@@ -101,31 +99,86 @@ public class AddTour extends AppCompatActivity {
                 //LngEnd
                 //isPrivate
                 boolean pIsPrivate = privateSwitch.isChecked();
-                int countAdults = Integer.parseInt(adultCount.getText().toString());
-                int countChilds = Integer.parseInt(childrenCount.getText().toString());
-                int pMinCost = Integer.parseInt(minCost.getText().toString());
-                int pMaxCost = Integer.parseInt(maxCost.getText().toString());
+                String countAdults = adultCount.getText().toString();
+                String countChilds = childrenCount.getText().toString();
+                String pMinCost = minCost.getText().toString();
+                String pMaxCost = maxCost.getText().toString();
+                int numberOAd, numberOCh, minB, maxB;
+                if (countAdults.length() == 0){
+                    numberOAd = 0;
+                }
+                else {
+                    numberOAd = Integer.parseInt(countAdults);
+                }
+
+                if (countChilds.length() == 0){
+                    numberOCh = 0;
+                }
+                else {
+                    numberOCh = Integer.parseInt(countChilds);
+                }
+                if (pMinCost.length() == 0){
+                    minB = 0;
+                }
+                else{
+                    minB = Integer.parseInt(pMinCost);
+                }
+
+                if (pMaxCost.length() == 0){
+                    maxB = 0;
+                }
+                else {
+                    maxB = Integer.parseInt(pMaxCost);
+                }
                 //avatar
-                String tempRes = pName+" "+startDateTime+" "+endDateTime+" "+LatStart+" "+LngStart+" "
-                        +LatEnd+" "+LngEnd+"   "+countAdults+"   "+countChilds+""+pIsPrivate;
-                Toast.makeText(getApplicationContext(),tempRes,Toast.LENGTH_SHORT).show();
-                Call<JsonObject>call = api.createTour(LoginActivity.TOKEN,pName,startDateTime,endDateTime,
-                        LatStart,LngStart,LatEnd,LngEnd,pIsPrivate,countAdults,countChilds,pMinCost,pMaxCost,"tcattestavatar");
-                call.enqueue(new Callback<JsonObject>() {
-                    @Override
-                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
 
+                if (pName.length() == 0 || startDateTime == 0 || endDateTime == 0 ||
+                LatStart == 0 || LatEnd == 0){
+                    flag = false;
+                }
+                if (pName.length() != 0 && startDateTime != 0 && endDateTime != 0
+                && LatStart != 0 && LatEnd != 0){
+                    flag = true;
+                }
+                if (flag){
+                    Toast.makeText(getApplicationContext(),"Create Tour Success", Toast.LENGTH_SHORT).show();
+                    Call<JsonObject>call = api.createTour(LoginActivity.TOKEN,pName,startDateTime,endDateTime,
+                            LatStart,LngStart,LatEnd,LngEnd,pIsPrivate,numberOAd,numberOCh,minB,maxB,"tcattestavatar");
+                    call.enqueue(new Callback<JsonObject>() {
+                        @Override
+                        public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<JsonObject> call, Throwable t) {
+                            Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    Intent intent = new Intent(context,StopPoints.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else {
+
+                    if (pName.length() == 0) {
+                        Toast.makeText(getApplicationContext(), "Name", Toast.LENGTH_SHORT).show();
                     }
-
-                    @Override
-                    public void onFailure(Call<JsonObject> call, Throwable t) {
-                        Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+                    if (startDateTime == 0) {
+                        Toast.makeText(getApplicationContext(), "StartDate",Toast.LENGTH_SHORT).show();
                     }
-                });
+                    if (endDateTime == 0){
+                        Toast.makeText(getApplicationContext(),"EndDate",Toast.LENGTH_SHORT).show();
+                    }
+                    if (LatStart == 0) {
+                        Toast.makeText(getApplicationContext(),"StartLocation", Toast.LENGTH_SHORT).show();
+                    }
+                    if (LatEnd == 0){
+                        Toast.makeText(getApplicationContext(),"EndLocation",Toast.LENGTH_SHORT).show();
+                    }
+                    Toast.makeText(getApplicationContext(),"Cannot Create", Toast.LENGTH_SHORT).show();
+                }
 
-                Intent intent = new Intent(context,StopPoints.class);
-                startActivity(intent);
-                finish();
             }
         };
         startDateButton.setOnClickListener(new View.OnClickListener() {
@@ -225,6 +278,7 @@ public class AddTour extends AppCompatActivity {
                    Toast.makeText(getApplicationContext(),LatStart + " " + LngStart,
                            Toast.LENGTH_SHORT).show();
                }
+               break;
             }
             case 2:{
                 if (resultCode==RESULT_OK){
@@ -237,6 +291,7 @@ public class AddTour extends AppCompatActivity {
                     locationEnd.setText(addressLocationEnd);
 
                 }
+                break;
             }
         }
     }
