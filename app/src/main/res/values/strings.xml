@@ -61,4 +61,7 @@
     <string name="phone">Phone</string>
     <string name="title_activity_stop_points">Map</string>
 
+    <!--Facebook Login-->
+    <string name="facebook_app_id">2572918352776741</string>
+    <string name="fb_login_protocol_scheme">fb2572918352776741</string>
 </resources>

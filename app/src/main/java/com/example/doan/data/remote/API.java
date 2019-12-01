@@ -28,6 +28,12 @@ public interface API {
     );
 
     @FormUrlEncoded
+    @POST("/user/login/by-facebook")
+    Call<JsonObject> loginFacebook(
+            @Field("accessToken") String accessToken
+    );
+
+    @FormUrlEncoded
     @POST("user/register")
     Call<JsonObject> register(
             @Field("password") String password,
