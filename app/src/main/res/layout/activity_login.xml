@@ -93,8 +93,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center_horizontal"
-                android:background="@null"
-                android:src="@drawable/ic_icons8_facebook" />
+                android:background="@drawable/ic_icons8_facebook" />
         </LinearLayout>
 
         <LinearLayout
