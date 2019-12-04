@@ -25,11 +25,11 @@
 
             <ImageButton
                 android:id="@+id/tourInfoDeleteTour"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_alignParentEnd="true"
                 android:src="@drawable/ic_delete"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="29dp"
                 android:layout_marginEnd="20dp"
                 android:background="@android:color/transparent"
                 />
@@ -51,13 +51,13 @@
 
             <ImageButton
                 android:id="@+id/tourInfoBack"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="30dp"
-                android:src="@drawable/ic_left"
-                android:background="@android:color/transparent"/>
+                android:layout_marginTop="29dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_left" />
 
 
         </RelativeLayout>

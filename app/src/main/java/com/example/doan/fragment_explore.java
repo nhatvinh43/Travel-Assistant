@@ -1,7 +1,6 @@
 package com.example.doan;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -10,18 +9,16 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link tourInfo_Tab3.OnFragmentInteractionListener} interface
+ * {@link fragment_explore.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link tourInfo_Tab3#newInstance} factory method to
+ * Use the {@link fragment_explore#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class tourInfo_Tab3 extends Fragment {
+public class fragment_explore extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -33,7 +30,7 @@ public class tourInfo_Tab3 extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public tourInfo_Tab3() {
+    public fragment_explore() {
         // Required empty public constructor
     }
 
@@ -43,11 +40,11 @@ public class tourInfo_Tab3 extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment tourInfo_Tab3.
+     * @return A new instance of fragment fragment_explore.
      */
     // TODO: Rename and change types and number of parameters
-    public static tourInfo_Tab3 newInstance(String param1, String param2) {
-        tourInfo_Tab3 fragment = new tourInfo_Tab3();
+    public static fragment_explore newInstance(String param1, String param2) {
+        fragment_explore fragment = new fragment_explore();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -62,26 +59,13 @@ public class tourInfo_Tab3 extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_tour_info__tab3, container, false);
-
-        Button rate = (Button) view.findViewById(R.id.tourInfoRatings);
-        rate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), TourInfo_Rate.class);
-                startActivity(intent);
-            }
-        });
-
-        return view;
+        return inflater.inflate(R.layout.fragment_fragment_explore, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -122,5 +106,4 @@ public class tourInfo_Tab3 extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
 }

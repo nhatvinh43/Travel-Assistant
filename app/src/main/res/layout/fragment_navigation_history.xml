@@ -41,37 +41,40 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/historyTop"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
+                        android:fontFamily="@font/quicksand_light"
+                        android:text="@string/my"
+                        android:textColor="@color/yellowAccent"
+                        android:textSize="30sp"/>
+                    <TextView
+                        android:id="@+id/tours"
+                        android:layout_toRightOf="@id/historyTop"
+                        android:layout_marginStart="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+
                         android:fontFamily="@font/quicksand_bold"
-                        android:text="@string/topTours"
-                        android:textSize="30sp"
-                        android:textStyle="bold"
-                        android:layout_alignParentStart="true"/>
+                        android:text="@string/tours"
+                        android:textSize="30sp"/>
+
                     <ImageButton
-                        android:id="@+id/userButton"
+                        android:id="@+id/historyAddTour"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
+                        android:layout_alignParentEnd="true"
                         android:layout_gravity="end|top"
                         android:layout_marginTop="25dp"
-                        android:background="@drawable/ic_user"
-                        android:backgroundTint="@color/buttonColor"
-                        android:elevation="10dp"
-                        android:textColor="@color/form"
-                        android:textSize="18sp"
-                        android:layout_alignParentEnd="true"/>
+                        android:background="@android:color/transparent"
+                        android:elevation="0dp"
+                        android:src="@drawable/ic_add"
+                        android:textColor="@color/form" />
 
                 </RelativeLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="30dp"
-                    android:fontFamily="@font/quicksand_light"
-                    android:text="@string/forYou"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
             </LinearLayout>
             <androidx.appcompat.widget.SearchView
                 android:layout_width="match_parent"
@@ -80,7 +83,7 @@
                 app:iconifiedByDefault="false"
                 app:layout_collapseMode="pin"
                 app:queryBackground="@android:color/transparent"
-                android:layout_marginTop="120dp"
+                android:layout_marginTop="100dp"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="25dp"
                 app:layout_scrollFlags="scroll|enterAlways"/>
@@ -99,7 +102,7 @@
         >
 
         <com.facebook.shimmer.ShimmerFrameLayout
-            android:id="@+id/shimmerContainer"
+            android:id="@+id/shimmerContainer2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -112,15 +115,16 @@
         </com.facebook.shimmer.ShimmerFrameLayout>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swipeContainer"
+            android:id="@+id/swipeContainer2"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_marginTop="10dp"
-                android:id="@+id/mRecyclerView"
+                android:id="@+id/mRecyclerView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:overScrollMode="never"/>
+                android:overScrollMode="never"
+                android:paddingBottom="50dp"/>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </LinearLayout>

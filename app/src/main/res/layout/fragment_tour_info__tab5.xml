@@ -24,7 +24,7 @@
             android:layout_marginBottom="30dp"
             android:layout_gravity="center_horizontal"
             android:fontFamily="@font/quicksand_bold"
-            android:text="@string/ratings"
+            android:text="@string/members"
             android:textSize="25sp"
             android:textStyle="bold" />
 
@@ -36,7 +36,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_marginTop="10dp"
-            android:id="@+id/tourInfoComments"
+            android:id="@+id/tourInfoMembers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -54,10 +54,10 @@
         android:layout_marginBottom="20dp">
         <Button
             android:id="@+id/tourInfoRatings"
-            android:layout_width="100dp"
+            android:layout_width="110dp"
             android:layout_height="45dp"
             android:background="@drawable/form"
-            android:text="@string/ratePrompt"
+            android:text="@string/addMembers"
             android:textAllCaps="false"
             android:fontFamily="@font/quicksand"
             android:textSize="15sp"

@@ -1,6 +1,7 @@
 package com.example.doan.data.model;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doan.R;
+import com.example.doan.TourInfo_Main;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +56,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
         view = inflater.inflate(R.layout.recyclerview_item,parent,false );
+        view.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(context, TourInfo_Main.class);
+                context.startActivity(intent);
+            }
+        });
         return new CustomViewHolder(view);
     }
 

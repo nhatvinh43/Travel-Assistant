@@ -18,6 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".TourInfo_Rate"></activity>
         <activity android:name=".TourInfo_Main">
 
         </activity>

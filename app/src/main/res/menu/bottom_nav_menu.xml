@@ -7,14 +7,14 @@
         android:title="@string/title_home" />
 
     <item
-        android:id="@+id/navigation_myTours"
+        android:id="@+id/navigation_history"
         android:icon="@drawable/ic_mytours"
-        android:title="@string/title_myTours" />
+        android:title="@string/title_history" />
 
     <item
-        android:id="@+id/navigation_addTour"
-        android:icon="@drawable/ic_add_button"
-        android:title="@string/title_addTour" />
+        android:id="@+id/navigation_explore"
+        android:icon="@drawable/ic_explorer"
+        android:title="@string/title_explore" />
 
     <item
         android:id="@+id/navigation_notifications"

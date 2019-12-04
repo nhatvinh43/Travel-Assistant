@@ -17,11 +17,13 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
             case 0: return new TourInfo_Tab1();
             case 1: return new TourInfo_Tab2();
             case 2: return new tourInfo_Tab3();
+            case 3: return new TourInfo_Tab4();
+            case 4: return new TourInfo_Tab5();
         }
         return null;
     }
     @Override
     public int getCount() {
-        return 3;
+        return 5;
     }
 }

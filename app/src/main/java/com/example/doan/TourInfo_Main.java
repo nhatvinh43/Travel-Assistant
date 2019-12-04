@@ -5,6 +5,8 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -20,6 +22,15 @@ public class TourInfo_Main extends AppCompatActivity implements TourInfo_Tab1.On
         viewPager.setAdapter(myPagerAdapter);
         TabLayout tablayout = (TabLayout) findViewById(R.id.tablayout);
         tablayout.setupWithViewPager(viewPager);
+
+        ImageButton back = findViewById(R.id.tourInfoBack);
+        back.setOnClickListener(new View.OnClickListener(){
+           public void onClick(View v)
+            {
+                finish();
+            }
+        });
+
     }
 
     @Override

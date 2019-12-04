@@ -2,9 +2,7 @@ package com.example.doan.ui.login;
 
 import androidx.lifecycle.ViewModelProviders;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
@@ -31,7 +29,6 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.gson.Gson;
@@ -61,7 +58,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
-
 
         final EditText emailEditText = findViewById(R.id.emailLogin);
         final EditText passwordEditText = findViewById(R.id.passwordLogin);
@@ -103,12 +99,6 @@ public class LoginActivity extends AppCompatActivity {
                         intent1.putExtra("token",loginResponse.get("token").getAsString());
                         TOKEN = loginResponse.get("token").getAsString();
                         startActivity(intent1);
-
-                        SharedPreferences sharedPreferences = getSharedPreferences("userToken", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.clear();
-                        editor.putString("userToken", TOKEN);
-                        editor.apply();
                         finish();
                     }
 
@@ -159,13 +149,6 @@ public class LoginActivity extends AppCompatActivity {
                         intent1.putExtra("token",loginResponse.get("token").getAsString());
                         TOKEN = loginResponse.get("token").getAsString();
                         startActivity(intent1);
-
-                        SharedPreferences sharedPreferences = getSharedPreferences("userToken", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.clear();
-                        editor.putString("userToken", TOKEN);
-                        editor.apply();
-                        LoginManager.getInstance().logOut();
                         finish();
                     }
 
@@ -195,14 +178,10 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }
                 catch (PackageManager.NameNotFoundException e) {
-                    if (e.getMessage() != null) {
-                        Log.d("FacebookLogin: ", e.getMessage());
-                    }
+                    Log.d("FacebookLogin: ",e.getMessage());
                 }
                 catch (NoSuchAlgorithmException e) {
-                    if (e.getMessage()!= null) {
-                        Log.d("FacebookLogin: ", e.getMessage());
-                    }
+                    Log.d("FacebookLogin: ",e.getMessage());
                 }
             }
         });

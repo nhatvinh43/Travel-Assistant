@@ -32,7 +32,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class fragment_topTours extends Fragment {
+public class fragment_history extends Fragment {
     private ArrayList<Tour> dataSet = new ArrayList<>();
     private RecyclerView mRecyclerView;
     private CustomAdapter adapter;
@@ -41,10 +41,10 @@ public class fragment_topTours extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_navigation_top_tours, container, false);
+        View view =  inflater.inflate(R.layout.fragment_navigation_history, container, false);
 
 
-        ImageButton imageButton = view.findViewById(R.id.addTour);
+        ImageButton imageButton = view.findViewById(R.id.historyAddTour);
         imageButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v)
             {
@@ -53,10 +53,10 @@ public class fragment_topTours extends Fragment {
             }
         });
 
-        mShimmerViewContainer = view.findViewById(R.id.shimmerContainer);
+        mShimmerViewContainer = view.findViewById(R.id.shimmerContainer2);
 
 
-        mRecyclerView = (RecyclerView)view.findViewById(R.id.mRecyclerView);
+        mRecyclerView = (RecyclerView)view.findViewById(R.id.mRecyclerView2);
         adapter = new CustomAdapter(getActivity(),dataSet);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
@@ -64,11 +64,11 @@ public class fragment_topTours extends Fragment {
         adapter.notifyDataSetChanged();
 
 
-       fetchItemList();
+        fetchItemList();
 
 
 
-        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer2);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -98,7 +98,7 @@ public class fragment_topTours extends Fragment {
                 if (!response.isSuccessful()) {
                     Gson gson = new Gson();
                     JsonObject errorLogin =gson.fromJson(response.errorBody().charStream(),JsonObject.class);
-                    Toast.makeText(fragment_topTours.this.getContext() ,errorLogin.get("message").getAsString(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(fragment_history.this.getContext() ,errorLogin.get("message").getAsString(),Toast.LENGTH_LONG).show();
                     return;
                 }
                 ListTour resource = response.body();
