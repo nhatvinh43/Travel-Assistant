@@ -74,6 +74,8 @@
     <string name="addMembers">Add member</string>
     <string name="notAMember">You must be a member of this tour to use this function!</string>
     <string name="my">My</string>
+    <string name="stopPointInfo">Stop Point Info</string>
+    <string name="restaurant">Restaurant</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

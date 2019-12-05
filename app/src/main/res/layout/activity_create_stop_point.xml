@@ -107,7 +107,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/quicksand"
                             android:text="@string/serviceType"
-                            android:textSize="20sp" />
+                            android:textSize="18sp" />
                         <LinearLayout
                             android:layout_marginTop="15dp"
                             android:layout_width="wrap_content"
@@ -119,7 +119,7 @@
                                 android:id="@+id/hotelSP"
                                 style="?android:attr/borderlessButtonStyle"
                                 android:layout_width="50dp"
-                                android:layout_height="50dp"
+                                android:layout_height="45dp"
                                 android:layout_marginEnd="30dp"
                                 android:background="@drawable/form"
                                 android:backgroundTint="#F7F69D"
@@ -129,7 +129,7 @@
                                 android:id="@+id/restaurantSP"
                                 style="?android:attr/borderlessButtonStyle"
                                 android:layout_width="50dp"
-                                android:layout_height="50dp"
+                                android:layout_height="45dp"
                                 android:background="@drawable/form"
                                 android:backgroundTint="@color/adultCountBg"
                                 android:src="@drawable/ic_burger" />
@@ -156,17 +156,17 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/quicksand"
                             android:text="@string/address"
-                            android:textSize="20sp" />
+                            android:textSize="18sp" />
 
                         <EditText
                             android:id="@+id/addressSP"
                             android:layout_width="match_parent"
-                            android:layout_height="50dp"
+                            android:layout_height="45dp"
                             android:layout_marginTop="10dp"
                             android:background="@drawable/form"
                             android:fontFamily="@font/quicksand"
                             android:textAlignment="center"
-                            android:textSize="15sp"
+                            android:textSize="12sp"
                             android:gravity="center_vertical"/>
                     </LinearLayout>
 
@@ -190,17 +190,17 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/quicksand"
                             android:text="@string/arrival"
-                            android:textSize="20sp" />
+                            android:textSize="18sp" />
 
                         <TextView
                             android:id="@+id/arrivalDate"
                             android:layout_width="220dp"
-                            android:layout_height="50dp"
+                            android:layout_height="45dp"
                             android:layout_marginTop="10dp"
                             android:background="@drawable/form"
                             android:fontFamily="@font/quicksand"
                             android:textAlignment="center"
-                            android:textSize="15sp"
+                            android:textSize="12sp"
                             android:gravity="center_vertical"/>
                     </LinearLayout>
 
@@ -208,7 +208,7 @@
                         android:id="@+id/arrivalDateButton"
                         style="?android:attr/borderlessButtonStyle"
                         android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_height="45dp"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentBottom="true"
                         android:background="@drawable/form"
@@ -234,17 +234,17 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/quicksand"
                             android:text="@string/leave"
-                            android:textSize="20sp" />
+                            android:textSize="18sp" />
 
                         <TextView
                             android:id="@+id/leaveDate"
                             android:layout_width="220dp"
-                            android:layout_height="50dp"
+                            android:layout_height="45dp"
                             android:layout_marginTop="10dp"
                             android:background="@drawable/form"
                             android:fontFamily="@font/quicksand"
                             android:textAlignment="center"
-                            android:textSize="15sp"
+                            android:textSize="12sp"
                             android:gravity="center_vertical"/>
                     </LinearLayout>
 
@@ -252,7 +252,7 @@
                         android:id="@+id/leaveDateButton"
                         style="?android:attr/borderlessButtonStyle"
                         android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_height="45dp"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentBottom="true"
                         android:background="@drawable/form"
@@ -279,17 +279,17 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/quicksand"
                             android:text="@string/budgetAttr"
-                            android:textSize="20sp" />
+                            android:textSize="18sp" />
 
                         <EditText
                             android:id="@+id/minCostSP"
                             android:layout_width="115dp"
-                            android:layout_height="50dp"
+                            android:layout_height="45dp"
                             android:layout_marginTop="10dp"
                             android:background="@drawable/form"
                             android:fontFamily="@font/quicksand"
                             android:textAlignment="center"
-                            android:textSize="15sp"
+                            android:textSize="12sp"
                             android:gravity="center_vertical"/>
 
                     </LinearLayout>
@@ -303,12 +303,12 @@
                         android:paddingTop="10dp"
                         android:text="@string/to"
                         android:fontFamily="@font/quicksand"
-                        android:textSize="15sp"/>
+                        android:textSize="12sp"/>
 
                     <EditText
                         android:id="@+id/maxCostSP"
                         android:layout_width="115dp"
-                        android:layout_height="50dp"
+                        android:layout_height="45dp"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentBottom="true"
                         android:layout_marginTop="10dp"
@@ -317,7 +317,7 @@
                         android:background="@drawable/form"
                         android:fontFamily="@font/quicksand"
                         android:textAlignment="center"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:gravity="center_vertical"/>
 
                 </RelativeLayout>

@@ -20,7 +20,7 @@
         android:orientation="vertical">
 
         <ImageButton
-            android:id="@+id/tourInfoRatingBack"
+            android:id="@+id/stopPointInfoRatingBack"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_alignParentStart="true"
@@ -42,7 +42,7 @@
     </RelativeLayout>
 
     <RatingBar
-        android:id="@+id/tourInfoRatingBar"
+        android:id="@+id/stopPointInfoRatingBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/image"
@@ -62,12 +62,12 @@
         android:text="@string/comment"
         android:textSize="20sp"
         android:layout_marginTop="20dp"
-        android:layout_below="@id/tourInfoRatingBar"
+        android:layout_below="@id/stopPointInfoRatingBar"
         android:layout_centerHorizontal="true"/>
 
     <EditText
         android:layout_below="@+id/comment"
-        android:id="@+id/tourInfoCommentBox"
+        android:id="@+id/stopPointInfoCommentBox"
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
         android:layout_width="300dp"
@@ -101,7 +101,7 @@
         android:layout_marginBottom="20dp">
         <Button
             android:elevation="0dp"
-            android:id="@+id/tourInfoSubmitRate"
+            android:id="@+id/stopPointInfoSubmitRate"
             android:layout_width="100dp"
             android:layout_height="45dp"
             android:background="@drawable/form"

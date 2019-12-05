@@ -1,6 +1,7 @@
 package com.example.doan;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
@@ -11,10 +12,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.gms.common.util.Base64Utils;
-
-import org.w3c.dom.Text;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -124,4 +121,5 @@ public class CreateStopPoint extends AppCompatActivity {
         // tên người dùng nhập là "ABC" và nhấp vào nút Hotel thì tên hiển thị ra TextView stopPointName  sẽ là "Hotel ABC"
 
     }
+
 }

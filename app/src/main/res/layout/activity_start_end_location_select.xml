@@ -14,7 +14,8 @@
         android:layout_height="50dp"
         android:background="@drawable/form"
         map:iconifiedByDefault="false"
-        map:queryBackground="@android:color/transparent"/>
+        map:queryBackground="@android:color/transparent"
+        android:backgroundTint="@color/white"/>
 
     <ImageButton
         android:id="@+id/cancelStartEnd"
@@ -26,7 +27,8 @@
         android:layout_marginBottom="20dp"
         android:background="@drawable/form"
         android:elevation="4dp"
-        android:src="@drawable/ic_cancel_small" />
+        android:src="@drawable/ic_cancel_small"
+        android:backgroundTint="@color/white"/>
 
     <ImageButton
         android:id="@+id/confirmStartEnd"
@@ -38,7 +40,8 @@
         android:layout_marginBottom="20dp"
         android:background="@drawable/form"
         android:elevation="4dp"
-        android:src="@drawable/ic_accept_small" />
+        android:src="@drawable/ic_accept_small"
+        android:backgroundTint="@color/white" />
 
     <ImageButton
         android:id="@+id/getCurrentLocationStartEnd"
@@ -51,7 +54,8 @@
         android:background="@drawable/form"
         android:elevation="4dp"
         android:src="@android:drawable/ic_menu_mylocation"
-        android:tint="@color/linkColor" />
+        android:tint="@color/linkColor"
+        android:backgroundTint="@color/white" />
 
     <fragment
         android:id="@+id/mapStartEnd"

@@ -18,10 +18,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".TourInfo_Rate"></activity>
-        <activity android:name=".TourInfo_Main">
+        <activity android:name=".StopPointInfo_Rate"></activity>
+        <activity android:name=".StopPointInfo_Main">
 
         </activity>
+        <activity android:name=".TourInfo_Rate" />
+        <activity android:name=".TourInfo_Main" />
         <activity android:name=".StartEndLocationSelect" />
         <activity android:name=".SavedStopPoints" />
         <activity android:name=".CreateStopPoint" />
