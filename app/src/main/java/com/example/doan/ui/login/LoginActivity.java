@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.example.doan.AddTour;
 import com.example.doan.MainActivity;
 import com.example.doan.R;
+import com.example.doan.data.model.LoginData;
 import com.example.doan.data.remote.API;
 import com.example.doan.signup;
 import com.facebook.AccessToken;
@@ -81,8 +82,10 @@ public class LoginActivity extends AppCompatActivity {
             {
                 API api = getClient().create(API.class);
 
-                Call<JsonObject> call = api.login(emailEditText.getText().toString(),passwordEditText.getText().toString());
+                LoginData loginData = new LoginData(emailEditText.getText().toString(),passwordEditText.getText().toString());
 
+                Call<JsonObject> call = api.getLogin(loginData);
+                
                 call.enqueue(new Callback<JsonObject>() {
                     @Override
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {

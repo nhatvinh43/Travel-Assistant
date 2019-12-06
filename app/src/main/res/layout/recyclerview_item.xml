@@ -6,6 +6,7 @@
 
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/parentLayout"
         android:foreground="?android:attr/selectableItemBackground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

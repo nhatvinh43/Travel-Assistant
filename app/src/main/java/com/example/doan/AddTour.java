@@ -23,6 +23,8 @@ import android.widget.Toast;
 
 
 import com.example.doan.data.model.StopPoint;
+import com.example.doan.data.model.Tour;
+import com.example.doan.data.model.TourCreate;
 import com.example.doan.data.remote.API;
 import com.example.doan.data.remote.retrofit;
 import com.example.doan.ui.login.LoginActivity;
@@ -142,8 +144,9 @@ public class AddTour extends AppCompatActivity {
                 }
                 if (flag){
                     Toast.makeText(getApplicationContext(),"Create Tour Success", Toast.LENGTH_SHORT).show();
-                    Call<JsonObject>call = api.createTour(LoginActivity.TOKEN,pName,startDateTime,endDateTime,
-                            LatStart,LngStart,LatEnd,LngEnd,pIsPrivate,numberOAd,numberOCh,minB,maxB,"tcattestavatar");
+                    TourCreate newTour = new TourCreate(pName, startDateTime, endDateTime, LatStart, LngStart,
+                            LatEnd, LngEnd, numberOAd, numberOCh, pIsPrivate, "avatar");
+                    Call<JsonObject>call = api.createTour(LoginActivity.TOKEN, newTour);
                     call.enqueue(new Callback<JsonObject>() {
                         @Override
                         public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {

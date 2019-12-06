@@ -97,8 +97,8 @@ public class fragment_topTours extends Fragment {
                 Log.d("TAG",response.code()+" ");
                 if (!response.isSuccessful()) {
                     Gson gson = new Gson();
-                    JsonObject errorLogin =gson.fromJson(response.errorBody().charStream(),JsonObject.class);
-                    Toast.makeText(fragment_topTours.this.getContext() ,errorLogin.get("message").getAsString(),Toast.LENGTH_LONG).show();
+                    JsonObject errorGetTopTours  =gson.fromJson(response.errorBody().charStream(),JsonObject.class);
+                    Toast.makeText(fragment_topTours.this.getContext() ,errorGetTopTours.get("message").getAsString(),Toast.LENGTH_LONG).show();
                     return;
                 }
                 ListTour resource = response.body();

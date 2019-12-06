@@ -4,8 +4,9 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
+//Tour for ListTour // top tour
 public class Tour {
+    // from id can show hostID
     @SerializedName("id")
     @Expose
     private Integer id;

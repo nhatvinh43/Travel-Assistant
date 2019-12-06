@@ -127,7 +127,13 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
         MarkerOptions markerOptions2 = new MarkerOptions().position(latlng2).title("AO DINH");
         mMap.addMarker(markerOptions1);
         mMap.addMarker(markerOptions2);
-        onTouch();
+        //onTouch();
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                mMap.clear();
+            }
+        });
         onHold();
     }
     private void GetLastLocation() {
@@ -177,6 +183,7 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
         });
     }
     public LatLng onTouch(){
+        mMap.clear();
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
@@ -213,7 +220,7 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
                 lat = latLng.latitude;
                 lng = latLng.longitude;
                 mMap.animateCamera(CameraUpdateFactory.newLatLng(newLatLng));
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(newLatLng,20));
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(newLatLng,15));
 
                 Toast.makeText(getApplicationContext(),convertToAddress(lat,lng),Toast.LENGTH_SHORT).show();
             }

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,9 +32,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
     public class CustomViewHolder extends RecyclerView.ViewHolder{
         public ImageView mTourImage;
         public TextView mTourName, mTourPrice, mTourStartDate, mTourPeople, mTourChildren, mTourEndDate;
+        public androidx.cardview.widget.CardView cardView;
 
         public CustomViewHolder(View view){
             super(view);
+
             mTourImage = (ImageView)view.findViewById(R.id.tourImage);
             mTourName = (TextView) view.findViewById(R.id.tourName);
             mTourPrice = (TextView) view.findViewById(R.id.tourPrice);
@@ -43,6 +46,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
             mTourEndDate = (TextView)view.findViewById(R.id.tourEndDate);
             mTourImage = (ImageView)view.findViewById(R.id.tourImage);
             //mTourImage .... avatar return url
+            cardView = view.findViewById(R.id.parentLayout);
+
         }
     }
 
@@ -56,18 +61,19 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
         view = inflater.inflate(R.layout.recyclerview_item,parent,false );
-        view.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v)
-            {
-                Intent intent = new Intent(context, TourInfo_Main.class);
-                context.startActivity(intent);
-            }
-        });
+//        view.setOnClickListener(new View.OnClickListener(){
+//            public void onClick(View v)
+//            {
+//                Intent intent = new Intent(context, TourInfo_Main.class);
+//                context.startActivity(intent);
+//            }
+//        });
         return new CustomViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
+        final Tour tour = tourList.get(position);
         Tour t = tourList.get(position);
         String tempPrice = t.getMinCost() + "-" + t.getMaxCost();
         holder.mTourPrice.setText(tempPrice);
@@ -79,6 +85,16 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         String child = "max "+t.getChilds();
         holder.mTourChildren.setText(child);
         holder.mTourImage.setColorFilter(000000);
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "Click" + tour.getId(),Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, TourInfo_Main.class);
+                intent.putExtra("TourID", tour.getId());
+                context.startActivity(intent);
+            }
+        });
+
     }
 
     public void clear(){

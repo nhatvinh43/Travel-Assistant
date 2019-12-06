@@ -3,14 +3,19 @@ package com.example.doan;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 
-public class TourInfo_Main extends AppCompatActivity implements TourInfo_Tab1.OnFragmentInteractionListener, TourInfo_Tab2.OnFragmentInteractionListener, tourInfo_Tab3.OnFragmentInteractionListener {
+public class TourInfo_Main extends AppCompatActivity
+        implements TourInfo_Tab1.OnFragmentInteractionListener,
+        TourInfo_Tab2.OnFragmentInteractionListener, tourInfo_Tab3.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

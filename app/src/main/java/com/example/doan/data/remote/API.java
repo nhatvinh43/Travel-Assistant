@@ -1,9 +1,15 @@
 package com.example.doan.data.remote;
 
+import android.content.Intent;
+
 import androidx.annotation.Nullable;
 
 import com.example.doan.data.model.ListStopPoint;
 import com.example.doan.data.model.ListTour;
+import com.example.doan.data.model.ListTourMyTour;
+import com.example.doan.data.model.LoginData;
+import com.example.doan.data.model.Tour;
+import com.example.doan.data.model.TourCreate;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.JsonObject;
 
@@ -11,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -25,6 +32,12 @@ public interface API {
     Call<ListTour> getListTour(@Header("Authorization") String authKey,
                                @Query("pageNum") String page);
 
+    @GET("/tour/history-user")
+    Call<ListTourMyTour> getListTourMyRou(
+            @Header("Authorization") String authKey,
+            @Query("pageIndex") Integer index,
+            @Query("pageSize") String size
+            );
     @FormUrlEncoded
     @POST("user/login")
     Call<JsonObject> login(
@@ -32,6 +45,10 @@ public interface API {
             @Field("password") String password
     );
 
+    @POST("/user/login")
+    Call<JsonObject> getLogin(
+            @Body LoginData loginData
+            );
     @FormUrlEncoded
     @POST("/user/login/by-facebook")
     Call<JsonObject> loginFacebook(
@@ -50,23 +67,10 @@ public interface API {
             @Nullable @Field("gender") int gender
     );
 
-    @FormUrlEncoded
     @POST("/tour/create")
     Call<JsonObject> createTour(
             @Header("Authorization") String token,
-            @Field("name") String name,
-            @Field("startDate") int startDate,
-            @Field("endDate") int endDate,
-            @Field("sourceLat") double sourceLat,
-            @Field("sourceLong") double sourceLong,
-            @Field("desLat") double desLat,
-            @Field("desLong") double desLong,
-            @Field("isPrivate") boolean isPrivate,
-            @Nullable @Field("adults") int adults,
-            @Nullable @Field("childs") int childs,
-            @Nullable @Field("minCost") int minCost,
-            @Nullable @Field("maxCost") int maxCost,
-            @Nullable @Field("avatar") String avatar
+            @Body TourCreate tour
     );
     @FormUrlEncoded
     @POST("/tour/suggested-destination-list")
