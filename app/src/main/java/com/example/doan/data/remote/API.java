@@ -1,20 +1,17 @@
 package com.example.doan.data.remote;
 
-import android.content.Intent;
-
 import androidx.annotation.Nullable;
 
 import com.example.doan.data.model.ListStopPoint;
 import com.example.doan.data.model.ListTour;
 import com.example.doan.data.model.ListTourMyTour;
 import com.example.doan.data.model.LoginData;
-import com.example.doan.data.model.Tour;
+import com.example.doan.data.model.OneCoordinate;
 import com.example.doan.data.model.TourCreate;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -33,7 +30,7 @@ public interface API {
                                @Query("pageNum") String page);
 
     @GET("/tour/history-user")
-    Call<ListTourMyTour> getListTourMyRou(
+    Call<ListTourMyTour> getListTourMyTour(
             @Header("Authorization") String authKey,
             @Query("pageIndex") Integer index,
             @Query("pageSize") String size
@@ -55,6 +52,12 @@ public interface API {
             @Field("accessToken") String accessToken
     );
 
+    ///tour/suggested-destination-list
+    @POST("/tour/suggested-destination-list")
+    Call<ListStopPoint> oneCoordinate(
+            @Header("Authorization") String authKey,
+            @Body OneCoordinate oneCoordinate
+            );
     @FormUrlEncoded
     @POST("user/register")
     Call<JsonObject> register(
@@ -72,11 +75,4 @@ public interface API {
             @Header("Authorization") String token,
             @Body TourCreate tour
     );
-    @FormUrlEncoded
-    @POST("/tour/suggested-destination-list")
-    Call<ListStopPoint> getSuggestDes(
-            @Header("Authorization") String token,
-            @Field("hasOneCoordinate") Boolean orNot,
-            @Field("coordList") ArrayList<LatLng> listCoord
-            );
 }

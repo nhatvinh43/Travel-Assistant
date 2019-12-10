@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
-//List tour for topTour
+//List tour for topTour /tour/list
 public class ListTour {
     @SerializedName("total")
     @Expose

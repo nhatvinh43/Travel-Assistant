@@ -2,6 +2,7 @@ package com.example.doan.data.model;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doan.R;
 import com.example.doan.TourInfo_Main;
+import com.example.doan.TourInfo_Tab1;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,9 +90,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Click" + tour.getId(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Click " + tour.getId(),Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context, TourInfo_Main.class);
-                intent.putExtra("TourID", tour.getId());
+                Log.d("SEND", tour.getId()+"123");
+                intent.putExtra("TourID123", tour.getId().toString());
                 context.startActivity(intent);
             }
         });

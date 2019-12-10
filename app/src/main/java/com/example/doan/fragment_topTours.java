@@ -88,7 +88,6 @@ public class fragment_topTours extends Fragment {
         mShimmerViewContainer.startShimmerAnimation();
         Intent intent = getActivity().getIntent();
         String Token = intent.getStringExtra("token");
-        //Toast.makeText(getContext(),Token,Toast.LENGTH_SHORT).show();
         API api = retrofit.getClient().create(API.class);
         Call<ListTour> call1 = api.getListTour(Token,"10");
         call1.enqueue(new Callback<ListTour>() {
@@ -97,7 +96,7 @@ public class fragment_topTours extends Fragment {
                 Log.d("TAG",response.code()+" ");
                 if (!response.isSuccessful()) {
                     Gson gson = new Gson();
-                    JsonObject errorGetTopTours  =gson.fromJson(response.errorBody().charStream(),JsonObject.class);
+                    JsonObject errorGetTopTours = gson.fromJson(response.errorBody().charStream(),JsonObject.class);
                     Toast.makeText(fragment_topTours.this.getContext() ,errorGetTopTours.get("message").getAsString(),Toast.LENGTH_LONG).show();
                     return;
                 }

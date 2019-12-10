@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.example.doan.data.model.LoginData;
 import com.google.android.material.tabs.TabLayout;
 
 public class TourInfo_Main extends AppCompatActivity
@@ -35,6 +36,18 @@ public class TourInfo_Main extends AppCompatActivity
                 finish();
             }
         });
+        TextView tv = findViewById(R.id.tourInfoName);
+        //Intent intent = getIntent();
+
+        Bundle bundle = getIntent().getExtras();
+        String tourID = "";
+        if (bundle!=null){
+            tourID = bundle.getString("TourID123");
+        }
+
+
+        Log.d("Receive", tourID);
+        tv.setText(tourID);
 
     }
 

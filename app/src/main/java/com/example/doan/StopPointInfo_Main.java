@@ -32,6 +32,7 @@ public class StopPointInfo_Main extends AppCompatActivity implements StopPointIn
             }
         });
 
+        Intent intent = getIntent();
 
 
     }

@@ -33,6 +33,7 @@ import com.google.gson.JsonObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -42,7 +43,9 @@ import retrofit2.Response;
 
 public class AddTour extends AppCompatActivity {
 
-    String error[] = {"TourName", "StartDate", "EndDate", "StartLocation", "EndLocation"};
+    static public ArrayList<String> listStopPoint = null;
+    //write a function to get ID of Stop Point from LatLng of marker
+    //ic_hotel ic_burger
     Context context = this;
     private Calendar c;
     private DatePickerDialog dpd;
@@ -52,6 +55,7 @@ public class AddTour extends AppCompatActivity {
     private static String myDayStart, myDayEnd;
     private static String addressLocationStart, addressLocationEnd;
     boolean flag = false;
+    private String tourID = ""; // receive after create Tour
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         startDateTime = 0;
@@ -150,7 +154,14 @@ public class AddTour extends AppCompatActivity {
                     call.enqueue(new Callback<JsonObject>() {
                         @Override
                         public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-
+                            if (!response.isSuccessful()) {
+                                Gson gson = new Gson();
+                                JsonObject errorLogin =gson.fromJson(response.errorBody().charStream(),JsonObject.class);
+                                Toast.makeText(AddTour.this,errorLogin.get("message").getAsString(),Toast.LENGTH_LONG).show();
+                                return;
+                            }
+                            JsonObject loginResponse = response.body();
+                            tourID = loginResponse.get("id").getAsString();//tourIDfromCreate
                         }
 
                         @Override
@@ -159,26 +170,11 @@ public class AddTour extends AppCompatActivity {
                         }
                     });
                     Intent intent = new Intent(context,StopPoints.class);
+                    intent.putExtra("TourIDFromCreate", tourID);
                     startActivity(intent);
                     finish();
                 }
                 else {
-
-                    if (pName.length() == 0) {
-                        Toast.makeText(getApplicationContext(), "Name", Toast.LENGTH_SHORT).show();
-                    }
-                    if (startDateTime == 0) {
-                        Toast.makeText(getApplicationContext(), "StartDate",Toast.LENGTH_SHORT).show();
-                    }
-                    if (endDateTime == 0){
-                        Toast.makeText(getApplicationContext(),"EndDate",Toast.LENGTH_SHORT).show();
-                    }
-                    if (LatStart == 0) {
-                        Toast.makeText(getApplicationContext(),"StartLocation", Toast.LENGTH_SHORT).show();
-                    }
-                    if (LatEnd == 0){
-                        Toast.makeText(getApplicationContext(),"EndLocation",Toast.LENGTH_SHORT).show();
-                    }
                     Toast.makeText(getApplicationContext(),"Cannot Create", Toast.LENGTH_SHORT).show();
                 }
 

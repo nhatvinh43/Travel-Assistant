@@ -3,10 +3,11 @@ package com.example.doan.data.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+//this StopPoint for Get History Destination of a User /tour/get/suggested-destination-list
 public class StopPoint {
-    @SerializedName("tourId")
+    @SerializedName("id")
     @Expose
-    private Integer tourId;
+    private Integer id;
     @SerializedName("name")
     @Expose
     private String name;
@@ -16,59 +17,54 @@ public class StopPoint {
     @SerializedName("provinceId")
     @Expose
     private Integer provinceId;
+    @SerializedName("contact")
+    @Expose
+    private String contact;
     @SerializedName("lat")
     @Expose
-    private Integer lat;
+    private String lat;
     @SerializedName("long")
     @Expose
-    private Integer _long;
-    @SerializedName("arrivalAt")
-    @Expose
-    private Integer arrivalAt;
-    @SerializedName("leaveAt")
-    @Expose
-    private Integer leaveAt;
+    private String _long;
     @SerializedName("minCost")
     @Expose
-    private Integer minCost;
+    private String minCost;
     @SerializedName("maxCost")
     @Expose
-    private Integer maxCost;
+    private String maxCost;
     @SerializedName("serviceTypeId")
     @Expose
     private Integer serviceTypeId;
-    @SerializedName("id")
-    @Expose
-    private Integer id;
     @SerializedName("avatar")
     @Expose
     private String avatar;
+    @SerializedName("landingTimesOfUser")
+    @Expose
+    private String landingTimesOfUser;
 
-
-    public StopPoint(){}
-
-    public StopPoint(Integer tourId, String name,String address, Integer provinceId, Integer lat, Integer _long, Integer arrivalAt, Integer leaveAt,
-                     Integer minCost, Integer maxCost, Integer serviceTypeId, Integer id, String avatar){
-        this.tourId = tourId;
+    public StopPoint(Integer id, String name, String address, Integer provinceId,
+                     String contact, String lat, String _long, String minCost,
+                     String maxCost, Integer serviceTypeId, String avatar, String landingTimesOfUser) {
+        this.id = id;
         this.name = name;
         this.address = address;
         this.provinceId = provinceId;
+        this.contact = contact;
         this.lat = lat;
         this._long = _long;
-        this.arrivalAt = arrivalAt;
-        this.leaveAt = leaveAt;
         this.minCost = minCost;
         this.maxCost = maxCost;
         this.serviceTypeId = serviceTypeId;
-        this.id = id;
         this.avatar = avatar;
-    }
-    public Integer getTourId() {
-        return tourId;
+        this.landingTimesOfUser = landingTimesOfUser;
     }
 
-    public void setTourId(Integer tourId) {
-        this.tourId = tourId;
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -95,51 +91,43 @@ public class StopPoint {
         this.provinceId = provinceId;
     }
 
-    public Integer getLat() {
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
+    public String getLat() {
         return lat;
     }
 
-    public void setLat(Integer lat) {
+    public void setLat(String lat) {
         this.lat = lat;
     }
 
-    public Integer getLong() {
+    public String get_long() {
         return _long;
     }
 
-    public void setLong(Integer _long) {
+    public void set_long(String _long) {
         this._long = _long;
     }
 
-    public Integer getArrivalAt() {
-        return arrivalAt;
-    }
-
-    public void setArrivalAt(Integer arrivalAt) {
-        this.arrivalAt = arrivalAt;
-    }
-
-    public Integer getLeaveAt() {
-        return leaveAt;
-    }
-
-    public void setLeaveAt(Integer leaveAt) {
-        this.leaveAt = leaveAt;
-    }
-
-    public Integer getMinCost() {
+    public String getMinCost() {
         return minCost;
     }
 
-    public void setMinCost(Integer minCost) {
+    public void setMinCost(String minCost) {
         this.minCost = minCost;
     }
 
-    public Integer getMaxCost() {
+    public String getMaxCost() {
         return maxCost;
     }
 
-    public void setMaxCost(Integer maxCost) {
+    public void setMaxCost(String maxCost) {
         this.maxCost = maxCost;
     }
 
@@ -151,14 +139,6 @@ public class StopPoint {
         this.serviceTypeId = serviceTypeId;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getAvatar() {
         return avatar;
     }
@@ -167,4 +147,11 @@ public class StopPoint {
         this.avatar = avatar;
     }
 
+    public String getLandingTimesOfUser() {
+        return landingTimesOfUser;
+    }
+
+    public void setLandingTimesOfUser(String landingTimesOfUser) {
+        this.landingTimesOfUser = landingTimesOfUser;
+    }
 }
