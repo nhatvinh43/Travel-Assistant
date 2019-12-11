@@ -8,6 +8,7 @@ import com.example.doan.data.model.ListTourMyTour;
 import com.example.doan.data.model.LoginData;
 import com.example.doan.data.model.OneCoordinate;
 import com.example.doan.data.model.TourCreate;
+import com.example.doan.data.model.TourResFromTourCreate;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.JsonObject;
 

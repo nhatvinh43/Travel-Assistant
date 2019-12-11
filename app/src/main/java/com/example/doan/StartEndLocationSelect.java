@@ -159,13 +159,14 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
+                onHold(latLng);
 
             }
         });
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                showDialog();
+                showDialog(marker);
                 return false;
             }
         });
@@ -205,21 +206,30 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
             break;
         }
     }
-    public void onHold() {
-        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
-            @Override
-            public void onMapLongClick(LatLng latLng) {
-                Toast.makeText(getApplicationContext(), "HOLD", Toast.LENGTH_SHORT).show();
-                newLatLng = new LatLng(latLng.latitude, latLng.longitude);
-                MarkerOptions markerOptions = new MarkerOptions().position(newLatLng).title("New Stop Point");
-                mMap.addMarker(markerOptions);
-                Intent intent = new Intent(getApplicationContext(),CreateStopPoint.class);
-                startActivityForResult(intent, 121);
-            }
-        });
+    public void onHold(LatLng latLng) {
+        new AlertDialog.Builder(StartEndLocationSelect.this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Create A New Stop Point ?")
+                .setPositiveButton("Create A New Stop Point", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(StartEndLocationSelect.this, CreateStopPoint.class);
+                        startActivity(intent);
+                    }
+                })
+                .show()
+                .getWindow().setGravity(Gravity.BOTTOM);
+        showAllStopPoint();
+
+    }
+    private void showAllStopPoint(){
+        //Clear and re-show all.
+        //refresh
+        Toast.makeText(getApplicationContext(),"Show All Stop Points: New and from API suggest", Toast.LENGTH_SHORT).show();
     }
     public void onTouch(final LatLng onTouchLatLng){
         //mMap.clear();
+        showAllStopPoint();
         OneCoordinate oneCoordinate = new OneCoordinate(true,
                 new Coordinate(onTouchLatLng.latitude,onTouchLatLng.longitude));
         API api = retrofit.getClient().create(API.class);
@@ -235,7 +245,7 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
                 }
                 ListStopPoint resource = response.body();
                 ArrayList<StopPoint> data = resource.getStopPoints();
-                Toast.makeText(getApplicationContext(),"Cuss" + onTouchLatLng.latitude + " " + onTouchLatLng.longitude,Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(),"Cuss" + onTouchLatLng.latitude + " " + onTouchLatLng.longitude,Toast.LENGTH_SHORT).show();
                 for (StopPoint d : data){
 
                 }
@@ -249,7 +259,7 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
         });
 
     }
-    private void showDialog(){
+    private void showDialog(final Marker marker){
         new AlertDialog.Builder(StartEndLocationSelect.this)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle("What Do You Want To Do ?")
@@ -263,6 +273,10 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
                             case 1:
                                 Toast.makeText(getApplicationContext(),"See More", Toast.LENGTH_SHORT).show();
                                 Intent intent =  new Intent(getApplicationContext(), StopPointInfo_Main.class);
+                                if (marker.getSnippet() != ""){
+                                    intent.putExtra("StopPointID", marker.getSnippet());
+                                }
+
                                 startActivity(intent);
                                 break;
                         }
@@ -292,5 +306,4 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
         }
         return strAddr;
     }
-
 }

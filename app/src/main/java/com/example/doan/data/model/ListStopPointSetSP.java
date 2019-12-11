@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
+//use to receive form /tour/set-stop-point
 public class ListStopPointSetSP {
     @SerializedName("tourId")
     @Expose

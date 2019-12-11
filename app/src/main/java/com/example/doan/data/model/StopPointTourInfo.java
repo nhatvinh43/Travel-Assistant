@@ -3,29 +3,34 @@ package com.example.doan.data.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-//this StopPoint for Get History Destination of a User /tour/get/destination-suggested
-public class StopPoint {
+public class StopPointTourInfo {
     @SerializedName("id")
     @Expose
     private Integer id;
-    @SerializedName("name")
+    @SerializedName("serviceId")
     @Expose
-    private String name;
+    private Integer serviceId;
     @SerializedName("address")
     @Expose
     private String address;
     @SerializedName("provinceId")
     @Expose
     private Integer provinceId;
-    @SerializedName("contact")
+    @SerializedName("name")
     @Expose
-    private String contact;
+    private String name;
     @SerializedName("lat")
     @Expose
     private String lat;
     @SerializedName("long")
     @Expose
     private String _long;
+    @SerializedName("arrivalAt")
+    @Expose
+    private String arrivalAt;
+    @SerializedName("leaveAt")
+    @Expose
+    private String leaveAt;
     @SerializedName("minCost")
     @Expose
     private String minCost;
@@ -38,25 +43,28 @@ public class StopPoint {
     @SerializedName("avatar")
     @Expose
     private String avatar;
-    @SerializedName("landingTimesOfUser")
+    @SerializedName("index")
     @Expose
-    private String landingTimesOfUser;
+    private Integer index;
 
-    public StopPoint(Integer id, String name, String address, Integer provinceId,
-                     String contact, String lat, String _long, String minCost,
-                     String maxCost, Integer serviceTypeId, String avatar, String landingTimesOfUser) {
+    public StopPointTourInfo(Integer id, Integer serviceId, String address,
+                             Integer provinceId, String name, String lat, String _long,
+                             String arrivalAt, String leaveAt, String minCost, String maxCost,
+                             Integer serviceTypeId, String avatar, Integer index) {
         this.id = id;
-        this.name = name;
+        this.serviceId = serviceId;
         this.address = address;
         this.provinceId = provinceId;
-        this.contact = contact;
+        this.name = name;
         this.lat = lat;
         this._long = _long;
+        this.arrivalAt = arrivalAt;
+        this.leaveAt = leaveAt;
         this.minCost = minCost;
         this.maxCost = maxCost;
         this.serviceTypeId = serviceTypeId;
         this.avatar = avatar;
-        this.landingTimesOfUser = landingTimesOfUser;
+        this.index = index;
     }
 
     public Integer getId() {
@@ -67,12 +75,12 @@ public class StopPoint {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Integer getServiceId() {
+        return serviceId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setServiceId(Integer serviceId) {
+        this.serviceId = serviceId;
     }
 
     public String getAddress() {
@@ -91,12 +99,12 @@ public class StopPoint {
         this.provinceId = provinceId;
     }
 
-    public String getContact() {
-        return contact;
+    public String getName() {
+        return name;
     }
 
-    public void setContact(String contact) {
-        this.contact = contact;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getLat() {
@@ -107,12 +115,28 @@ public class StopPoint {
         this.lat = lat;
     }
 
-    public String get_long() {
+    public String getLong() {
         return _long;
     }
 
-    public void set_long(String _long) {
+    public void setLong(String _long) {
         this._long = _long;
+    }
+
+    public String getArrivalAt() {
+        return arrivalAt;
+    }
+
+    public void setArrivalAt(String arrivalAt) {
+        this.arrivalAt = arrivalAt;
+    }
+
+    public String getLeaveAt() {
+        return leaveAt;
+    }
+
+    public void setLeaveAt(String leaveAt) {
+        this.leaveAt = leaveAt;
     }
 
     public String getMinCost() {
@@ -147,11 +171,12 @@ public class StopPoint {
         this.avatar = avatar;
     }
 
-    public String getLandingTimesOfUser() {
-        return landingTimesOfUser;
+    public Integer getIndex() {
+        return index;
     }
 
-    public void setLandingTimesOfUser(String landingTimesOfUser) {
-        this.landingTimesOfUser = landingTimesOfUser;
+    public void setIndex(Integer index) {
+        this.index = index;
     }
+
 }

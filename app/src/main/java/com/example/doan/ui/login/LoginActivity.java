@@ -89,6 +89,7 @@ public class LoginActivity extends AppCompatActivity {
                 call.enqueue(new Callback<JsonObject>() {
                     @Override
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                        Log.d("LOGIN CODE", response.code()+"");
                         if (!response.isSuccessful()) {
                             Gson gson = new Gson();
                             JsonObject errorLogin =gson.fromJson(response.errorBody().charStream(),JsonObject.class);
