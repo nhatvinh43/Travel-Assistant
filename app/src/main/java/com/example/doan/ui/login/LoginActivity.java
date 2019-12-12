@@ -50,6 +50,7 @@ import static com.example.doan.data.remote.retrofit.retrofit;
 
 public class LoginActivity extends AppCompatActivity {
     public static String TOKEN;
+    public static String USERID;
     private LoginViewModel loginViewModel;
     private CallbackManager callbackManager;
 
@@ -99,9 +100,10 @@ public class LoginActivity extends AppCompatActivity {
                         JsonObject loginResponse = response.body();
 
                         Intent intent1 = new Intent(LoginActivity.this, MainActivity.class);
-                        intent1.putExtra("userId",loginResponse.get("userId").getAsString());
-                        intent1.putExtra("token",loginResponse.get("token").getAsString());
                         TOKEN = loginResponse.get("token").getAsString();
+                        USERID = loginResponse.get("userId").getAsString();
+                        intent1.putExtra("userId",USERID);
+                        intent1.putExtra("token",TOKEN);
                         startActivity(intent1);
                         finish();
                     }

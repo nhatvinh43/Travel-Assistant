@@ -2,6 +2,7 @@ package com.example.doan.data.remote;
 
 import androidx.annotation.Nullable;
 
+import com.example.doan.data.model.CommentSend;
 import com.example.doan.data.model.ListStopPoint;
 import com.example.doan.data.model.ListTour;
 import com.example.doan.data.model.ListTourMyTour;
@@ -75,5 +76,11 @@ public interface API {
     Call<JsonObject> createTour(
             @Header("Authorization") String token,
             @Body TourCreate tour
+    );
+
+    @POST("/tour/comment")
+    Call<JsonObject> sendComment(
+            @Header("Authorization") String token,
+            @Body CommentSend commentSend
     );
 }
