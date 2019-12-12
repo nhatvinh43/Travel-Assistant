@@ -63,6 +63,7 @@ public class tourInfo_Tab3 extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+
     }
 
     @Override
@@ -71,8 +72,7 @@ public class tourInfo_Tab3 extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tour_info__tab3, container, false);
 
-
-        Button rate = view.findViewById(R.id.tourInfoRatings);
+        Button rate = (Button) view.findViewById(R.id.tourInfoRatings);
         rate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

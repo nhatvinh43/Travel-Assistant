@@ -18,7 +18,6 @@ public class TourInfo_Main extends AppCompatActivity
         implements TourInfo_Tab1.OnFragmentInteractionListener,
         TourInfo_Tab2.OnFragmentInteractionListener, tourInfo_Tab3.OnFragmentInteractionListener {
 
-    public static String tourId = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,12 +40,14 @@ public class TourInfo_Main extends AppCompatActivity
         //Intent intent = getIntent();
 
         Bundle bundle = getIntent().getExtras();
+        String tourID = "";
         if (bundle!=null){
-            tourId = bundle.getString("TourID123");
+            tourID = bundle.getString("TourID123");
         }
 
-        Log.d("Receive", tourId);
-        tv.setText(tourId);
+
+        Log.d("Receive", tourID);
+        tv.setText(tourID);
 
     }
 
