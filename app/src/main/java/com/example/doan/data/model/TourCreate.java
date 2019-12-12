@@ -5,71 +5,74 @@ import com.google.gson.annotations.SerializedName;
 
 //tour for add tour
 public class TourCreate {
-
-    @SerializedName("status")
-    @Expose
-    private Integer status;
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("minCost")
-    @Expose
-    private Integer minCost;
-    @SerializedName("maxCost")
-    @Expose
-    private Integer maxCost;
+
     @SerializedName("startDate")
     @Expose
     private Integer startDate;
+
     @SerializedName("endDate")
     @Expose
     private Integer endDate;
+
+    @SerializedName("sourceLat")
+    @Expose
+    private Double sourceLat;
+
+    @SerializedName("sourceLong")
+    @Expose
+    private Double sourceLong;
+
+    @SerializedName("desLat")
+    @Expose
+    private Double desLat;
+
+    @SerializedName("desLong")
+    @Expose
+    private Double desLong;
+
+    @SerializedName("isPrivate")
+    @Expose
+    private Boolean isPrivate;
+
     @SerializedName("adults")
     @Expose
     private Integer adults;
+
     @SerializedName("childs")
     @Expose
     private Integer childs;
-    @SerializedName("sourceLat")
+
+    @SerializedName("minCost")
     @Expose
-    private double sourceLat;
-    @SerializedName("sourceLong")
+    private Integer minCost;
+
+    @SerializedName("maxCost")
     @Expose
-    private double sourceLong;
-    @SerializedName("desLat")
-    @Expose
-    private double desLat;
-    @SerializedName("desLong")
-    @Expose
-    private double desLong;
-    @SerializedName("isPrivate")
-    @Expose
-    private boolean isPrivate;
+    private Integer maxCost;
+
     @SerializedName("avatar")
     @Expose
     private String avatar;
 
-    public TourCreate(String name, Integer startDate, Integer endDate, double sourceLat, double sourceLong, double desLat, double desLong,
-                      Integer adults, Integer childs, boolean isPrivate, String avatar){
+    public TourCreate(String name, Integer startDate, Integer endDate,
+                      Double sourceLat, Double sourceLong, Double desLat, Double desLong,
+                      Boolean isPrivate, Integer adults, Integer childs, Integer minCost, Integer maxCost, String avatar) {
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
         this.sourceLat = sourceLat;
         this.sourceLong = sourceLong;
         this.desLat = desLat;
-        this.desLat = desLong;
+        this.desLong = desLong;
         this.isPrivate = isPrivate;
         this.adults = adults;
         this.childs = childs;
+        this.minCost = minCost;
+        this.maxCost = maxCost;
         this.avatar = avatar;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
     }
 
     public String getName() {
@@ -78,22 +81,6 @@ public class TourCreate {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Integer getMinCost() {
-        return minCost;
-    }
-
-    public void setMinCost(Integer minCost) {
-        this.minCost = minCost;
-    }
-
-    public Integer getMaxCost() {
-        return maxCost;
-    }
-
-    public void setMaxCost(Integer maxCost) {
-        this.maxCost = maxCost;
     }
 
     public Integer getStartDate() {
@@ -112,6 +99,46 @@ public class TourCreate {
         this.endDate = endDate;
     }
 
+    public Double getSourceLat() {
+        return sourceLat;
+    }
+
+    public void setSourceLat(Double sourceLat) {
+        this.sourceLat = sourceLat;
+    }
+
+    public Double getSourceLong() {
+        return sourceLong;
+    }
+
+    public void setSourceLong(Double sourceLong) {
+        this.sourceLong = sourceLong;
+    }
+
+    public Double getDesLat() {
+        return desLat;
+    }
+
+    public void setDesLat(Double desLat) {
+        this.desLat = desLat;
+    }
+
+    public Double getDesLong() {
+        return desLong;
+    }
+
+    public void setDesLong(Double desLong) {
+        this.desLong = desLong;
+    }
+
+    public Boolean getPrivate() {
+        return isPrivate;
+    }
+
+    public void setPrivate(Boolean aPrivate) {
+        isPrivate = aPrivate;
+    }
+
     public Integer getAdults() {
         return adults;
     }
@@ -128,44 +155,20 @@ public class TourCreate {
         this.childs = childs;
     }
 
-    public double getSourceLat() {
-        return sourceLat;
+    public Integer getMinCost() {
+        return minCost;
     }
 
-    public void setSourceLat(double sourceLat) {
-        this.sourceLat = sourceLat;
+    public void setMinCost(Integer minCost) {
+        this.minCost = minCost;
     }
 
-    public double getSourceLong() {
-        return sourceLong;
+    public Integer getMaxCost() {
+        return maxCost;
     }
 
-    public void setSourceLong(double sourceLong) {
-        this.sourceLong = sourceLong;
-    }
-
-    public double getDesLat() {
-        return desLat;
-    }
-
-    public void setDesLat(double desLat) {
-        this.desLat = desLat;
-    }
-
-    public double getDesLong() {
-        return desLong;
-    }
-
-    public void setDesLong(double desLong) {
-        this.desLong = desLong;
-    }
-
-    public Boolean getIsPrivate() {
-        return isPrivate;
-    }
-
-    public void setIsPrivate(Boolean isPrivate) {
-        this.isPrivate = isPrivate;
+    public void setMaxCost(Integer maxCost) {
+        this.maxCost = maxCost;
     }
 
     public String getAvatar() {

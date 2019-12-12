@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.example.doan.data.model.StopPoint;
 import com.example.doan.data.model.Tour;
 import com.example.doan.data.model.TourCreate;
+import com.example.doan.data.model.TourResFromTourCreate;
 import com.example.doan.data.remote.API;
 import com.example.doan.data.remote.retrofit;
 import com.example.doan.ui.login.LoginActivity;
@@ -147,21 +148,21 @@ public class AddTour extends AppCompatActivity {
                     flag = true;
                 }
                 if (flag){
-                    Toast.makeText(getApplicationContext(),"Create Tour Success", Toast.LENGTH_SHORT).show();
-                    TourCreate newTour = new TourCreate(pName, startDateTime, endDateTime, LatStart, LngStart,
-                            LatEnd, LngEnd, numberOAd, numberOCh, pIsPrivate, "avatar");
-                    Call<JsonObject>call = api.createTour(LoginActivity.TOKEN, newTour);
+                    String res = pName + minB + maxB + startDateTime + endDateTime + numberOAd + numberOCh + LatStart + LngStart
+                            + LatEnd + LngEnd + pIsPrivate;
+                    Toast.makeText(getApplicationContext(), res,Toast.LENGTH_SHORT).show();
+                    Log.d("Data0", res);
+                    //Toast.makeText(getApplicationContext(),"Create Tour Success", Toast.LENGTH_SHORT).show();
+                    //TourCreate newTour = new TourCreate(pName, startDateTime, endDateTime, LatStart, LngStart,
+                    //        LatEnd, LngEnd, pIsPrivate, numberOAd, numberOCh, minB, maxB, "avatar");
+                    TourCreate newTour = new TourCreate("test",-255797632,-255797632,10.1231,100.1231,
+                            10.1233,100.1231,true,2,1,100,100,"test");
+                    Call<JsonObject> call = api.createTour(LoginActivity.TOKEN, newTour);
+
                     call.enqueue(new Callback<JsonObject>() {
                         @Override
                         public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                            if (!response.isSuccessful()) {
-                                Gson gson = new Gson();
-                                JsonObject errorLogin =gson.fromJson(response.errorBody().charStream(),JsonObject.class);
-                                Toast.makeText(AddTour.this,errorLogin.get("message").getAsString(),Toast.LENGTH_LONG).show();
-                                return;
-                            }
-                            JsonObject loginResponse = response.body();
-                            tourID = loginResponse.get("id").getAsString();//tourIDfromCreate
+                            Log.d("ADDTOURCODE", response.code()+" ");
                         }
 
                         @Override
@@ -170,7 +171,7 @@ public class AddTour extends AppCompatActivity {
                         }
                     });
                     Intent intent = new Intent(context,StopPoints.class);
-                    intent.putExtra("TourIDFromCreate", tourID);
+                    //intent.putExtra("TourIDFromCreate", tourID);
                     startActivity(intent);
                     finish();
                 }
