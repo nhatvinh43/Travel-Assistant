@@ -9,7 +9,9 @@ import com.example.doan.data.model.ListTourMyTour;
 import com.example.doan.data.model.LoginData;
 import com.example.doan.data.model.OneCoordinate;
 import com.example.doan.data.model.TourCreate;
+import com.example.doan.data.model.TourInfo;
 import com.example.doan.data.model.TourResFromTourCreate;
+import com.google.android.gms.common.internal.safeparcel.SafeParcelable;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.JsonObject;
 
@@ -82,5 +84,19 @@ public interface API {
     Call<JsonObject> sendComment(
             @Header("Authorization") String token,
             @Body CommentSend commentSend
+    );
+
+    @GET("/tour/comment-list")
+    Call<JsonObject> getCommentListTour(
+            @Header("Authorization") String Authorization,
+            @Query("tourId") String tourId,
+            @Query("pageIndex") int pageIndex,
+            @Query("pageSize") int pageSize
+    );
+
+    @GET("/tour/info")
+    Call<JsonObject> getTourInfo(
+            @Header("Authorization") String Authorization,
+            @Query("tourId") int tourId
     );
 }

@@ -47,6 +47,9 @@ public class StopPointTourInfo {
     @Expose
     private Integer index;
 
+    public StopPointTourInfo() {
+    }
+
     public StopPointTourInfo(Integer id, Integer serviceId, String address,
                              Integer provinceId, String name, String lat, String _long,
                              String arrivalAt, String leaveAt, String minCost, String maxCost,

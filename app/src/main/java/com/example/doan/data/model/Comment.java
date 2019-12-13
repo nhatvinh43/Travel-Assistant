@@ -48,4 +48,17 @@ public class Comment {
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
+
+    public Comment() {
+        this.name = "";
+        this.comment = "";
+        this.avatar = "";
+    }
+
+    public Comment(Integer userId, String name, String comment, String avatar) {
+        this.userId = userId;
+        this.name = name;
+        this.comment = comment;
+        this.avatar = avatar;
+    }
 }
