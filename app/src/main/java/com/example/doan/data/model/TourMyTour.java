@@ -46,6 +46,9 @@ public class TourMyTour {
     @Expose
     private Boolean isKicked;
 
+    public TourMyTour() {
+    }
+
     public TourMyTour(Integer id, String hostId, Integer status, String minCost, String maxCost,
                       String startDate, String endDate, Integer adults, Integer childs, String avatar, boolean isHost, boolean isKicked){
         this.id = id;

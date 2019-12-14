@@ -15,13 +15,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.doan.data.TourMyTourAdapter;
 import com.example.doan.data.model.CustomAdapter;
 import com.example.doan.data.model.ListTour;
+import com.example.doan.data.model.ListTourMyTour;
 import com.example.doan.data.model.Tour;
+import com.example.doan.data.model.TourMyTour;
 import com.example.doan.data.remote.API;
 import com.example.doan.data.remote.retrofit;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.text.SimpleDateFormat;
@@ -33,9 +37,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class fragment_history extends Fragment {
-    private ArrayList<Tour> dataSet = new ArrayList<>();
+    private ArrayList<TourMyTour> dataSet = new ArrayList<>();
     private RecyclerView mRecyclerView;
-    private CustomAdapter adapter;
+    private TourMyTourAdapter adapter;
     private SwipeRefreshLayout swipeContainer;
     private ShimmerFrameLayout mShimmerViewContainer;
     @Nullable
@@ -57,7 +61,7 @@ public class fragment_history extends Fragment {
 
 
         mRecyclerView = (RecyclerView)view.findViewById(R.id.mRecyclerView2);
-        adapter = new CustomAdapter(getActivity(),dataSet);
+        adapter = new TourMyTourAdapter(getActivity(),dataSet);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(adapter);
@@ -90,28 +94,23 @@ public class fragment_history extends Fragment {
         String Token = intent.getStringExtra("token");
         //Toast.makeText(getContext(),Token,Toast.LENGTH_SHORT).show();
         API api = retrofit.getClient().create(API.class);
-        Call<ListTour> call1 = api.getListTour(Token,"10");
-        call1.enqueue(new Callback<ListTour>() {
+        Log.d("UserToken",Token);
+        Call<ListTourMyTour> call1 = api.getHistoryTour(Token,1,10);
+        call1.enqueue(new Callback<ListTourMyTour>() {
             @Override
-            public void onResponse(Call<ListTour> call, Response<ListTour> response) {
-                Log.d("TAG",response.code()+" ");
+            public void onResponse(Call<ListTourMyTour> call, Response<ListTourMyTour> response) {
                 if (!response.isSuccessful()) {
                     Gson gson = new Gson();
                     JsonObject errorLogin =gson.fromJson(response.errorBody().charStream(),JsonObject.class);
                     Toast.makeText(fragment_history.this.getContext() ,errorLogin.get("message").getAsString(),Toast.LENGTH_LONG).show();
                     return;
                 }
-                ListTour resource = response.body();
-                ArrayList<Tour> data = resource.getTours();
-                for (Tour tour : data){
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                    Long tempStartDate = Long.valueOf(tour.getStartDate());
-                    String tempStartDateF = sdf.format(new Date(tempStartDate));
-                    Long tempEndDate = Long.valueOf(tour.getEndDate());
-                    String tempEndDateF = sdf.format(new Date(tempEndDate));
-                    Tour temp = new Tour(tour.getId(),tour.getStatus(),tour.getName(),tour.getMinCost(),tour.getMaxCost(),
-                            tempStartDateF, tempEndDateF,tour.getAdults(),tour.getChilds(),tour.getIsPrivate(),tour.getAvatar());
-                    dataSet.add(temp);
+                ListTourMyTour resource = response.body();
+
+                ArrayList<TourMyTour> data = resource.getTours();
+                for (int i=0;i<data.size();i++){
+                    TourMyTour tour = data.get(i);
+                    dataSet.add(tour);
                 }
                 //loading.dismiss();
                 mShimmerViewContainer.stopShimmerAnimation();
@@ -120,7 +119,7 @@ public class fragment_history extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<ListTour> call, Throwable t) {
+            public void onFailure(Call<ListTourMyTour> call, Throwable t) {
                 Toast.makeText(getActivity(), t.getMessage(),
                         Toast.LENGTH_SHORT).show();
             }

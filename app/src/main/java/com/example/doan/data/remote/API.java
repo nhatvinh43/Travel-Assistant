@@ -99,4 +99,11 @@ public interface API {
             @Header("Authorization") String Authorization,
             @Query("tourId") int tourId
     );
+
+    @GET("/tour/history-user")
+    Call<ListTourMyTour> getHistoryTour(
+            @Header("Authorization") String Authorization,
+            @Query("pageIndex") int pageIndex,
+            @Query("pageSize") int pageSize
+    );
 }
