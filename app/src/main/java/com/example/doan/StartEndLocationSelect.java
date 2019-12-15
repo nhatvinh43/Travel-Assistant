@@ -14,6 +14,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
@@ -33,7 +34,10 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -51,9 +55,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 //o man hinh di chuyen, can phai them setonmylocationchangelistener
+
+//in this act, when chose a stoppoint then finish.
+//In market, set Snippet is id of service/ stoppiont
 public class StartEndLocationSelect extends FragmentActivity implements OnMapReadyCallback {
 
+    private ArrayList<StopPoint> allStopPointToShow1Coor = new ArrayList<>();
     private String[] typeServiceID = {"Restaurant", "Hotel", "Rest Station", "Other"};
+    //ic_hotel ic_burger
     private String[] selection = {"Add This Stop Point To Tour", "See Detail"};
     private static final int REQUESTCODE = 101;
     private static final int REQUSETCODE1 = 111;
@@ -64,6 +73,7 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
     private LatLng newLatLng;
     private ImageButton mCancel, mConfirm, mGetHome;
     private boolean flag = false;
+
 
     //test data
     LatLng latlng1 = new LatLng(10.459765,106.721583);
@@ -119,15 +129,18 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMyLocationEnabled(true);
+
         //mMap.getUiSettings().setMyLocationButtonEnabled(true);
         //mMap.getUiSettings().setCompassEnabled(true);
 
         final LatLng latLng = new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
-        //MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("I AM HERE");
+        MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("I AM HERE").snippet("TEST")
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.boy));
 
         mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,20));
-        //mMap.addMarker(markerOptions);
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,15));
+        mMap.addMarker(markerOptions);
+
         MarkerOptions markerOptions1 = new MarkerOptions().position(latlng1).title("CHO RG").draggable(true).snippet("123");
         MarkerOptions markerOptions2 = new MarkerOptions().position(latlng2).title("AO DINH").draggable(true);
         mMap.addMarker(markerOptions1);
@@ -171,6 +184,10 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
             }
         });
 
+        //getBound
+        //LatLngBounds bounds = mMap.getProjection().getVisibleRegion().latLngBounds;
+
+
     }
 
     private void GetLastLocation() {
@@ -207,6 +224,9 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
         }
     }
     public void onHold(LatLng latLng) {
+        //show AlertDialog Create a New Stop Point
+
+        //After Create Finish()
         new AlertDialog.Builder(StartEndLocationSelect.this)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle("Create A New Stop Point ?")
@@ -219,24 +239,64 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
                 })
                 .show()
                 .getWindow().setGravity(Gravity.BOTTOM);
-        showAllStopPoint();
+        //showAllStopPoint();
 
     }
-    private void showAllStopPoint(){
+
+    //
+    private void showAllStopPoint(ArrayList<StopPoint> data){
         //Clear and re-show all.
         //refresh
-        Toast.makeText(getApplicationContext(),"Show All Stop Points: New and from API suggest", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(),"Show All Stop Points: New and from API suggest", Toast.LENGTH_SHORT).show();
+        for (StopPoint sp : data){
+            String title = typeServiceID[sp.getServiceTypeId()];
+            BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_burger);
+            LatLng position = new LatLng(Double.valueOf(sp.getLat()), Double.valueOf(sp.get_long()));
+//            switch (sp.getServiceTypeId()){
+//                case 1:
+//                    //Restaurant
+//                    icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_burger);
+//                    break;
+//                case 2:
+//                    //hotel
+//                    icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_hotel);
+//                    break;
+//                case 3:
+//                    //Rest Station
+//                    icon = BitmapDescriptorFactory.fromResource(R.drawable.boy);
+//                    break;
+//                case 4:
+//                    //other
+//                    icon = BitmapDescriptorFactory.fromResource(R.drawable.com_facebook_button_icon);
+//                    break;
+//            }
+            MarkerOptions markerOptions = new MarkerOptions().position(position).snippet(sp.getId().toString())
+                    .icon(icon).title(title);
+            mMap.addMarker(markerOptions);
+        }
     }
+
+
     public void onTouch(final LatLng onTouchLatLng){
-        //mMap.clear();
-        showAllStopPoint();
+        mMap.clear();
+
+        //show AlertDialog to Notify See Detail or Choose.
+
+        //get Bounds
+        LatLngBounds latLngBounds = mMap.getProjection().getVisibleRegion().latLngBounds;
+        LatLng nearLeft, nearRight, farLeft, farRight;
+        nearLeft = mMap.getProjection().getVisibleRegion().nearLeft;
+
+
         OneCoordinate oneCoordinate = new OneCoordinate(true,
                 new Coordinate(onTouchLatLng.latitude,onTouchLatLng.longitude));
+
         API api = retrofit.getClient().create(API.class);
         Call<ListStopPoint> call = api.oneCoordinate(LoginActivity.TOKEN, oneCoordinate);
         call.enqueue(new Callback<ListStopPoint>() {
             @Override
             public void onResponse(Call<ListStopPoint> call, Response<ListStopPoint> response) {
+                Log.d("GETONEAROUNDCODE", response.code() +"");
                 if (!response.isSuccessful()) {
                     Gson gson = new Gson();
                     JsonObject errorLogin =gson.fromJson(response.errorBody().charStream(),JsonObject.class);
@@ -245,10 +305,36 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
                 }
                 ListStopPoint resource = response.body();
                 ArrayList<StopPoint> data = resource.getStopPoints();
-                //Toast.makeText(getApplicationContext(),"Cuss" + onTouchLatLng.latitude + " " + onTouchLatLng.longitude,Toast.LENGTH_SHORT).show();
+                String allName = data.size()+"|";
                 for (StopPoint d : data){
-
+                    allName = allName + d.getName()+"_"+d.getServiceTypeId()+" ";
+                    LatLng tempPos = new LatLng(Double.valueOf(d.getLat()), Double.valueOf(d.get_long()));
+                    //BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.boy);
+                    MarkerOptions markerOptions = new MarkerOptions().position(tempPos).title(d.getName()+typeServiceID[d.getServiceTypeId()])
+                            .snippet(d.getId().toString());
+                    switch (d.getServiceTypeId()+1){
+                        case 1:
+                            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.restaurant));
+                            break;
+                        case 2:
+                            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.hotel));
+                            break;
+                        case 3:
+                            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.reststation));
+                            break;
+                        case 4:
+                            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.other));
+                            break;
+                    }
+                    mMap.addMarker(markerOptions);
                 }
+                Log.d("ALLNAMESTOPPOINT", allName);
+                //showAllStopPoint(data);
+
+
+
+
+                //Toast.makeText(getApplicationContext(),data.get(1).getName(),Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -285,6 +371,10 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
                 }).show()
         .getWindow()
         .setGravity(Gravity.BOTTOM);
+
+    }
+
+    public void fetchAllStopPointSuggest(LatLng latLng){
 
     }
     public String convertToAddress(double lat, double lng){

@@ -11,11 +11,11 @@ public class TourCreate {
 
     @SerializedName("startDate")
     @Expose
-    private Integer startDate;
+    private long startDate;
 
     @SerializedName("endDate")
     @Expose
-    private Integer endDate;
+    private long endDate;
 
     @SerializedName("sourceLat")
     @Expose
@@ -57,7 +57,7 @@ public class TourCreate {
     @Expose
     private String avatar;
 
-    public TourCreate(String name, Integer startDate, Integer endDate,
+    public TourCreate(String name, long startDate, long endDate,
                       Double sourceLat, Double sourceLong, Double desLat, Double desLong,
                       Boolean isPrivate, Integer adults, Integer childs, Integer minCost, Integer maxCost, String avatar) {
         this.name = name;
@@ -83,19 +83,19 @@ public class TourCreate {
         this.name = name;
     }
 
-    public Integer getStartDate() {
+    public long getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Integer startDate) {
+    public void setStartDate(long startDate) {
         this.startDate = startDate;
     }
 
-    public Integer getEndDate() {
+    public long getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Integer endDate) {
+    public void setEndDate(long endDate) {
         this.endDate = endDate;
     }
 

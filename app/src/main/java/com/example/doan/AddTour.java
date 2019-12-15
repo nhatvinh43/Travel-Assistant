@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 
 import com.example.doan.data.model.StopPoint;
+import com.example.doan.data.model.StopPointSetSP;
 import com.example.doan.data.model.Tour;
 import com.example.doan.data.model.TourCreate;
 import com.example.doan.data.model.TourResFromTourCreate;
@@ -44,19 +45,23 @@ import retrofit2.Response;
 
 public class AddTour extends AppCompatActivity {
 
-    static public ArrayList<String> listStopPoint = null;
     //write a function to get ID of Stop Point from LatLng of marker
     //ic_hotel ic_burger
+
+    //this list is used to save list Of Stop Point
+    static public ArrayList<StopPointSetSP> listStopPoint = null;
+    static public StopPointSetSP startLocation, endLocation;
+    private static double LatStart, LatEnd, LngStart, LngEnd;
+
     Context context = this;
     private Calendar c;
     private DatePickerDialog dpd;
-
-    private static double LatStart, LatEnd, LngStart, LngEnd;
-    private static int startDateTime, endDateTime;
+    public static String tourID = ""; // receive after create Tour API Call
+    private static long startDateTime, endDateTime;
     private static String myDayStart, myDayEnd;
     private static String addressLocationStart, addressLocationEnd;
     boolean flag = false;
-    private String tourID = ""; // receive after create Tour
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         startDateTime = 0;
@@ -153,20 +158,28 @@ public class AddTour extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), res,Toast.LENGTH_SHORT).show();
                     Log.d("Data0", res);
                     //Toast.makeText(getApplicationContext(),"Create Tour Success", Toast.LENGTH_SHORT).show();
-                    //TourCreate newTour = new TourCreate(pName, startDateTime, endDateTime, LatStart, LngStart,
-                    //        LatEnd, LngEnd, pIsPrivate, numberOAd, numberOCh, minB, maxB, "avatar");
-                    TourCreate newTour = new TourCreate("test",-255797632,-255797632,10.1231,100.1231,
-                            10.1233,100.1231,true,2,1,100,100,"test");
-                    Call<JsonObject> call = api.createTour(LoginActivity.TOKEN, newTour);
+                    TourCreate newTour = new TourCreate(pName, startDateTime, endDateTime, LatStart, LngStart,
+                            LatEnd, LngEnd, pIsPrivate, numberOAd, numberOCh, minB, maxB, null);
+//                    TourCreate newTour = new TourCreate("test",-255797632,-255797632,10.1231,100.1231,
+//                            10.1233,100.1231,true,2,1,100,100,"test");
+                    Call<TourResFromTourCreate> call = api.createTour(LoginActivity.TOKEN, newTour);
 
-                    call.enqueue(new Callback<JsonObject>() {
+                    call.enqueue(new Callback<TourResFromTourCreate>() {
                         @Override
-                        public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                            Log.d("ADDTOURCODE", response.code()+" ");
+                        public void onResponse(Call<TourResFromTourCreate> call, Response<TourResFromTourCreate> response) {
+                            Log.d("ADDTOURCODE", response.code()+" "+response.body().getId());
+                            if (!response.isSuccessful()){
+                                Gson gson = new Gson();
+                                JsonObject error = gson.fromJson(response.errorBody().charStream(),JsonObject.class);
+                                Log.d("ADDTOURERROR", error.get("message").getAsString());
+                                return;
+                            }
+                            TourResFromTourCreate resource = response.body();
+                            tourID = resource.getId();
                         }
 
                         @Override
-                        public void onFailure(Call<JsonObject> call, Throwable t) {
+                        public void onFailure(Call<TourResFromTourCreate> call, Throwable t) {
                             Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -204,7 +217,7 @@ public class AddTour extends AppCompatActivity {
                         }
                         long milis = date.getTime();
                         startDate.setText(myDayStart);
-                        startDateTime = (int)milis;
+                        startDateTime = milis;
                     }
                 }, mYear, mMonth, mDay);
                 dpd.show();
@@ -231,7 +244,7 @@ public class AddTour extends AppCompatActivity {
                         }
                         long milis = date.getTime();
                         endDate.setText(myDayEnd);
-                        endDateTime = (int)milis;
+                        endDateTime = milis;
                     }
                 }, mYear, mMonth, mDay);
                 dpd.show();

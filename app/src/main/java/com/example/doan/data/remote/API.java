@@ -8,6 +8,7 @@ import com.example.doan.data.model.ListTour;
 import com.example.doan.data.model.ListTourMyTour;
 import com.example.doan.data.model.LoginData;
 import com.example.doan.data.model.OneCoordinate;
+import com.example.doan.data.model.ServiceDetail;
 import com.example.doan.data.model.TourCreate;
 import com.example.doan.data.model.TourResFromTourCreate;
 import com.google.android.gms.maps.model.LatLng;
@@ -73,9 +74,15 @@ public interface API {
     );
 
     @POST("/tour/create")
-    Call<JsonObject> createTour(
+    Call<TourResFromTourCreate> createTour(
             @Header("Authorization") String token,
             @Body TourCreate tour
+    );
+
+    @GET("/tour/get/service-detail")
+    Call<ServiceDetail> getServiceDetail(
+            @Header("Authorization") String token,
+            @Query("serviceId") Integer Id
     );
 
     @POST("/tour/comment")
