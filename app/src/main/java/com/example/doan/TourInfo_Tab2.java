@@ -5,10 +5,32 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.example.doan.data.CommentAdapter;
+import com.example.doan.data.StopPointTourInfoAdapter;
+import com.example.doan.data.model.Comment;
+import com.example.doan.data.model.StopPointTourInfo;
+import com.example.doan.data.remote.API;
+import com.example.doan.ui.login.LoginActivity;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.example.doan.data.remote.retrofit.getClient;
 
 
 /**
@@ -26,6 +48,10 @@ public class TourInfo_Tab2 extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
+    private ArrayList<StopPointTourInfo> stopPointTourInfoArrayList = new ArrayList<>();
 
     public TourInfo_Tab2() {
         // Required empty public constructor
@@ -62,7 +88,88 @@ public class TourInfo_Tab2 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tour_info__tab2, container, false);
+        View view = inflater.inflate(R.layout.fragment_tour_info__tab2, container, false);
+
+        recyclerView = view.findViewById(R.id.tourInfoStopPoints);
+        Log.d("Stepx","1");
+        recyclerView.setHasFixedSize(true);
+        // use a linear layout manager
+        layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+
+        //get data from server
+        API api = getClient().create(API.class);
+        Call<JsonObject> call = api.getTourInfo(LoginActivity.TOKEN,Integer.parseInt(TourInfo_Main.tourId));
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (!response.isSuccessful()) {
+                    Gson gson = new Gson();
+                    JsonObject error =gson.fromJson(response.errorBody().charStream(),JsonObject.class);
+                    Toast.makeText(getContext(),error.get("message").getAsString(),Toast.LENGTH_LONG).show();
+                    return;
+                }
+                JsonObject tourInfoResponse = response.body();
+                if (tourInfoResponse != null) {
+                    JsonArray stoppoints = tourInfoResponse.get("stopPoints").getAsJsonArray();
+                    for (int i=0;i<stoppoints.size();i++){
+                        JsonObject stoppoint = stoppoints.get(i).getAsJsonObject();
+                        StopPointTourInfo stopPointTourInfo = new StopPointTourInfo();
+                        if (!stoppoint.get("id").isJsonNull()){
+                            stopPointTourInfo.setId(stoppoint.get("id").getAsInt());
+                        }
+                        if (!stoppoint.get("serviceId").isJsonNull()){
+                            stopPointTourInfo.setServiceId(stoppoint.get("serviceId").getAsInt());
+                        }
+                        if (!stoppoint.get("address").isJsonNull()){
+                            stopPointTourInfo.setAddress(stoppoint.get("address").getAsString());
+                        }
+                        if (!stoppoint.get("provinceId").isJsonNull()){
+                            stopPointTourInfo.setProvinceId(stoppoint.get("provinceId").getAsInt());
+                        }
+                        if (!stoppoint.get("name").isJsonNull()){
+                            stopPointTourInfo.setName(stoppoint.get("name").getAsString());
+                        }
+                        if (!stoppoint.get("lat").isJsonNull()){
+                            stopPointTourInfo.setLat(stoppoint.get("lat").getAsString());
+                        }
+                        if (!stoppoint.get("long").isJsonNull()){
+                            stopPointTourInfo.setLong(stoppoint.get("long").getAsString());
+                        }
+                        if (!stoppoint.get("arrivalAt").isJsonNull()){
+                            stopPointTourInfo.setArrivalAt( stoppoint.get("arrivalAt").getAsString());
+                        }
+                        if (!stoppoint.get("leaveAt").isJsonNull()){
+                            stopPointTourInfo.setLeaveAt(stoppoint.get("leaveAt").getAsString());
+                        }
+                        if (!stoppoint.get("minCost").isJsonNull()){
+                            stopPointTourInfo.setMinCost(stoppoint.get("minCost").getAsString());
+                        }
+                        if (!stoppoint.get("maxCost").isJsonNull()){
+                            stopPointTourInfo.setMaxCost(stoppoint.get("maxCost").getAsString());
+                        }
+                        if (!stoppoint.get("serviceTypeId").isJsonNull()){
+                            stopPointTourInfo.setServiceTypeId(stoppoint.get("serviceTypeId").getAsInt());
+                        }
+                        if (!stoppoint.get("avatar").isJsonNull()){
+                            stopPointTourInfo.setAvatar(stoppoint.get("avatar").getAsString());
+                        }
+                        if (!stoppoint.get("index").isJsonNull()){
+                            stopPointTourInfo.setIndex(stoppoint.get("index").getAsInt());
+                        }
+                        stopPointTourInfoArrayList.add(stopPointTourInfo);
+                    }
+                    mAdapter = new StopPointTourInfoAdapter(stopPointTourInfoArrayList);
+                    recyclerView.setAdapter(mAdapter);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+            }
+        });
+        return view;
     }
 
     public interface OnFragmentInteractionListener {

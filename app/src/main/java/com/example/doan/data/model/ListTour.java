@@ -11,7 +11,17 @@ public class ListTour {
     private String total;
     @SerializedName("tours")
     @Expose
-    private ArrayList<Tour> tours = null;
+    private ArrayList<Tour> tours;
+
+    public ListTour() {
+        total = "";
+        tours = new ArrayList<>();
+    }
+
+    public ListTour(String total, ArrayList<Tour> tours) {
+        this.total = total;
+        this.tours = tours;
+    }
 
     public String getTotal() {
         return total;
