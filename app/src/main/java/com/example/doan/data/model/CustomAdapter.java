@@ -92,8 +92,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
             public void onClick(View v) {
                 Toast.makeText(context, "Click " + tour.getId(),Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context, TourInfo_Main.class);
-                Log.d("SEND", tour.getId()+"123");
-                intent.putExtra("TourID123", tour.getId().toString());
+                Log.d("SEND", tour.getId()+"");
+                intent.putExtra("TourIdForInfo", tour.getId().toString());
                 context.startActivity(intent);
             }
         });

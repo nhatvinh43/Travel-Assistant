@@ -7,6 +7,7 @@ import com.example.doan.data.model.ListStopPoint;
 import com.example.doan.data.model.ListTour;
 import com.example.doan.data.model.ListTourMyTour;
 import com.example.doan.data.model.LoginData;
+import com.example.doan.data.model.MoreOneCoordinate;
 import com.example.doan.data.model.OneCoordinate;
 import com.example.doan.data.model.ServiceDetail;
 import com.example.doan.data.model.TourCreate;
@@ -63,6 +64,12 @@ public interface API {
             @Header("Authorization") String authKey,
             @Body OneCoordinate oneCoordinate
             );
+    @POST("tour/suggested-destination-list")
+    Call<ListStopPoint> moreCoordinate(
+            @Header("Authorization") String authKey,
+            @Body MoreOneCoordinate moreOneCoordinate
+            );
+
     @FormUrlEncoded
     @POST("user/register")
     Call<JsonObject> register(
@@ -103,6 +110,12 @@ public interface API {
 
     @GET("/tour/info")
     Call<JsonObject> getTourInfo(
+            @Header("Authorization") String Authorization,
+            @Query("tourId") int tourId
+    );
+
+    @GET("tour/info")
+    Call<TourInfo> getTourInfoTV(
             @Header("Authorization") String Authorization,
             @Query("tourId") int tourId
     );

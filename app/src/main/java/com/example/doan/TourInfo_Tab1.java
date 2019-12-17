@@ -8,10 +8,13 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.example.doan.data.model.TourInfo;
 
 import org.w3c.dom.Text;
 
@@ -37,9 +40,17 @@ public class TourInfo_Tab1 extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tour_info__tab1, container, false);
-        TextView tv = view.findViewById(R.id.tourInfoPrice);
-        Intent intent = getActivity().getIntent();
-        String temp = "";
+        TextView price = view.findViewById(R.id.tourInfoPrice);
+        TextView adults = view.findViewById(R.id.tourInfoAdult);
+        TextView childs = view.findViewById(R.id.tourInfoChildren);
+        TextView status = view.findViewById(R.id.tourInfoStatus);
+
+
+
+//        price.setText(TourInfo_Main.tourInfo.getMinCost().toString()+ "-" + TourInfo_Main.tourInfo.getMaxCost().toString());
+//        adults.setText(TourInfo_Main.tourInfo.getAdults());
+//        childs.setText(TourInfo_Main.tourInfo.getChilds());
+//        status.setText(TourInfo_Main.tourInfo.getStatus());
 
 
         return view;

@@ -18,10 +18,13 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.doan.data.model.Coordinate;
+import com.example.doan.data.model.CoordinateSet;
 import com.example.doan.data.model.ListStopPoint;
+import com.example.doan.data.model.MoreOneCoordinate;
 import com.example.doan.data.model.OneCoordinate;
 import com.example.doan.data.model.StopPoint;
 import com.example.doan.data.remote.API;
@@ -60,10 +63,12 @@ import retrofit2.Response;
 //In market, set Snippet is id of service/ stoppiont
 public class StartEndLocationSelect extends FragmentActivity implements OnMapReadyCallback {
 
+    private ArrayList<StopPoint> data = new ArrayList<>();
     private ArrayList<StopPoint> allStopPointToShow1Coor = new ArrayList<>();
+    private ArrayList<StopPoint> cacheStopPoint = new ArrayList<>();
     private String[] typeServiceID = {"Restaurant", "Hotel", "Rest Station", "Other"};
     //ic_hotel ic_burger
-    private String[] selection = {"Add This Stop Point To Tour", "See Detail"};
+    private String[] selection = {"Choose", "See Detail"};
     private static final int REQUESTCODE = 101;
     private static final int REQUSETCODE1 = 111;
     private GoogleMap mMap;
@@ -134,12 +139,11 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
         //mMap.getUiSettings().setCompassEnabled(true);
 
         final LatLng latLng = new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
-        MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("I AM HERE").snippet("TEST")
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.boy));
+
+        LatLng HCMC = new LatLng(10.775801, 106.693466);
 
         mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,15));
-        mMap.addMarker(markerOptions);
 
         MarkerOptions markerOptions1 = new MarkerOptions().position(latlng1).title("CHO RG").draggable(true).snippet("123");
         MarkerOptions markerOptions2 = new MarkerOptions().position(latlng2).title("AO DINH").draggable(true);
@@ -173,7 +177,6 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
             @Override
             public void onMapLongClick(LatLng latLng) {
                 onHold(latLng);
-
             }
         });
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
@@ -224,6 +227,9 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
         }
     }
     public void onHold(LatLng latLng) {
+        mMap.clear();
+        generateStopPointMarker1(data);
+
         //show AlertDialog Create a New Stop Point
 
         //After Create Finish()
@@ -239,53 +245,40 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
                 })
                 .show()
                 .getWindow().setGravity(Gravity.BOTTOM);
-        //showAllStopPoint();
+
 
     }
-
-    //
-    private void showAllStopPoint(ArrayList<StopPoint> data){
-        //Clear and re-show all.
-        //refresh
-        //Toast.makeText(getApplicationContext(),"Show All Stop Points: New and from API suggest", Toast.LENGTH_SHORT).show();
-        for (StopPoint sp : data){
-            String title = typeServiceID[sp.getServiceTypeId()];
-            BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_burger);
-            LatLng position = new LatLng(Double.valueOf(sp.getLat()), Double.valueOf(sp.get_long()));
-//            switch (sp.getServiceTypeId()){
-//                case 1:
-//                    //Restaurant
-//                    icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_burger);
-//                    break;
-//                case 2:
-//                    //hotel
-//                    icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_hotel);
-//                    break;
-//                case 3:
-//                    //Rest Station
-//                    icon = BitmapDescriptorFactory.fromResource(R.drawable.boy);
-//                    break;
-//                case 4:
-//                    //other
-//                    icon = BitmapDescriptorFactory.fromResource(R.drawable.com_facebook_button_icon);
-//                    break;
-//            }
-            MarkerOptions markerOptions = new MarkerOptions().position(position).snippet(sp.getId().toString())
-                    .icon(icon).title(title);
-            mMap.addMarker(markerOptions);
-        }
-    }
-
 
     public void onTouch(final LatLng onTouchLatLng){
         mMap.clear();
-
+        data.clear();
         //show AlertDialog to Notify See Detail or Choose.
 
         //get Bounds
         LatLngBounds latLngBounds = mMap.getProjection().getVisibleRegion().latLngBounds;
         LatLng nearLeft, nearRight, farLeft, farRight;
         nearLeft = mMap.getProjection().getVisibleRegion().nearLeft;
+        nearRight = mMap.getProjection().getVisibleRegion().nearRight;
+        farLeft = mMap.getProjection().getVisibleRegion().farLeft;
+        farRight = mMap.getProjection().getVisibleRegion().farRight;
+
+        ArrayList<Coordinate> far = new ArrayList<>();
+        far.add(new Coordinate(farLeft.latitude, farLeft.longitude));
+        far.add(new Coordinate(farRight.latitude, farRight.longitude));
+
+        ArrayList<Coordinate> near = new ArrayList<>();
+        near.add(new Coordinate(nearLeft.latitude, nearLeft.longitude));
+        near.add(new Coordinate(nearRight.latitude, nearRight.longitude));
+
+        CoordinateSet coordinateSetFar = new CoordinateSet(far);
+        CoordinateSet coordinateSetNear = new CoordinateSet(near);
+
+        ArrayList<CoordinateSet> coordList = new ArrayList<>();
+        coordList.add(coordinateSetFar);
+        coordList.add(coordinateSetNear);
+
+        MoreOneCoordinate moreOneCoordinate = new MoreOneCoordinate(false, coordList);
+
 
 
         OneCoordinate oneCoordinate = new OneCoordinate(true,
@@ -293,6 +286,9 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
 
         API api = retrofit.getClient().create(API.class);
         Call<ListStopPoint> call = api.oneCoordinate(LoginActivity.TOKEN, oneCoordinate);
+
+        //Call<ListStopPoint> call2 = api.moreCoordinate(LoginActivity.TOKEN, moreOneCoordinate);
+
         call.enqueue(new Callback<ListStopPoint>() {
             @Override
             public void onResponse(Call<ListStopPoint> call, Response<ListStopPoint> response) {
@@ -304,35 +300,11 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
                     return;
                 }
                 ListStopPoint resource = response.body();
-                ArrayList<StopPoint> data = resource.getStopPoints();
+                data = resource.getStopPoints();
                 String allName = data.size()+"|";
-                for (StopPoint d : data){
-                    allName = allName + d.getName()+"_"+d.getServiceTypeId()+" ";
-                    LatLng tempPos = new LatLng(Double.valueOf(d.getLat()), Double.valueOf(d.get_long()));
-                    //BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.boy);
-                    MarkerOptions markerOptions = new MarkerOptions().position(tempPos).title(d.getName()+typeServiceID[d.getServiceTypeId()])
-                            .snippet(d.getId().toString());
-                    switch (d.getServiceTypeId()+1){
-                        case 1:
-                            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.restaurant));
-                            break;
-                        case 2:
-                            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.hotel));
-                            break;
-                        case 3:
-                            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.reststation));
-                            break;
-                        case 4:
-                            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.other));
-                            break;
-                    }
-                    mMap.addMarker(markerOptions);
-                }
                 Log.d("ALLNAMESTOPPOINT", allName);
-                //showAllStopPoint(data);
 
-
-
+                generateStopPointMarker1(data);
 
                 //Toast.makeText(getApplicationContext(),data.get(1).getName(),Toast.LENGTH_SHORT).show();
             }
@@ -340,12 +312,61 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
             @Override
             public void onFailure(Call<ListStopPoint> call, Throwable t) {
                 Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
-
             }
         });
+    }
 
+    public void generateStopPointMarker1(ArrayList<StopPoint> data)
+    {
+        for (int i =0 ;i<data.size();i++){
+            LatLng tempPos = new LatLng(Double.valueOf(data.get(i).getLat()),Double.valueOf(data.get(i).get_long()));
+            MarkerOptions markerOptions = new MarkerOptions().title(data.get(i).getName()).snippet(data.get(i).getId().toString())
+                    .position(tempPos);
+            switch (data.get(i).getServiceTypeId()+1)
+            {
+                case 1:
+                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.restaurant));
+                    break;
+                case 2:
+                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.hotel));
+                    break;
+                case 3:
+                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.reststation));
+                    break;
+                case 4:
+                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.other));
+                    break;
+
+            }
+            mMap.addMarker(markerOptions);
+        }
+    }
+    public void generateStopPointMarker(ArrayList<StopPoint> data){
+        mMap.clear();
+        for (StopPoint sp : data){
+            LatLng tempPos = new LatLng(Double.valueOf(sp.getLat()), Double.valueOf(sp.get_long()));
+            MarkerOptions markerOptions = new MarkerOptions().position(tempPos).snippet(sp.getId().toString())
+                    .title(sp.getName() + typeServiceID[sp.getServiceTypeId()]);
+            switch (sp.getServiceTypeId() + 1){
+                case 1:
+                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.restaurant));
+                    break;
+                case 2:
+                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.hotel));
+                    break;
+                case 3:
+                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.reststation));
+                    break;
+                case 4:
+                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.other));
+                    break;
+            }
+         mMap.addMarker(markerOptions);
+        }
+        cacheStopPoint = data;
     }
     private void showDialog(final Marker marker){
+
         new AlertDialog.Builder(StartEndLocationSelect.this)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle("What Do You Want To Do ?")
@@ -360,9 +381,8 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
                                 Toast.makeText(getApplicationContext(),"See More", Toast.LENGTH_SHORT).show();
                                 Intent intent =  new Intent(getApplicationContext(), StopPointInfo_Main.class);
                                 if (marker.getSnippet() != ""){
-                                    intent.putExtra("StopPointID", marker.getSnippet());
+                                    intent.putExtra("StopPointIDForSeeDetail", marker.getSnippet());
                                 }
-
                                 startActivity(intent);
                                 break;
                         }
