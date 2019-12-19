@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,11 +29,13 @@ public class StopPointAdapter extends RecyclerView.Adapter<StopPointAdapter.Stop
     public class StopPointViewHolder extends RecyclerView.ViewHolder {
         public ImageView mAvatar;
         public TextView mName, mDetail;
+        public androidx.cardview.widget.CardView cardView;
         public StopPointViewHolder(View v){
             super(v);
             mAvatar = (ImageView) v.findViewById(R.id.mAvatar);
             mName = (TextView) v.findViewById(R.id.mName);
             mDetail = (TextView) v.findViewById(R.id.mDetail);
+            cardView = v.findViewById(R.id.parentSP);
         }
     }
 
@@ -51,10 +54,16 @@ public class StopPointAdapter extends RecyclerView.Adapter<StopPointAdapter.Stop
 
     @Override
     public void onBindViewHolder(@NonNull StopPointViewHolder holder, int position) {
-        StopPoint s = listStopPoint.get(position);
+        final StopPoint s = listStopPoint.get(position);
         holder.mAvatar.setColorFilter(11111);
         holder.mName.setText(s.getName());
-        //String detail = s.getLat().toString() + s.getLong().toString();
         holder.mDetail.setText(s.getAddress());
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context.getApplicationContext(),"Click On Stop Point ID: " + s.getId(),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

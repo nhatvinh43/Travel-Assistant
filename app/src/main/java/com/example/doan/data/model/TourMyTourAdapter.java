@@ -1,4 +1,4 @@
-package com.example.doan.data;
+package com.example.doan.data.model;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doan.R;
 import com.example.doan.TourInfo_Main;
-import com.example.doan.data.model.TourMyTour;
 
 import java.util.ArrayList;
 
@@ -57,7 +56,7 @@ public class TourMyTourAdapter extends RecyclerView.Adapter<TourMyTourAdapter.Vi
                 Toast.makeText(context, "Click " + tour.getId(),Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context, TourInfo_Main.class);
                 Log.d("SEND", tour.getId()+"123");
-                intent.putExtra("TourID123", tour.getId().toString());
+                intent.putExtra("TourIdForInfo", tour.getId().toString());
                 context.startActivity(intent);
             }
         });

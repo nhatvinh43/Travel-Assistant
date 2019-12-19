@@ -13,10 +13,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.doan.data.model.TourInfo;
+import com.example.doan.data.remote.API;
+import com.example.doan.data.remote.retrofit;
+import com.example.doan.ui.login.LoginActivity;
 
 import org.w3c.dom.Text;
+
+import java.text.SimpleDateFormat;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -40,17 +50,63 @@ public class TourInfo_Tab1 extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tour_info__tab1, container, false);
-        TextView price = view.findViewById(R.id.tourInfoPrice);
-        TextView adults = view.findViewById(R.id.tourInfoAdult);
-        TextView childs = view.findViewById(R.id.tourInfoChildren);
-        TextView status = view.findViewById(R.id.tourInfoStatus);
+        final TextView mprice = view.findViewById(R.id.tourInfoPrice);
+        final TextView adults = view.findViewById(R.id.tourInfoAdult);
+        final TextView childs = view.findViewById(R.id.tourInfoChildren);
+        final TextView status = view.findViewById(R.id.tourInfoStatus);
+        final TextView startDate = view.findViewById(R.id.tourInfoStartDate);
+        final TextView endDate = view.findViewById(R.id.tourInfoEndDate);
+        final TextView pivacy = view.findViewById(R.id.tourInfoPrivacy);
 
+        API api = retrofit.getClient().create(API.class);
+        Call<TourInfo> call = api.getTourInfoTV(LoginActivity.TOKEN, Integer.valueOf(TourInfo_Main.tourId));
+        call.enqueue(new Callback<TourInfo>() {
+            @Override
+            public void onResponse(Call<TourInfo> call, Response<TourInfo> response) {
+                Log.d("TourInfoTab1 ResCode", response.code()+"");
+                if (!response.isSuccessful()){
+                    Log.d("TourInfoTab1 Succes",response.isSuccessful()+"");
+                    return;
+                }
 
+                TourInfo tourInfo = response.body();
+                Log.d("TourInfoTab1 Info", tourInfo.getName() + tourInfo.getMinCost() + tourInfo.getMaxCost()
+                + tourInfo.getStartDate() + tourInfo.getEndDate() + tourInfo.getChilds() + tourInfo.getAdults());
+                String price = tourInfo.getMinCost() + "-" + tourInfo.getMaxCost();
+                mprice.setText(price);
+                adults.setText(tourInfo.getAdults().toString());
+                childs.setText(tourInfo.getChilds().toString());
+                status.setText(tourInfo.getStatus().toString());
+                if (tourInfo.getIsPrivate())
+                {
+                    pivacy.setText("Private Tour");
+                }
+                else{
+                    pivacy.setText("Public Tour");
+                }
+                String startDateF = "";
+                String endDateF = "";
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                if (tourInfo.getStartDate()== ""||tourInfo.getEndDate() == ""){
+                    startDateF = "Undefined";
+                    endDateF = "Undefined";
+                }else
+                {
+                    Long startDateL = Long.valueOf(tourInfo.getStartDate());
+                    startDateF = sdf.format(startDateL);
+                    Long endDateL = Long.valueOf(tourInfo.getEndDate());
+                    endDateF = sdf.format(endDateL);
+                }
+                startDate.setText(startDateF);
+                endDate.setText(endDateF);
 
-//        price.setText(TourInfo_Main.tourInfo.getMinCost().toString()+ "-" + TourInfo_Main.tourInfo.getMaxCost().toString());
-//        adults.setText(TourInfo_Main.tourInfo.getAdults());
-//        childs.setText(TourInfo_Main.tourInfo.getChilds());
-//        status.setText(TourInfo_Main.tourInfo.getStatus());
+            }
+
+            @Override
+            public void onFailure(Call<TourInfo> call, Throwable t) {
+                Toast.makeText(getContext().getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
         return view;

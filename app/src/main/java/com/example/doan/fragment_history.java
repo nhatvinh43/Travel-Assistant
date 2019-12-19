@@ -15,22 +15,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.doan.data.TourMyTourAdapter;
-import com.example.doan.data.model.CustomAdapter;
-import com.example.doan.data.model.ListTour;
+import com.example.doan.data.model.TourMyTourAdapter;
 import com.example.doan.data.model.ListTourMyTour;
-import com.example.doan.data.model.Tour;
 import com.example.doan.data.model.TourMyTour;
 import com.example.doan.data.remote.API;
 import com.example.doan.data.remote.retrofit;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -92,7 +86,7 @@ public class fragment_history extends Fragment {
         mShimmerViewContainer.startShimmerAnimation();
         Intent intent = getActivity().getIntent();
         String Token = intent.getStringExtra("token");
-        //Toast.makeText(getContext(),Token,Toast.LENGTH_SHORT).show();
+
         API api = retrofit.getClient().create(API.class);
         Log.d("UserToken",Token);
         Call<ListTourMyTour> call1 = api.getHistoryTour(Token,1,10);

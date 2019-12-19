@@ -63,13 +63,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
         view = inflater.inflate(R.layout.recyclerview_item,parent,false );
-//        view.setOnClickListener(new View.OnClickListener(){
-//            public void onClick(View v)
-//            {
-//                Intent intent = new Intent(context, TourInfo_Main.class);
-//                context.startActivity(intent);
-//            }
-//        });
         return new CustomViewHolder(view);
     }
 

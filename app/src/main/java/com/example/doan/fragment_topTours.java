@@ -86,7 +86,7 @@ public class fragment_topTours extends Fragment {
         Intent intent = getActivity().getIntent();
         String Token = intent.getStringExtra("token");
         API api = retrofit.getClient().create(API.class);
-        Call<ListTour> call1 = api.getListTour(Token,"1");
+        Call<ListTour> call1 = api.getListTour(Token,"100");
         call1.enqueue(new Callback<ListTour>() {
             @Override
             public void onResponse(Call<ListTour> call, Response<ListTour> response) {
@@ -116,16 +116,6 @@ public class fragment_topTours extends Fragment {
 
                 }
 
-//                for (Tour tour : data){
-//                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-//                    Long tempStartDate = Long.valueOf(tour.getStartDate());
-//                    String tempStartDateF = sdf.format(new Date(tempStartDate));
-//                    Long tempEndDate = Long.valueOf(tour.getEndDate());
-//                    String tempEndDateF = sdf.format(new Date(tempEndDate));
-//                    Tour temp = new Tour(tour.getId(),tour.getStatus(),tour.getName(),tour.getMinCost(),tour.getMaxCost(),
-//                            tempStartDateF, tempEndDateF,tour.getAdults(),tour.getChilds(),tour.getIsPrivate(),tour.getAvatar());
-//                    dataSet.add(temp);
-//                }
 
                 mShimmerViewContainer.stopShimmerAnimation();
                 mShimmerViewContainer.setVisibility(View.GONE);

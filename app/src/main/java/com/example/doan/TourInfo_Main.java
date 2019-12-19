@@ -35,10 +35,6 @@ public class TourInfo_Main extends AppCompatActivity
 
     public static String tourId = "";
     public static TourInfo tourInfo;
-    public ArrayList<StopPoint> tourInfoListSP;
-    public ArrayList<Comment> tourInfoListCM;
-    public ArrayList<Member> tourInfoListMem;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,15 +68,15 @@ public class TourInfo_Main extends AppCompatActivity
         call.enqueue(new Callback<TourInfo>() {
             @Override
             public void onResponse(Call<TourInfo> call, Response<TourInfo> response) {
-                Log.d("TourInfo ResCode", response.code()+"");
+                Log.d("TourInfoMain ResCode", response.code()+"");
                 if (!response.isSuccessful()){
-                    Log.d("TourInfo Succes",response.isSuccessful()+"");
+                    Log.d("TourInfoMain Succes",response.isSuccessful()+"");
                     return;
                 }
 
                 TourInfo tourInfo = response.body();
-                Log.d("TourInfo TourName", tourInfo.getName() + "Name or Null");
-                tv.setText(tourInfo.getName()+"Name Or Null");
+                Log.d("TourInfoMain TourName", tourInfo.getName() + "Name or Null");
+                tv.setText(tourInfo.getName()+" Name Or Null");
             }
 
             @Override
