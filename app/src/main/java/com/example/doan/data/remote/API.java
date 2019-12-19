@@ -3,6 +3,7 @@ package com.example.doan.data.remote;
 import androidx.annotation.Nullable;
 
 import com.example.doan.data.model.CommentSend;
+import com.example.doan.data.model.ListComment;
 import com.example.doan.data.model.ListStopPoint;
 import com.example.doan.data.model.ListTour;
 import com.example.doan.data.model.ListTourMyTour;
@@ -126,4 +127,5 @@ public interface API {
             @Query("pageIndex") int pageIndex,
             @Query("pageSize") int pageSize
     );
+
 }

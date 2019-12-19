@@ -14,7 +14,7 @@ public class ServiceDetail {
     private String name;
     @SerializedName("address")
     @Expose
-    private Object address;
+    private String address;
     @SerializedName("provinceId")
     @Expose
     private Integer provinceId;
@@ -46,7 +46,7 @@ public class ServiceDetail {
     @Expose
     private Integer landingTimes;
 
-    public ServiceDetail(Integer id, String name, Object address,
+    public ServiceDetail(Integer id, String name, String address,
                          Integer provinceId, String contact, Object selfStarRatings, String lat,
                          String _long, String minCost, String maxCost, Integer serviceTypeId, Object avatar, Integer landingTimes) {
         this.id = id;
@@ -80,11 +80,11 @@ public class ServiceDetail {
         this.name = name;
     }
 
-    public Object getAddress() {
+    public String getAddress() {
         return address;
     }
 
-    public void setAddress(Object address) {
+    public void setAddress(String address) {
         this.address = address;
     }
 

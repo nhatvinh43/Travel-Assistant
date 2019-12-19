@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,6 +58,16 @@ public class TourInfo_Tab1 extends Fragment {
         final TextView startDate = view.findViewById(R.id.tourInfoStartDate);
         final TextView endDate = view.findViewById(R.id.tourInfoEndDate);
         final TextView pivacy = view.findViewById(R.id.tourInfoPrivacy);
+        final ImageButton editTourInfo = view.findViewById(R.id.tourInfoEditTour);
+        final TextView startTour = view.findViewById(R.id.startTourText);
+        final ImageButton startTourBtn = view.findViewById(R.id.tourInfoStartTour);
+
+        if (TourInfo_Main.privacy == 0){
+            editTourInfo.setVisibility(View.INVISIBLE);
+            startTour.setVisibility(View.GONE);
+            startTourBtn.setVisibility(View.GONE);
+        }
+
 
         API api = retrofit.getClient().create(API.class);
         Call<TourInfo> call = api.getTourInfoTV(LoginActivity.TOKEN, Integer.valueOf(TourInfo_Main.tourId));
@@ -96,9 +107,11 @@ public class TourInfo_Tab1 extends Fragment {
                     startDateF = sdf.format(startDateL);
                     Long endDateL = Long.valueOf(tourInfo.getEndDate());
                     endDateF = sdf.format(endDateL);
+                    //neu ngay hom nay lon hon ngay ket thuc thi tat nut bat dau
                 }
                 startDate.setText(startDateF);
                 endDate.setText(endDateF);
+
 
             }
 

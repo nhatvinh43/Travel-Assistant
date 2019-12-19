@@ -101,6 +101,8 @@ public class tourInfo_Tab3 extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         //get data from server
+
+        //19-12 cho nay` se sua lai
         API api = getClient().create(API.class);
         Call<JsonObject> call = api.getCommentListTour(LoginActivity.TOKEN,TourInfo_Main.tourId,1,5);
         call.enqueue(new Callback<JsonObject>() {

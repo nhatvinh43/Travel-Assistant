@@ -87,6 +87,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                 Intent intent = new Intent(context, TourInfo_Main.class);
                 Log.d("SEND", tour.getId()+"");
                 intent.putExtra("TourIdForInfo", tour.getId().toString());
+                intent.putExtra("Privacy", 0);
                 context.startActivity(intent);
             }
         });

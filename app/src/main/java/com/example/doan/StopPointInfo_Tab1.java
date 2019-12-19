@@ -6,9 +6,23 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.doan.data.model.ServiceDetail;
+import com.example.doan.data.remote.API;
+import com.example.doan.data.remote.retrofit;
+import com.example.doan.ui.login.LoginActivity;
+
+import java.text.SimpleDateFormat;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -66,7 +80,46 @@ public class StopPointInfo_Tab1 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_stop_point_info__tab1, container, false);
+        View view = inflater.inflate(R.layout.fragment_stop_point_info__tab1, container, false);
+
+        final TextView spPrice = view.findViewById(R.id.stopPointInfoPrice);
+        final TextView spServiceType = view.findViewById(R.id.stopPointInfoServiceType);
+        final TextView spAddress = view.findViewById(R.id.stopPointInfoAddress);
+        final TextView spStartDate = view.findViewById(R.id.stopPointInfoStartDate);
+        final TextView spEndDate = view.findViewById(R.id.stopPointInfoEndDate);
+        final TextView labelStartDate = view.findViewById(R.id.stopPointInfoArrivalDate);
+        final TextView labelEndDate = view.findViewById(R.id.stopPointInfoLeaveDate);
+
+        if (StopPointInfo_Main.SeeFrom == 1){
+            spStartDate.setVisibility(View.GONE);
+            spEndDate.setVisibility(View.GONE);
+            labelEndDate.setVisibility(View.GONE);
+            labelStartDate.setVisibility(View.GONE);
+        }
+        API api = retrofit.getClient().create(API.class);
+        Call<ServiceDetail> call = api.getServiceDetail(LoginActivity.TOKEN,Integer.valueOf(StopPointInfo_Main.StopPointId));
+        call.enqueue(new Callback<ServiceDetail>() {
+            @Override
+            public void onResponse(Call<ServiceDetail> call, Response<ServiceDetail> response) {
+                Log.d("SPInfoMain resCode",response.code()+"");
+                if (!response.isSuccessful()){
+                    Log.d("SPInforMain Suc", response.isSuccessful()+"");
+                    return;
+                }
+                ServiceDetail serviceDetail = response.body();
+                String price = serviceDetail.getMinCost()+ "-"+serviceDetail.getMaxCost();
+                spPrice.setText(price);
+                spServiceType.setText(StartEndLocationSelect.typeServiceID[serviceDetail.getServiceTypeId()]);
+                spAddress.setText(serviceDetail.getAddress());
+            }
+
+            @Override
+            public void onFailure(Call<ServiceDetail> call, Throwable t) {
+                Toast.makeText(getContext().getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

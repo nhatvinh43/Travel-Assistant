@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.doan.data.CommentAdapter;
@@ -23,6 +25,8 @@ import com.example.doan.ui.login.LoginActivity;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -89,7 +93,11 @@ public class TourInfo_Tab2 extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tour_info__tab2, container, false);
+        ImageButton editStopPoint = view.findViewById(R.id.tourInfoEditStopPoints);
 
+        if (TourInfo_Main.privacy==0){
+            editStopPoint.setVisibility(View.INVISIBLE);
+        }
         recyclerView = view.findViewById(R.id.tourInfoStopPoints);
         Log.d("Stepx","1");
         recyclerView.setHasFixedSize(true);

@@ -57,6 +57,7 @@ public class TourMyTourAdapter extends RecyclerView.Adapter<TourMyTourAdapter.Vi
                 Intent intent = new Intent(context, TourInfo_Main.class);
                 Log.d("SEND", tour.getId()+"123");
                 intent.putExtra("TourIdForInfo", tour.getId().toString());
+                intent.putExtra("Privacy", 1);
                 context.startActivity(intent);
             }
         });

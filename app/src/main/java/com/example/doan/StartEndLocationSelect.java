@@ -26,7 +26,9 @@ import com.example.doan.data.model.CoordinateSet;
 import com.example.doan.data.model.ListStopPoint;
 import com.example.doan.data.model.MoreOneCoordinate;
 import com.example.doan.data.model.OneCoordinate;
+import com.example.doan.data.model.ServiceDetail;
 import com.example.doan.data.model.StopPoint;
+import com.example.doan.data.model.StopPointSetSP;
 import com.example.doan.data.remote.API;
 import com.example.doan.data.remote.retrofit;
 import com.example.doan.ui.login.LoginActivity;
@@ -66,7 +68,7 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
     private ArrayList<StopPoint> data = new ArrayList<>();
     private ArrayList<StopPoint> allStopPointToShow1Coor = new ArrayList<>();
     private ArrayList<StopPoint> cacheStopPoint = new ArrayList<>();
-    private String[] typeServiceID = {"Restaurant", "Hotel", "Rest Station", "Other"};
+    public static String[] typeServiceID = {"Restaurant", "Hotel", "Rest Station", "Other"};
     //ic_hotel ic_burger
     private String[] selection = {"Choose", "See Detail"};
     private static final int REQUESTCODE = 101;
@@ -341,32 +343,8 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
             mMap.addMarker(markerOptions);
         }
     }
-    public void generateStopPointMarker(ArrayList<StopPoint> data){
-        mMap.clear();
-        for (StopPoint sp : data){
-            LatLng tempPos = new LatLng(Double.valueOf(sp.getLat()), Double.valueOf(sp.get_long()));
-            MarkerOptions markerOptions = new MarkerOptions().position(tempPos).snippet(sp.getId().toString())
-                    .title(sp.getName() + typeServiceID[sp.getServiceTypeId()]);
-            switch (sp.getServiceTypeId() + 1){
-                case 1:
-                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.restaurant));
-                    break;
-                case 2:
-                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.hotel));
-                    break;
-                case 3:
-                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.reststation));
-                    break;
-                case 4:
-                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.other));
-                    break;
-            }
-         mMap.addMarker(markerOptions);
-        }
-        cacheStopPoint = data;
-    }
-    private void showDialog(final Marker marker){
 
+    private void showDialog(final Marker marker){
         new AlertDialog.Builder(StartEndLocationSelect.this)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle("What Do You Want To Do ?")
@@ -376,13 +354,16 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
                         switch (which){
                             case 0:
                                 Toast.makeText(getApplicationContext(),"Choose This Stop Point", Toast.LENGTH_SHORT).show();
+                                Log.d("StartEndLocation123","choose on marker ID " + marker.getSnippet());
+
                                 break;
                             case 1:
                                 Toast.makeText(getApplicationContext(),"See More", Toast.LENGTH_SHORT).show();
                                 Intent intent =  new Intent(getApplicationContext(), StopPointInfo_Main.class);
                                 if (marker.getSnippet() != ""){
-                                    intent.putExtra("StopPointIDForSeeDetail", marker.getSnippet());
+                                    intent.putExtra("StopPointIdForSeeDetail", marker.getSnippet());
                                 }
+                                intent.putExtra("SeeFrom",1); // see from map is 1, see from List StopPoint in Tour is 0
                                 startActivity(intent);
                                 break;
                         }
@@ -391,22 +372,21 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
                 }).show()
         .getWindow()
         .setGravity(Gravity.BOTTOM);
-
     }
 
-    public void fetchAllStopPointSuggest(LatLng latLng){
-
-    }
     public String convertToAddress(double lat, double lng){
         String strAddr="";
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
         try {
             List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
             if(addresses!=null){
-                Address returmAddr = addresses.get(0);
+                Address returnAddr = addresses.get(0);
                 StringBuilder strReturnedAddr = new StringBuilder("");
-                for (int i = 0 ; i <=returmAddr.getMaxAddressLineIndex();i++){
-                    strReturnedAddr.append(returmAddr.getAddressLine(i)).append("\n");
+                if (returnAddr.getMaxAddressLineIndex() == 0){
+                    return strAddr;
+                }
+                for (int i = 0 ; i <=returnAddr.getMaxAddressLineIndex();i++){
+                    strReturnedAddr.append(returnAddr.getAddressLine(i)).append("\n");
                 }
                 strAddr = strReturnedAddr.toString();
             }
