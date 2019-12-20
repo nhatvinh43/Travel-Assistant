@@ -2,14 +2,20 @@ package com.example.doan.data.remote;
 
 import androidx.annotation.Nullable;
 
+import com.example.doan.data.model.CommentForList;
 import com.example.doan.data.model.CommentSend;
+import com.example.doan.data.model.FeedbackSend;
 import com.example.doan.data.model.ListComment;
+import com.example.doan.data.model.ListCommentForList;
+import com.example.doan.data.model.ListFeedbackSP;
+import com.example.doan.data.model.ListReview;
 import com.example.doan.data.model.ListStopPoint;
 import com.example.doan.data.model.ListTour;
 import com.example.doan.data.model.ListTourMyTour;
 import com.example.doan.data.model.LoginData;
 import com.example.doan.data.model.MoreOneCoordinate;
 import com.example.doan.data.model.OneCoordinate;
+import com.example.doan.data.model.ReviewSend;
 import com.example.doan.data.model.ServiceDetail;
 import com.example.doan.data.model.TourCreate;
 import com.example.doan.data.model.TourInfo;
@@ -100,6 +106,11 @@ public interface API {
             @Header("Authorization") String token,
             @Body CommentSend commentSend
     );
+    @POST("tour/add/review")
+    Call<JsonObject> sendReview(
+            @Header("Authorization") String Auth,
+            @Body ReviewSend rv
+            );
 
     @GET("/tour/comment-list")
     Call<JsonObject> getCommentListTour(
@@ -121,11 +132,38 @@ public interface API {
             @Query("tourId") int tourId
     );
 
+    @GET("tour/comment-list")
+    Call<ListCommentForList> getListComment(
+            @Header("Authorization") String Auth,
+            @Query("tourId") String id,
+            @Query("pageIndex") Integer index,
+            @Query("pageSize") String size
+    );
+
+    @GET("tour/get/review-list")
+    Call<ListReview> getListReview(
+            @Header("Authorization") String Auth,
+            @Query("tourId") Integer id,
+            @Query("pageIndex") Integer index,
+            @Query("pageSize") String size
+    );
+
+    @GET("tour/get/feedback-service")
+    Call<ListFeedbackSP> getListFeedback(
+            @Header("Authorization") String Auth,
+            @Query("serviceId") Integer id,
+            @Query("pageIndex") Integer index,
+            @Query("pageSize") String size
+    );
     @GET("/tour/history-user")
     Call<ListTourMyTour> getHistoryTour(
             @Header("Authorization") String Authorization,
             @Query("pageIndex") int pageIndex,
             @Query("pageSize") int pageSize
     );
-
+    @POST("/tour/add/feedback-service")
+    Call<JsonObject> sendFeedback(
+            @Header("Authorization") String Auth,
+            @Body FeedbackSend send
+    );
 }

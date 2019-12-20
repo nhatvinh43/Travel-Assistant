@@ -18,6 +18,8 @@ import com.example.doan.data.remote.API;
 import com.example.doan.data.remote.retrofit;
 import com.example.doan.ui.login.LoginActivity;
 
+import org.w3c.dom.Text;
+
 import java.text.SimpleDateFormat;
 
 import retrofit2.Call;
@@ -89,6 +91,7 @@ public class StopPointInfo_Tab1 extends Fragment {
         final TextView spEndDate = view.findViewById(R.id.stopPointInfoEndDate);
         final TextView labelStartDate = view.findViewById(R.id.stopPointInfoArrivalDate);
         final TextView labelEndDate = view.findViewById(R.id.stopPointInfoLeaveDate);
+        final TextView contact = view.findViewById(R.id.stopPointInfoContact);
 
         if (StopPointInfo_Main.SeeFrom == 1){
             spStartDate.setVisibility(View.GONE);
@@ -111,6 +114,7 @@ public class StopPointInfo_Tab1 extends Fragment {
                 spPrice.setText(price);
                 spServiceType.setText(StartEndLocationSelect.typeServiceID[serviceDetail.getServiceTypeId()]);
                 spAddress.setText(serviceDetail.getAddress());
+                contact.setText(serviceDetail.getContact());
             }
 
             @Override

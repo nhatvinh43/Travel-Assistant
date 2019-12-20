@@ -16,8 +16,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.doan.data.CommentAdapter;
+import com.example.doan.data.model.CommentAdapter;
 import com.example.doan.data.model.Comment;
+import com.example.doan.data.model.CommentForList;
+import com.example.doan.data.model.ListCommentForList;
+import com.example.doan.data.model.ListReview;
+import com.example.doan.data.model.Review;
 import com.example.doan.data.remote.API;
 import com.example.doan.ui.login.LoginActivity;
 import com.google.gson.Gson;
@@ -31,6 +35,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.doan.data.remote.retrofit.getClient;
+import static com.example.doan.data.remote.retrofit.retrofit;
 
 
 /**
@@ -53,10 +58,14 @@ public class tourInfo_Tab3 extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    private ArrayList<Review> reviews = new ArrayList<>();
+    private ArrayList<CommentForList> cmts = new ArrayList<>();
+    private ArrayList<Review> dataSet = new ArrayList<>();
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
-    private ArrayList<Comment> commentList = new ArrayList<>();
+    private CommentAdapter adapter;
+
+
+
     public tourInfo_Tab3() {
         // Required empty public constructor
     }
@@ -92,58 +101,17 @@ public class tourInfo_Tab3 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View view = inflater.inflate(R.layout.fragment_tour_info__tab3, container, false);
+        View view = inflater.inflate(R.layout.fragment_tour_info__tab3, container, false);
 
         recyclerView = view.findViewById(R.id.tourInfoComments);
-        recyclerView.setHasFixedSize(true);
-        // use a linear layout manager
-        layoutManager = new LinearLayoutManager(getContext());
+        adapter = new CommentAdapter(getActivity(), dataSet);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
 
-        //get data from server
+        fetchAllCommentNReview();
 
-        //19-12 cho nay` se sua lai
-        API api = getClient().create(API.class);
-        Call<JsonObject> call = api.getCommentListTour(LoginActivity.TOKEN,TourInfo_Main.tourId,1,5);
-        call.enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                if (!response.isSuccessful()) {
-                    Gson gson = new Gson();
-                    JsonObject error =gson.fromJson(response.errorBody().charStream(),JsonObject.class);
-                    Toast.makeText(getContext(),error.get("message").getAsString(),Toast.LENGTH_LONG).show();
-                    return;
-                }
-                JsonObject commentResponse = response.body();
-                if (commentResponse != null) {
-                    JsonArray jsonArray = commentResponse.get("commentList").getAsJsonArray();
-                    for (int i=0;i<jsonArray.size();i++){
-                        JsonObject commentElement = jsonArray.get(i).getAsJsonObject();
-                        Comment comment = new Comment();
-                        if (!commentElement.get("id").isJsonNull()){
-                            comment.setUserId(commentElement.get("id").getAsInt());
-                        }
-                        if (!commentElement.get("name").isJsonNull()){
-                            comment.setName(commentElement.get("name").getAsString());
-                        }
-                        if (!commentElement.get("comment").isJsonNull()){
-                            comment.setComment(commentElement.get("comment").getAsString());
-                        }
-                        if(!commentElement.get("avatar").isJsonNull()){
-                            comment.setAvatar(commentElement.get("avatar").getAsString());
-                        }
-                        commentList.add(comment);
-                    }
-                    mAdapter = new CommentAdapter(commentList);
-                    recyclerView.setAdapter(mAdapter);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        adapter.notifyDataSetChanged();
 
         Button rate = (Button) view.findViewById(R.id.tourInfoRatings);
         rate.setOnClickListener(new View.OnClickListener() {
@@ -155,6 +123,62 @@ public class tourInfo_Tab3 extends Fragment {
         });
 
         return view;
+    }
+
+    public void fetchAllCommentNReview(){
+        API api = getClient().create(API.class);
+        Call<ListCommentForList> call1 = api.getListComment(LoginActivity.TOKEN,TourInfo_Main.tourId, 1, "10");
+        Call<ListReview> call2 = api.getListReview(LoginActivity.TOKEN, Integer.valueOf(TourInfo_Main.tourId),1, "10");
+        call1.enqueue(new Callback<ListCommentForList>() {
+            @Override
+            public void onResponse(Call<ListCommentForList> call1, Response<ListCommentForList> response) {
+                Log.d("TourInfoTab3", "RESCODE CMT" + response.code());
+                if (!response.isSuccessful()){
+                    return;
+                }
+                ListCommentForList resource = response.body();
+                Log.d("TourInfoTab3","NumofCmt"+resource.getCommentForLists().size());
+                cmts = resource.getCommentForLists();
+                for (int i =0 ; i < cmts.size();i++){
+                    Review temp = new Review(cmts.get(i).getId(),cmts.get(i).getName(),
+                            cmts.get(i).getAvatar(),cmts.get(i).getComment(),0,cmts.get(i).getCreatedOn());
+                    Log.d("TourInfoTab3", "RV Point "+temp.getPoint());
+                    dataSet.add(temp);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ListCommentForList> call1, Throwable t) {
+                Toast.makeText(getContext().getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        call2.enqueue(new Callback<ListReview>() {
+            @Override
+            public void onResponse(Call<ListReview> call2, Response<ListReview> response) {
+                Log.d("TourInfoTab3", "RESCODE RV" + response.code());
+                if (!response.isSuccessful()){
+                    return;
+                }
+                ListReview resource = response.body();
+
+                reviews = resource.getReviewList();
+                Log.d("TourInfoTab3","NumOfRV"+reviews.size());
+                for (int i =0 ; i < reviews.size();i++){
+                    Review temp = new Review(reviews.get(i).getId(),reviews.get(i).getName(),reviews.get(i).getAvatar(),
+                            reviews.get(i).getReview(), reviews.get(i).getPoint(),reviews.get(i).getCreatedOn());
+                    Log.d("TourInfoTab3", "RV Point "+temp.getPoint());
+                    dataSet.add(temp);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ListReview> call2, Throwable t) {
+                Toast.makeText(getContext().getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -45,7 +45,7 @@ public class TourInfo {
     private Object avatar;
     @SerializedName("stopPoints")
     @Expose
-    private ArrayList<StopPoint> stopPoints = null;
+    private ArrayList<StopPointTourInfo> stopPoints = null;
     @SerializedName("comments")
     @Expose
     private ArrayList<Comment> comments = null;
@@ -149,11 +149,11 @@ public class TourInfo {
         this.avatar = avatar;
     }
 
-    public ArrayList<StopPoint> getStopPoints() {
+    public ArrayList<StopPointTourInfo> getStopPoints() {
         return stopPoints;
     }
 
-    public void setStopPoints(ArrayList<StopPoint> stopPoints) {
+    public void setStopPoints(ArrayList<StopPointTourInfo> stopPoints) {
         this.stopPoints = stopPoints;
     }
 

@@ -20,7 +20,7 @@ public class Review {
     @Expose
     private String review;
 
-    @SerializedName("pọint")
+    @SerializedName("point")
     @Expose
     private Integer point;
 

@@ -34,6 +34,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.MemberView
         public TextView name;
         public androidx.cardview.widget.CardView parent;
         public androidx.cardview.widget.CardView avatarParent;
+        //xac dinh dau la parent hinh anh dau la parent cua toan cai.
 
         public MemberViewHolder(View view){
             super(view);

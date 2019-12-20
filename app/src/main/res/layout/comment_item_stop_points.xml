@@ -4,9 +4,11 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <RelativeLayout
+        android:id="@+id/CommentItemSPParent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true">
+
         <LinearLayout
             android:id="@+id/left"
             android:layout_width="wrap_content"
@@ -14,6 +16,7 @@
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/stopPointInfoCommentParent"
                 android:layout_width="55dp"
                 android:layout_height="55dp"
                 android:layout_gravity="center_horizontal"
@@ -36,77 +39,79 @@
             </androidx.cardview.widget.CardView>
 
             <TextView
-                android:layout_gravity="center_horizontal"
                 android:id="@+id/stopPointInfoRatingUsername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/userPH"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="7dp"
                 android:fontFamily="@font/quicksand_medium"
-                android:textSize="12sp"
-                android:layout_marginTop="7dp"/>
+                android:text="@string/userPH"
+                android:textSize="12sp" />
 
             <RatingBar
                 android:id="@+id/stopPointInfoRatingStars"
-                android:layout_toEndOf="@+id/left"
                 style="@style/Widget.AppCompat.RatingBar.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:numStars="5"
-                android:stepSize="1"
                 android:layout_gravity="center"
-                android:layout_marginTop="7dp" />
+                android:layout_marginTop="7dp"
+                android:layout_toEndOf="@+id/left"
+                android:numStars="5"
+                android:stepSize="1" />
 
         </LinearLayout>
+
         <RelativeLayout
             android:id="@+id/topRight"
             android:layout_width="220dp"
             android:layout_height="30dp"
-            android:layout_toEndOf="@+id/left"
-            android:layout_marginStart="30dp">
+            android:layout_marginStart="30dp"
+            android:layout_toEndOf="@+id/left">
+
             <TextView
                 android:id="@+id/stopPointInfoCommentDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/quicksand"
-                android:textSize="8sp"
-                android:text="@string/tourStartDatePH"
-                android:layout_marginStart="10dp"
-                android:layout_marginBottom="10dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentBottom="true"
-                />
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/quicksand"
+                android:text="@string/tourStartDatePH"
+                android:textSize="8sp" />
+
             <Button
+                android:id="@+id/stopPointInfoCommentReport"
                 android:layout_width="50dp"
                 android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
                 android:background="@null"
-                android:text="@string/report"
                 android:fontFamily="@font/quicksand"
-                android:textSize="8sp"
-                android:textColor="@color/purpleRedAccent"
-                android:textAllCaps="false"
                 android:foreground="@null"
-                android:layout_alignParentEnd="true"/>
+                android:text="@string/report"
+                android:textAllCaps="false"
+                android:textColor="@color/purpleRedAccent"
+                android:textSize="8sp" />
         </RelativeLayout>
 
 
-
         <TextView
-            android:layout_below="@id/topRight"
             android:id="@+id/stopPointInfoRatingComment"
-            android:layout_toEndOf="@+id/left"
-            android:layout_marginStart="30dp"
             android:layout_width="230dp"
             android:layout_height="80dp"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:lineHeight="18dp"
-            android:text="This article explores one of the most popular navigation patterns  aw dakwjd kaw dk"
-            android:fontFamily="@font/quicksand"
+            android:layout_below="@id/topRight"
+            android:layout_marginStart="30dp"
+            android:layout_toEndOf="@+id/left"
             android:background="@drawable/form"
-            android:textSize="10sp"
-            android:textAlignment="viewStart" />
+            android:fontFamily="@font/quicksand"
+            android:lineHeight="18dp"
+            android:paddingStart="20dp"
+            android:paddingTop="15dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="15dp"
+            android:text="This article explores one of the most popular navigation patterns  aw dakwjd kaw dk"
+            android:textAlignment="viewStart"
+            android:textSize="10sp" />
     </RelativeLayout>
 
 </RelativeLayout>

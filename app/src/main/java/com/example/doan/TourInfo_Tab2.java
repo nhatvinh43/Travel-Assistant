@@ -13,28 +13,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.doan.data.CommentAdapter;
-import com.example.doan.data.StopPointTourInfoAdapter;
-import com.example.doan.data.model.Comment;
+import com.example.doan.data.model.StopPointTourInfoAdapter;
 import com.example.doan.data.model.StopPointTourInfo;
+import com.example.doan.data.model.TourInfo;
 import com.example.doan.data.remote.API;
+import com.example.doan.data.remote.retrofit;
 import com.example.doan.ui.login.LoginActivity;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.example.doan.data.remote.retrofit.getClient;
 
 
 /**
@@ -52,11 +43,10 @@ public class TourInfo_Tab2 extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
-    private ArrayList<StopPointTourInfo> stopPointTourInfoArrayList = new ArrayList<>();
 
+    RecyclerView recyclerView;
+    StopPointTourInfoAdapter adapter;
+    ArrayList<StopPointTourInfo> dataSet = new ArrayList<>();
     public TourInfo_Tab2() {
         // Required empty public constructor
     }
@@ -98,88 +88,52 @@ public class TourInfo_Tab2 extends Fragment {
         if (TourInfo_Main.privacy==0){
             editStopPoint.setVisibility(View.INVISIBLE);
         }
+
         recyclerView = view.findViewById(R.id.tourInfoStopPoints);
-        Log.d("Stepx","1");
-        recyclerView.setHasFixedSize(true);
-        // use a linear layout manager
-        layoutManager = new LinearLayoutManager(getContext());
+        adapter = new StopPointTourInfoAdapter(getActivity(), dataSet);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+
+        adapter.notifyDataSetChanged();
+
+        fetchStopPointData();
 
         //get data from server
-        API api = getClient().create(API.class);
-        Call<JsonObject> call = api.getTourInfo(LoginActivity.TOKEN,Integer.parseInt(TourInfo_Main.tourId));
-        call.enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                if (!response.isSuccessful()) {
-                    Gson gson = new Gson();
-                    JsonObject error =gson.fromJson(response.errorBody().charStream(),JsonObject.class);
-                    Toast.makeText(getContext(),error.get("message").getAsString(),Toast.LENGTH_LONG).show();
-                    return;
-                }
-                JsonObject tourInfoResponse = response.body();
-                if (tourInfoResponse != null) {
-                    JsonArray stoppoints = tourInfoResponse.get("stopPoints").getAsJsonArray();
-                    for (int i=0;i<stoppoints.size();i++){
-                        JsonObject stoppoint = stoppoints.get(i).getAsJsonObject();
-                        StopPointTourInfo stopPointTourInfo = new StopPointTourInfo();
-                        if (!stoppoint.get("id").isJsonNull()){
-                            stopPointTourInfo.setId(stoppoint.get("id").getAsInt());
-                        }
-                        if (!stoppoint.get("serviceId").isJsonNull()){
-                            stopPointTourInfo.setServiceId(stoppoint.get("serviceId").getAsInt());
-                        }
-                        if (!stoppoint.get("address").isJsonNull()){
-                            stopPointTourInfo.setAddress(stoppoint.get("address").getAsString());
-                        }
-                        if (!stoppoint.get("provinceId").isJsonNull()){
-                            stopPointTourInfo.setProvinceId(stoppoint.get("provinceId").getAsInt());
-                        }
-                        if (!stoppoint.get("name").isJsonNull()){
-                            stopPointTourInfo.setName(stoppoint.get("name").getAsString());
-                        }
-                        if (!stoppoint.get("lat").isJsonNull()){
-                            stopPointTourInfo.setLat(stoppoint.get("lat").getAsString());
-                        }
-                        if (!stoppoint.get("long").isJsonNull()){
-                            stopPointTourInfo.setLong(stoppoint.get("long").getAsString());
-                        }
-                        if (!stoppoint.get("arrivalAt").isJsonNull()){
-                            stopPointTourInfo.setArrivalAt( stoppoint.get("arrivalAt").getAsString());
-                        }
-                        if (!stoppoint.get("leaveAt").isJsonNull()){
-                            stopPointTourInfo.setLeaveAt(stoppoint.get("leaveAt").getAsString());
-                        }
-                        if (!stoppoint.get("minCost").isJsonNull()){
-                            stopPointTourInfo.setMinCost(stoppoint.get("minCost").getAsString());
-                        }
-                        if (!stoppoint.get("maxCost").isJsonNull()){
-                            stopPointTourInfo.setMaxCost(stoppoint.get("maxCost").getAsString());
-                        }
-                        if (!stoppoint.get("serviceTypeId").isJsonNull()){
-                            stopPointTourInfo.setServiceTypeId(stoppoint.get("serviceTypeId").getAsInt());
-                        }
-                        if (!stoppoint.get("avatar").isJsonNull()){
-                            stopPointTourInfo.setAvatar(stoppoint.get("avatar").getAsString());
-                        }
-                        if (!stoppoint.get("index").isJsonNull()){
-                            stopPointTourInfo.setIndex(stoppoint.get("index").getAsInt());
-                        }
-                        stopPointTourInfoArrayList.add(stopPointTourInfo);
-                    }
-                    mAdapter = new StopPointTourInfoAdapter(stopPointTourInfoArrayList);
-                    recyclerView.setAdapter(mAdapter);
-                }
-            }
 
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
 
-            }
-        });
         return view;
     }
 
+    public void fetchStopPointData(){
+        final API api = retrofit.getClient().create(API.class);
+        Call<TourInfo> call = api.getTourInfoTV(LoginActivity.TOKEN,Integer.valueOf(TourInfo_Main.tourId));
+        call.enqueue(new Callback<TourInfo>() {
+            @Override
+            public void onResponse(Call<TourInfo> call, Response<TourInfo> response) {
+                Log.d("TourInfoTab2", "RESCODE" + response.code());
+                if (!response.isSuccessful()){
+                    return;
+                }
+                TourInfo resource = response.body();
+                ArrayList<StopPointTourInfo> data = resource.getStopPoints();
+                for (int i =0 ; i<data.size();i++){
+                    StopPointTourInfo temp = new StopPointTourInfo(data.get(i).getId(),data.get(i).getServiceId(), data.get(i).getAddress(),
+                            data.get(i).getProvinceId(), data.get(i).getName(),data.get(i).getLat(), data.get(i).getLong(), data.get(i).getArrivalAt(),
+                            data.get(i).getLeaveAt(), data.get(i).getMinCost(),data.get(i).getMaxCost(),data.get(i).getServiceTypeId(),
+                            data.get(i).getAvatar(), data.get(i).getIndex());
+                    dataSet.add(temp);
+
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TourInfo> call, Throwable t) {
+
+            }
+        });
+    }
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);

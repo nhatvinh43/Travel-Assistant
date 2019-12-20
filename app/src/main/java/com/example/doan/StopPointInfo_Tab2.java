@@ -6,11 +6,28 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
+
+import com.example.doan.data.model.FeedbackSP;
+import com.example.doan.data.model.FeedbackSPAdapter;
+import com.example.doan.data.model.ListFeedbackSP;
+import com.example.doan.data.remote.API;
+import com.example.doan.data.remote.retrofit;
+import com.example.doan.ui.login.LoginActivity;
+
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -32,6 +49,11 @@ public class StopPointInfo_Tab2 extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private ArrayList<FeedbackSP> dataSet = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private FeedbackSPAdapter adapter;
+    private Button rate;
 
     public StopPointInfo_Tab2() {
         // Required empty public constructor
@@ -79,9 +101,59 @@ public class StopPointInfo_Tab2 extends Fragment {
             }
         });
 
+        rate = view.findViewById(R.id.stopPointInfoRatings);
+        recyclerView = view.findViewById(R.id.stopPointInfoComments);
+        adapter = new FeedbackSPAdapter(getActivity(),dataSet);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+
+        adapter.notifyDataSetChanged();
+
+        fetchFeedbackData();
+
+        rate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), StopPointInfo_Rate.class);
+                //startActivityForResult(intent, 1001); //
+                startActivity(intent);
+            }
+        });
         return view;
     }
 
+    private void fetchFeedbackData(){
+        dataSet.clear();
+        final API api = retrofit.getClient().create(API.class);
+        Call<ListFeedbackSP>call = api.getListFeedback(LoginActivity.TOKEN, Integer.valueOf(StopPointInfo_Main.StopPointId),
+                1,"10");
+        call.enqueue(new Callback<ListFeedbackSP>() {
+            @Override
+            public void onResponse(Call<ListFeedbackSP> call, Response<ListFeedbackSP> response) {
+                Log.d("SPInfoTab2 ResCode", response.code()+"");
+                if (!response.isSuccessful()){
+                    Log.d("SPInfoTab2 Fail", response.isSuccessful()+"");
+                    return;
+                }
+                ListFeedbackSP listFeedbackSP = response.body();
+                Log.d("SPInfoTab2", "Size of ListFB" + listFeedbackSP.getFeedbackList().size());
+                ArrayList<FeedbackSP> data = listFeedbackSP.getFeedbackList();
+                for (int i =0 ; i< data.size();i++){
+                    FeedbackSP temp = new FeedbackSP(data.get(i).getId(),data.get(i).getUserId(),data.get(i).getName(),
+                            data.get(i).getPhone(), data.get(i).getAvatar(), data.get(i).getFeedback(), data.get(i).getPoint(),
+                            data.get(i).getCreatedOn());
+                    dataSet.add(temp);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ListFeedbackSP> call, Throwable t) {
+                Toast.makeText(getActivity(),t.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

@@ -49,7 +49,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
             mTourImage = (ImageView)view.findViewById(R.id.tourImage);
             //mTourImage .... avatar return url
             cardView = view.findViewById(R.id.parentLayout);
-
         }
     }
 
