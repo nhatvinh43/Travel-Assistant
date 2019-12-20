@@ -101,7 +101,7 @@ public class fragment_topTours extends Fragment {
                 ArrayList<Tour> data = resource.getTours();
                 int totals = Integer.valueOf(resource.getTotal());
 
-                for (int i = 0; i<10;i++){
+                for (int i = 0; i<data.size();i++){
                     if (data.get(i).getEndDate()==null||data.get(i).getStartDate()==null)
                         continue;
                     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");

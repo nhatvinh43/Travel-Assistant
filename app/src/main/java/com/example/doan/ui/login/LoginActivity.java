@@ -90,7 +90,7 @@ public class LoginActivity extends AppCompatActivity {
                 call.enqueue(new Callback<JsonObject>() {
                     @Override
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                        Log.d("LOGIN CODE", response.code()+"");
+                        Log.d("LOGINCODE", response.code()+"");
                         if (!response.isSuccessful()) {
                             Gson gson = new Gson();
                             JsonObject errorLogin =gson.fromJson(response.errorBody().charStream(),JsonObject.class);
@@ -110,6 +110,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<JsonObject> call, Throwable t) {
+                        Log.d("ErorLogin",t.getMessage());
                         Toast.makeText(LoginActivity.this,t.getMessage(),Toast.LENGTH_LONG).show();
                     }
                 });
