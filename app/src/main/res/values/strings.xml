@@ -76,6 +76,16 @@
     <string name="my">My</string>
     <string name="stopPointInfo">Stop Point Info</string>
     <string name="restaurant">Restaurant</string>
+    <string name="forgotPassword">Password Recovery</string>
+    <string name="or">Or</string>
+    <string name="recover">Recover</string>
+    <string name="report">Report</string>
+    <string name="contact">Phone number</string>
+    <string name="contactPH">0927887229</string>
+    <string name="invitation">You got invited to !</string>
+    <string name="invitationPH">You got invited to Nha Trang To Vung Tau! </string>
+    <string name="accept">Accept</string>
+    <string name="deny">Deny</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

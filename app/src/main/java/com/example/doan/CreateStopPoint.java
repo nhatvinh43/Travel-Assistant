@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import android.app.DatePickerDialog;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -35,8 +36,8 @@ public class CreateStopPoint extends AppCompatActivity {
         EditText maddressSP = (EditText)findViewById(R.id.addressSP);
         EditText minCostSP = (EditText)findViewById(R.id.minCostSP);
         EditText maxCostSP = (EditText) findViewById(R.id.maxCostSP);
-        Button mConBSP = (Button)findViewById(R.id.confirmButtonSP);
-        Button mCanBSP = (Button)findViewById(R.id.cancelButtonSP);
+        ImageButton mConBSP = (ImageButton)findViewById(R.id.confirmButtonSP);
+        ImageButton mCanBSP = (ImageButton) findViewById(R.id.cancelButtonSP);
         ImageButton mADB = (ImageButton)findViewById(R.id.arrivalDateButton);
         ImageButton mLBD = (ImageButton)findViewById(R.id.leaveDateButton);
         final TextView mAD= (TextView)findViewById(R.id.arrivalDate);

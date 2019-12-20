@@ -15,6 +15,32 @@
         android:layout_weight="0.17"
         android:layout_marginTop="-5dp"
         app:cardElevation="0dp">
+
+        <ImageButton
+            android:id="@+id/cancelButtonSP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_left"
+            android:background="@android:color/transparent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="20dp"
+            android:layout_marginStart="20dp"/>
+
+        <ImageButton
+            android:id="@+id/confirmButtonSP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@null"
+            android:fontFamily="@font/quicksand"
+            android:src="@drawable/ic_accept_small"
+            android:text="@string/confirm"
+            android:textAllCaps="false"
+            android:textColor="@color/confirm"
+            android:textSize="15sp" />
+
     </androidx.cardview.widget.CardView>
 
 
@@ -45,12 +71,11 @@
         app:cardCornerRadius="20dp"
         android:layout_gravity="center_horizontal|center|top"
         app:cardElevation="1dp"
-        android:layout_weight="0.855"
-        android:layout_marginTop="-125dp"
+        android:layout_weight="0.889"
+        android:layout_marginTop="-100dp"
         >
         <ScrollView
-            android:paddingTop="125dp"
-            android:layout_marginBottom="60dp"
+            android:paddingTop="100dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingStart="60dp"
@@ -74,22 +99,24 @@
                     android:textSize="25sp"
                     android:layout_marginBottom="10dp"
                     android:background="@android:color/transparent">
-
                 </EditText>
-                <RelativeLayout
-                    android:layout_below="@+id/tourNameText"
-                    android:id="@+id/firstRow"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center_horizontal"
-                    >
 
-                </RelativeLayout>
+                <EditText
+                    android:id="@+id/stopPointContact"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:hint="@string/contact"
+                    android:fontFamily="@font/quicksand"
+                    android:layout_below="@id/stopPointName"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/form"
+                    android:layout_marginTop="10dp"/>
 
                 <RelativeLayout
                     android:id="@+id/firstSPRow"
-                    android:layout_below="@id/stopPointName"
+                    android:layout_below="@id/stopPointContact"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -336,30 +363,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_centerInParent="true">
-
-                <Button
-                    android:id="@+id/confirmButtonSP"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:layout_marginEnd="10dp"
-                    android:text="@string/confirm"
-                    android:textAllCaps="false"
-                    android:fontFamily="@font/quicksand"
-                    android:textSize="15sp"
-                    android:textColor="@color/confirm"/>
-
-                <Button
-                    android:id="@+id/cancelButtonSP"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:text="@string/cancel"
-                    android:textAllCaps="false"
-                    android:fontFamily="@font/quicksand"
-                    android:textSize="15sp"
-                    android:textColor="@color/textColor"
-                    android:layout_marginStart="10dp"/>
 
 
             </LinearLayout>

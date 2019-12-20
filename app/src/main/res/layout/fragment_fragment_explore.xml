@@ -1,14 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragment_explore">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    android:layout_height="match_parent">
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/exploreSearch"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:elevation="4dp"
+        android:layout_height="50dp"
+        android:background="@drawable/form"
+        map:iconifiedByDefault="false"
+        map:queryBackground="@android:color/transparent"
+        android:backgroundTint="@color/white"/>
 
-</FrameLayout>
+    <ImageButton
+        android:id="@+id/exploreGetCurrentLocation"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/form"
+        android:backgroundTint="@color/white"
+        android:elevation="4dp"
+        android:src="@android:drawable/ic_menu_mylocation" />
+
+    <fragment
+        android:id="@+id/exploreMap"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</RelativeLayout>

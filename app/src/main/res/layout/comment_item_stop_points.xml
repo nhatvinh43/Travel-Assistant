@@ -27,7 +27,7 @@
                     app:cardCornerRadius="250dp">
 
                     <ImageView
-                        android:id="@+id/tourInfoRatingAvatar"
+                        android:id="@+id/stopPointInfoRatingAvatar"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:scaleType="centerCrop"
@@ -37,7 +37,7 @@
 
             <TextView
                 android:layout_gravity="center_horizontal"
-                android:id="@+id/tourInfoRatingUsername"
+                android:id="@+id/stopPointInfoRatingUsername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/userPH"
@@ -46,7 +46,7 @@
                 android:layout_marginTop="7dp"/>
 
             <RatingBar
-                android:id="@+id/tourInfoRatingStars"
+                android:id="@+id/stopPointInfoRatingStars"
                 android:layout_toEndOf="@+id/left"
                 style="@style/Widget.AppCompat.RatingBar.Small"
                 android:layout_width="wrap_content"
@@ -64,7 +64,7 @@
             android:layout_toEndOf="@+id/left"
             android:layout_marginStart="30dp">
             <TextView
-                android:id="@+id/tourInfoCommentDate"
+                android:id="@+id/stopPointInfoCommentDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/quicksand"
@@ -92,7 +92,7 @@
 
         <TextView
             android:layout_below="@id/topRight"
-            android:id="@+id/tourInfoRatingComment"
+            android:id="@+id/stopPointInfoRatingComment"
             android:layout_toEndOf="@+id/left"
             android:layout_marginStart="30dp"
             android:layout_width="230dp"
