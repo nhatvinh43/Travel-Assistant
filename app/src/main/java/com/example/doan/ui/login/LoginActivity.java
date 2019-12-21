@@ -2,7 +2,9 @@ package com.example.doan.ui.login;
 
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
@@ -69,6 +71,9 @@ public class LoginActivity extends AppCompatActivity {
         final TextView signUpLink = findViewById(R.id.loginLink);
         final TextView passwordRecoveryLink = findViewById(R.id.passwordRecoveryLink);
 
+        SharedPreferences sharedPreferences = getSharedPreferences("DoAn", Context.MODE_PRIVATE);
+        Log.d("UserTokenSharePre",sharedPreferences.getString("UserToken","null"));
+
         final Intent intent = new Intent(this, signup.class);
         View.OnClickListener signUp = new View.OnClickListener() {
             public void onClick(View v) {
@@ -116,6 +121,13 @@ public class LoginActivity extends AppCompatActivity {
                         intent1.putExtra("userId",USERID);
                         intent1.putExtra("token",TOKEN);
                         startActivity(intent1);
+
+                        //share preferences save User Token
+                        SharedPreferences sharedPreferences = getSharedPreferences("DoAn", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.clear();
+                        editor.putString("UserToken",TOKEN);
+                        editor.apply();
                         finish();
                     }
 
@@ -167,6 +179,14 @@ public class LoginActivity extends AppCompatActivity {
                         intent1.putExtra("token",loginResponse.get("token").getAsString());
                         TOKEN = loginResponse.get("token").getAsString();
                         startActivity(intent1);
+
+                        //share preferences save User Token
+                        SharedPreferences sharedPreferences = getSharedPreferences("DoAn", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.clear();
+                        editor.putString("UserToken",TOKEN);
+                        editor.apply();
+
                         finish();
                     }
 

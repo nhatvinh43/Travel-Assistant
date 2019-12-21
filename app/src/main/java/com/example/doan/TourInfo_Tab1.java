@@ -88,17 +88,23 @@ public class TourInfo_Tab1 extends Fragment {
                 adults.setText(tourInfo.getAdults().toString());
                 childs.setText(tourInfo.getChilds().toString());
                 status.setText(tourInfo.getStatus().toString());
-                if (tourInfo.getIsPrivate())
-                {
+                if (tourInfo.getIsPrivate()==null){
+                    Log.d("IsPrivatex:","nullx");
                     pivacy.setText("Private Tour");
                 }
-                else{
-                    pivacy.setText("Public Tour");
+                else {
+                    if (tourInfo.getIsPrivate())
+                    {
+                        pivacy.setText("Private Tour");
+                    }
+                    else{
+                        pivacy.setText("Public Tour");
+                    }
                 }
                 String startDateF = "";
                 String endDateF = "";
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                if (tourInfo.getStartDate()== ""||tourInfo.getEndDate() == ""){
+                if (tourInfo.getStartDate()== null||tourInfo.getEndDate() == null){
                     startDateF = "Undefined";
                     endDateF = "Undefined";
                 }else
