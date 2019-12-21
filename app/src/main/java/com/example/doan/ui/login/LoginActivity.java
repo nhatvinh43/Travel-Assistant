@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.example.doan.AddTour;
 import com.example.doan.MainActivity;
+import com.example.doan.PasswordRecovery;
 import com.example.doan.R;
 import com.example.doan.data.model.LoginData;
 import com.example.doan.data.remote.API;
@@ -66,6 +67,7 @@ public class LoginActivity extends AppCompatActivity {
         final Button loginButton = findViewById(R.id.login);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
         final TextView signUpLink = findViewById(R.id.loginLink);
+        final TextView passwordRecoveryLink = findViewById(R.id.passwordRecoveryLink);
 
         final Intent intent = new Intent(this, signup.class);
         View.OnClickListener signUp = new View.OnClickListener() {
@@ -75,6 +77,15 @@ public class LoginActivity extends AppCompatActivity {
             }
         };
         signUpLink.setOnClickListener(signUp);
+
+        final Intent intentToPasswordRecovery = new Intent(this, PasswordRecovery.class);
+
+        passwordRecoveryLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(intentToPasswordRecovery);
+            }
+        });
 
         //Code khi nhan vao nut Login
         final Button login = findViewById(R.id.login);

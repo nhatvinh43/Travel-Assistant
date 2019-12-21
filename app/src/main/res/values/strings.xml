@@ -65,7 +65,7 @@
     <string name="userPH">Username</string>
     <string name="startTour">Start tour</string>
     <string name="tourInfo">Tour Info</string>
-    <string name="ratePrompt">Rate now</string>
+    <string name="ratePrompt">Rate</string>
     <string name="send">Send</string>
     <string name="comment">Comment</string>
     <string name="yourComment">Enter your comment here!</string>
@@ -86,6 +86,13 @@
     <string name="invitationPH">You got invited to Nha Trang To Vung Tau! </string>
     <string name="accept">Accept</string>
     <string name="deny">Deny</string>
+    <string name="addMember">Add member</string>
+    <string name="addMemberPrompt">Your buddy\'s name here</string>
+    <string name="invite">Invite</string>
+    <string name="OTPPrompt">Type your OTP here</string>
+    <string name="newPassword">New password</string>
+    <string name="newPasswordConfirm">Confirm new password</string>
+    <string name="resendOTP">Resend OTP</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    app:cardUseCompatPadding="true"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginBottom="20dp"
+    app:cardElevation="0dp"
+    android:elevation="0dp"
+    app:cardCornerRadius="20dp"
+    android:foreground="?android:attr/selectableItemBackground">
 
     <RelativeLayout
         android:id="@+id/ReviewItemParent"
@@ -10,6 +17,7 @@
         android:layout_centerHorizontal="true">
 
         <LinearLayout
+            android:layout_marginTop="8dp"
             android:id="@+id/left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -46,7 +54,7 @@
                 android:layout_marginTop="7dp"
                 android:fontFamily="@font/quicksand_medium"
                 android:text="@string/userPH"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
 
             <RatingBar
                 android:id="@+id/tourInfoRatingStars"
@@ -55,7 +63,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="7dp"
-                android:layout_toEndOf="@+id/left"
+                android:secondaryProgressTint="@android:color/transparent"
+                android:progressTint="@color/yellowAccent"
                 android:numStars="5"
                 android:stepSize="1" />
 
@@ -77,8 +86,9 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginBottom="10dp"
                 android:fontFamily="@font/quicksand"
+                android:layout_marginTop="5dp"
                 android:text="@string/tourStartDatePH"
-                android:textSize="8sp" />
+                android:textSize="12sp" />
 
             <Button
                 android:id="@+id/tourInfoRatingReport"
@@ -91,14 +101,14 @@
                 android:text="@string/report"
                 android:textAllCaps="false"
                 android:textColor="@color/purpleRedAccent"
-                android:textSize="8sp" />
+                android:textSize="12sp" />
         </RelativeLayout>
 
 
         <TextView
             android:id="@+id/tourInfoRatingComment"
             android:layout_width="230dp"
-            android:layout_height="80dp"
+            android:layout_height="wrap_content"
             android:layout_below="@id/topRight"
             android:layout_marginStart="30dp"
             android:layout_toEndOf="@+id/left"
@@ -111,7 +121,7 @@
             android:paddingBottom="15dp"
             android:text="This article explores one of the most popular navigation patterns  aw dakwjd kaw dk"
             android:textAlignment="viewStart"
-            android:textSize="10sp" />
+            android:textSize="14sp" />
     </RelativeLayout>
 
-</RelativeLayout>
+</androidx.cardview.widget.CardView>
