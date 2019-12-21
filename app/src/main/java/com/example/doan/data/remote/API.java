@@ -2,10 +2,9 @@ package com.example.doan.data.remote;
 
 import androidx.annotation.Nullable;
 
-import com.example.doan.data.model.CommentForList;
+import com.example.doan.PasswordRecovery;
 import com.example.doan.data.model.CommentSend;
 import com.example.doan.data.model.FeedbackSend;
-import com.example.doan.data.model.ListComment;
 import com.example.doan.data.model.ListCommentForList;
 import com.example.doan.data.model.ListFeedbackSP;
 import com.example.doan.data.model.ListReview;
@@ -15,16 +14,14 @@ import com.example.doan.data.model.ListTourMyTour;
 import com.example.doan.data.model.LoginData;
 import com.example.doan.data.model.MoreOneCoordinate;
 import com.example.doan.data.model.OneCoordinate;
+import com.example.doan.data.model.PasswordRecoveryOtp;
 import com.example.doan.data.model.ReviewSend;
 import com.example.doan.data.model.ServiceDetail;
 import com.example.doan.data.model.TourCreate;
 import com.example.doan.data.model.TourInfo;
 import com.example.doan.data.model.TourResFromTourCreate;
-import com.google.android.gms.common.internal.safeparcel.SafeParcelable;
-import com.google.android.gms.maps.model.LatLng;
+import com.example.doan.data.model.VertifyPasswordRecoveryOtp;
 import com.google.gson.JsonObject;
-
-import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -166,4 +163,13 @@ public interface API {
             @Header("Authorization") String Auth,
             @Body FeedbackSend send
     );
+    @POST("/user/request-otp-recovery")
+    Call<JsonObject> requestPasswordRecoveryOtp(
+            @Body PasswordRecoveryOtp passwordRecoveryOtp
+    );
+    @POST("/user/verify-otp-recovery")
+    Call<JsonObject> verifyPasswordRecoveryOtp(
+            @Body VertifyPasswordRecoveryOtp vertifyPasswordRecoveryOtp
+    );
+
 }
