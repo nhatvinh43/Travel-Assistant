@@ -100,7 +100,7 @@ public class TourInfo_Main extends AppCompatActivity
 
                 TourInfo tourInfo = response.body();
                 Log.d("TourInfoMain TourName", tourInfo.getName() + "Name or Null");
-                tv.setText(tourInfo.getName()+" Name Or Null");
+                tv.setText(tourInfo.getName());
             }
 
             @Override
