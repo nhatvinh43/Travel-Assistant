@@ -15,11 +15,14 @@ import com.example.doan.data.model.FeedbackSend;
 import com.example.doan.data.remote.API;
 import com.example.doan.data.remote.retrofit;
 import com.example.doan.ui.login.LoginActivity;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.example.doan.data.remote.retrofit.getClient;
 
 public class StopPointInfo_Rate extends AppCompatActivity {
 
@@ -41,8 +44,31 @@ public class StopPointInfo_Rate extends AppCompatActivity {
        send.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               Log.d("SPRate Point",(int)ratingBar.getRating()+"");
-               Toast.makeText(getApplicationContext(),"Send bang API sengFeedBack", Toast.LENGTH_SHORT).show();
+               API api = getClient().create(API.class);
+               String token = LoginActivity.TOKEN;
+               FeedbackSend feedbackSend = new FeedbackSend(Integer.parseInt(StopPointInfo_Main.StopPointId),
+                       comment.getText().toString(),(int)(ratingBar.getRating()));
+               Call<JsonObject> call = api.sendFeedback(token,feedbackSend);
+               call.enqueue(new Callback<JsonObject>() {
+                   @Override
+                   public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                       if (!response.isSuccessful()) {
+                           Gson gson = new Gson();
+                           JsonObject error =gson.fromJson(response.errorBody().charStream(),JsonObject.class);
+                           Toast.makeText(StopPointInfo_Rate.this,error.get("message").getAsString(),Toast.LENGTH_LONG).show();
+                           return;
+                       }
+                       JsonObject feedbackResponse = response.body();
+                       Toast.makeText(StopPointInfo_Rate.this, feedbackResponse.get("message").toString(), Toast.LENGTH_SHORT).show();
+                       finish();
+                   }
+
+                   @Override
+                   public void onFailure(Call<JsonObject> call, Throwable t) {
+                        Log.d("ErrorFeedback",t.getMessage());
+                        finish();
+                   }
+               });
            }
        });
 

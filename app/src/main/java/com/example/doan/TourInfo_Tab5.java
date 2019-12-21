@@ -1,6 +1,7 @@
 package com.example.doan;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -107,6 +108,8 @@ public class TourInfo_Tab5 extends Fragment {
         addMember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(getContext(),TourInfo_AddMember.class);
+                startActivity(intent);
                 Toast.makeText(getContext().getApplicationContext(), "Add Member", Toast.LENGTH_SHORT).show();
             }
         });
