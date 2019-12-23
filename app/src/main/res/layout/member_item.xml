@@ -18,12 +18,16 @@
                 android:layout_width="75dp"
                 android:layout_height="75dp"
                 app:cardBackgroundColor="@color/white"
+                android:elevation="0dp"
+                app:cardElevation="0dp"
                 app:cardCornerRadius="250dp">
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/memberAvatarParent"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
+                    android:elevation="0dp"
+                    app:cardElevation="0dp"
                     android:layout_gravity="center"
                     app:cardCornerRadius="250dp">
 

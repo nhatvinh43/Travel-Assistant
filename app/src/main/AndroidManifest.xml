@@ -18,7 +18,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".PasswordRecovery_OTP"></activity>
+        <activity android:name=".Settings_EditInfo"></activity>
+        <activity android:name=".StopPointInfo_Edit" />
+        <activity android:name=".TourInfo_Edit" />
+        <activity android:name=".PasswordRecovery_OTP" />
         <activity android:name=".TourInfo_AddMember" />
         <activity android:name=".PasswordRecovery" />
         <activity android:name=".StopPointInfo_Rate" />

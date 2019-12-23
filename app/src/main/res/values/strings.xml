@@ -93,6 +93,10 @@
     <string name="newPassword">New password</string>
     <string name="newPasswordConfirm">Confirm new password</string>
     <string name="resendOTP">Resend OTP</string>
+    <string name="hello">Hello</string>
+    <string name="usernamePH">lmt99!</string>
+    <string name="editInfo">Edit user info</string>
+    <string name="logout">Logout</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
