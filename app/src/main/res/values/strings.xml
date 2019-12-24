@@ -101,6 +101,8 @@
     <string name="gender">Gender</string>
     <string name="dob">Date of birth</string>
     <string name="saySomething">Say something!</string>
+    <string name="sent">sent a </string>
+    <string name="policeStationPH">Somebody sent a <b>Poilice Station</b> warning from Tour XYZ!</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

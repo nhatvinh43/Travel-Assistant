@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp">
+        <RelativeLayout
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imgLogo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:src="@mipmap/ic_launcher"
+                android:layout_centerVertical="true"
+                app:srcCompat="@drawable/ic_police_station" />
+
+            <LinearLayout
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/imgLogo">
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/quicksand"
+                    android:text="@string/policeStationPH"/>
+
+
+
+            </LinearLayout>
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>
