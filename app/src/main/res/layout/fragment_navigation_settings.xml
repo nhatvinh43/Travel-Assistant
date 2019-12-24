@@ -65,14 +65,14 @@
         android:layout_marginRight="25dp"
         android:orientation="vertical"
         android:layout_marginTop="40dp"
-        android:layout_below="@+id/settingsTitle"
         android:layout_centerInParent="true"
+
         >
         <androidx.cardview.widget.CardView
             android:layout_centerHorizontal="true"
             android:id="@+id/memberParent"
-            android:layout_width="125dp"
-            android:layout_height="125dp"
+            android:layout_width="175dp"
+            android:layout_height="175dp"
             app:cardBackgroundColor="@color/white"
             android:elevation="0dp"
             app:cardElevation="0dp"
@@ -80,8 +80,8 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/memberAvatarParent"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:elevation="0dp"
                 app:cardElevation="0dp"
                 android:layout_gravity="center"
@@ -89,8 +89,8 @@
 
                 <ImageView
                     android:id="@+id/tourInfoMemberAvatar"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:scaleType="centerCrop"
                     app:srcCompat="@drawable/ic_man" />
             </androidx.cardview.widget.CardView>
@@ -146,6 +146,7 @@
             android:text="@string/editInfo"
             android:textAllCaps="false"
             android:elevation="0dp"
+            android:textSize="15sp"
             android:textColor="@color/textColor"
             android:layout_below="@id/linearLayout"
             style="?android:attr/borderlessButtonStyle"
@@ -163,6 +164,7 @@
             android:text="@string/logout"
             android:textAllCaps="false"
             android:elevation="0dp"
+            android:textSize="15sp"
             android:textColor="@color/purpleRedAccent"
             android:layout_below="@id/settingsEditInfoButton"
             android:textStyle="normal" />
