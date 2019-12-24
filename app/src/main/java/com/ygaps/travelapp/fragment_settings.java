@@ -47,7 +47,13 @@ public class fragment_settings extends Fragment {
                     return;
                 }
                 JsonObject loginResponse = response.body();
-                String name = loginResponse.get("fullName").getAsString();
+                String name;
+                if ((loginResponse.get("fullName")).isJsonNull()){
+                    name = "No Name";
+                }else{
+                    name = loginResponse.get("fullName").getAsString();
+                }
+
                 TextView userName = view.findViewById(R.id.settingsUsername);
                 userName.setText(name);
             }
