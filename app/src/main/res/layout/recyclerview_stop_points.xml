@@ -52,7 +52,7 @@
                 android:paddingTop="10dp"
                 android:paddingEnd="20dp"
                 android:text="@string/savedStopPointNamePH"
-                android:textSize="15sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/mDetail"
@@ -63,7 +63,7 @@
                 android:paddingTop="5dp"
                 android:paddingEnd="60dp"
                 android:text="@string/savedStopPointAddressPH"
-                android:textSize="10dp" />
+                android:textSize="12dp" />
 
         </LinearLayout>
 

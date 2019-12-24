@@ -1,6 +1,7 @@
 package com.ygaps.travelapp;
 
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -56,6 +57,16 @@ public class TourInfo_Tab1 extends Fragment {
         final ImageButton editTourInfo = view.findViewById(R.id.tourInfoEditTour);
         final TextView startTour = view.findViewById(R.id.startTourText);
         final ImageButton startTourBtn = view.findViewById(R.id.tourInfoStartTour);
+        final ImageButton trackTourBtn = view.findViewById(R.id.tourInfoTrackTour);
+
+        trackTourBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(getActivity(),TourInfo_MapScreen.class);
+                startActivity(intent);
+            }
+        });
 
         if (TourInfo_Main.privacy == 0){
             editTourInfo.setVisibility(View.INVISIBLE);

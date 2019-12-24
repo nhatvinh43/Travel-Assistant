@@ -226,34 +226,66 @@
 
                     </RelativeLayout>
 
-                    <RelativeLayout
+                    <LinearLayout
                         android:id="@+id/fifthRow"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/fourthRow"
                         android:layout_marginTop="20dp"
+                        android:layout_centerHorizontal="true"
                         >
 
-                        <TextView
-                            android:id="@+id/startTourText"
+                        <LinearLayout
+                            android:layout_marginEnd="30dp"
+                            android:id="@+id/left"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/startTour"
-                            android:fontFamily="@font/quicksand"
-                            android:layout_centerHorizontal="true"
-                            android:textSize="15sp"
-                            />
-                        <ImageButton
+                            android:orientation="vertical">
+                            <ImageButton
+                                android:id="@+id/tourInfoStartTour"
+                                android:layout_width="65dp"
+                                android:layout_height="70dp"
+                                android:src="@drawable/ic_key"
+                                android:background="@android:color/transparent"/>
+                            <TextView
+                                android:layout_marginTop="7dp"
+                                android:id="@+id/startTourText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/startTour"
+                                android:fontFamily="@font/quicksand"
+                                android:textSize="15sp"
+                                />
+                        </LinearLayout>
 
-                            android:layout_below="@+id/startTourText"
-                            android:id="@+id/tourInfoStartTour"
-                            android:layout_width="65dp"
-                            android:layout_height="70dp"
-                            android:layout_centerInParent="true"
-                            android:src="@drawable/ic_key"
-                            android:background="@android:color/transparent"/>
+                        <LinearLayout
+                            android:layout_marginStart="30dp"
+                            android:id="@+id/right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
 
-                    </RelativeLayout>
+                            <ImageButton
+                                android:id="@+id/tourInfoTrackTour"
+                                android:layout_width="65dp"
+                                android:layout_height="70dp"
+                                android:background="@android:color/transparent"
+                                android:src="@drawable/ic_computer" />
+                            <TextView
+                                android:layout_marginTop="7dp"
+                                android:id="@+id/trackTourText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/trackTour"
+                                android:fontFamily="@font/quicksand"
+                                android:textSize="15sp"
+                                />
+                        </LinearLayout>
+
+
+
+
+                    </LinearLayout>
 
                 </RelativeLayout>
                 </RelativeLayout>

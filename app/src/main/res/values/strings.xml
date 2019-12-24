@@ -103,6 +103,14 @@
     <string name="saySomething">Say something!</string>
     <string name="sent">sent a </string>
     <string name="policeStationPH">Somebody sent a <b>Poilice Station</b> warning from Tour XYZ!</string>
+    <string name="sendNotifications">Events</string>
+    <string name="voiceRecord">Send Record</string>
+    <string name="currentPosition">Location</string>
+    <string name="dialog1Title">Select an event to send</string>
+    <string name="policeStation">Police Station</string>
+    <string name="problemsOnRoad">Road problems</string>
+    <string name="speedLimitSign">Speed limit</string>
+    <string name="trackTour">Track tour</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
