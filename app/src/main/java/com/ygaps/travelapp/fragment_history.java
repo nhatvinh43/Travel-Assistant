@@ -24,7 +24,9 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -104,6 +106,15 @@ public class fragment_history extends Fragment {
                 ArrayList<TourMyTour> data = resource.getTours();
                 for (int i=0;i<data.size();i++){
                     TourMyTour tour = data.get(i);
+                    if (data.get(i).getEndDate()==null||data.get(i).getStartDate()==null)
+                        continue;
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                    Long tempStartDate = Long.valueOf(data.get(i).getStartDate());
+                    String tempStartDateF = sdf.format(new Date(tempStartDate));
+                    Long tempEndDate = Long.valueOf(data.get(i).getEndDate());
+                    String tempEndDateF = sdf.format(new Date(tempEndDate));
+                    tour.setStartDate(tempStartDateF);
+                    tour.setEndDate(tempEndDateF);
                     dataSet.add(tour);
                 }
                 //loading.dismiss();

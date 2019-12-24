@@ -126,6 +126,9 @@ public class Settings_EditInfo extends AppCompatActivity {
                         c.set(Calendar.MONTH,month);
                         c.set(Calendar.DAY_OF_MONTH,dayOfMonth);
                         String TextDob = dayOfMonth +"/"+(month+1)+"/"+year;
+                        CurDay = dayOfMonth;
+                        CurMonth = month + 1;
+                        CurYear = year;
                         editDob.setText(TextDob);
                     }
                 }, mYear, mMonth-1, mDay);
