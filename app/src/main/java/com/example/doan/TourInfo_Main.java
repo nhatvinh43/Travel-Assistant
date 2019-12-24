@@ -1,8 +1,5 @@
 package com.example.doan;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,18 +9,13 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.doan.data.model.Comment;
-import com.example.doan.data.model.LoginData;
-import com.example.doan.data.model.Member;
-import com.example.doan.data.model.StopPoint;
-import com.example.doan.data.model.Tour;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
+
 import com.example.doan.data.model.TourInfo;
 import com.example.doan.data.remote.API;
 import com.example.doan.data.remote.retrofit;
-import com.example.doan.ui.login.LoginActivity;
 import com.google.android.material.tabs.TabLayout;
-
-import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,12 +28,13 @@ public class TourInfo_Main extends AppCompatActivity
     public static String tourId = "";
     public static int privacy; //this var stored you are Creater or not. See is 0. Own is 1.
     public static TourInfo tourInfo;
-
+    private MyApplication app;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tour_info__main);
 
+        app = (MyApplication) getApplication();
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         com.example.doan.PagerAdapter myPagerAdapter = new com.example.doan.PagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(myPagerAdapter);
@@ -88,7 +81,7 @@ public class TourInfo_Main extends AppCompatActivity
         Log.d("TourInfoMain TourId", privacy + " " + tourId);
         //tv.setText(tourId);
         API api = retrofit.getClient().create(API.class);
-        Call<TourInfo> call = api.getTourInfoTV(LoginActivity.TOKEN, Integer.valueOf(tourId));
+        Call<TourInfo> call = api.getTourInfoTV(app.userToken, Integer.valueOf(tourId));
         call.enqueue(new Callback<TourInfo>() {
             @Override
             public void onResponse(Call<TourInfo> call, Response<TourInfo> response) {

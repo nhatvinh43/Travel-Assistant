@@ -1,7 +1,5 @@
 package com.example.doan;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,13 +7,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RatingBar;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.doan.data.model.CommentSend;
 import com.example.doan.data.model.ReviewSend;
-import com.example.doan.data.model.TourInfo;
 import com.example.doan.data.remote.API;
-import com.example.doan.ui.login.LoginActivity;
 import com.google.gson.JsonObject;
 
 import retrofit2.Call;
@@ -25,7 +22,7 @@ import retrofit2.Response;
 import static com.example.doan.data.remote.retrofit.getClient;
 
 public class TourInfo_Rate extends AppCompatActivity {
-
+    private MyApplication app;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,10 +35,11 @@ public class TourInfo_Rate extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 API api = getClient().create(API.class);
+                app = (MyApplication) getApplication();
                 if ((int)rate.getRating()==0){
                     //send a comment
-                    CommentSend cmt = new CommentSend(TourInfo_Main.tourId, LoginActivity.USERID,comment.getText().toString());
-                    Call<JsonObject>call = api.sendComment(LoginActivity.TOKEN,cmt);
+                    CommentSend cmt = new CommentSend(TourInfo_Main.tourId, app.userToken,comment.getText().toString());
+                    Call<JsonObject>call = api.sendComment(app.userToken,cmt);
                     call.enqueue(new Callback<JsonObject>() {
                         @Override
                         public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -59,7 +57,7 @@ public class TourInfo_Rate extends AppCompatActivity {
                     //send a review to a public tour
                     ReviewSend rv = new ReviewSend(Integer.valueOf(TourInfo_Main.tourId),
                             (int)rate.getRating(),comment.getText().toString());
-                    Call<JsonObject> call = api.sendReview(LoginActivity.TOKEN, rv);
+                    Call<JsonObject> call = api.sendReview(app.userToken, rv);
                     call.enqueue(new Callback<JsonObject>() {
                         @Override
                         public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {

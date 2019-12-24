@@ -43,7 +43,6 @@ public class fragment_topTours extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_navigation_top_tours, container, false);
 
-
         ImageButton imageButton = view.findViewById(R.id.addTour);
         imageButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v)
@@ -83,8 +82,7 @@ public class fragment_topTours extends Fragment {
 
     public void fetchItemList(){
         mShimmerViewContainer.startShimmerAnimation();
-        Intent intent = getActivity().getIntent();
-        String Token = intent.getStringExtra("token");
+        String Token = MainActivity.app.userToken;
         API api = retrofit.getClient().create(API.class);
         Call<ListTour> call1 = api.getListTour(Token,"100");
         call1.enqueue(new Callback<ListTour>() {

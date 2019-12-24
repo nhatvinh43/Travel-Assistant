@@ -4,15 +4,16 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity implements fragment_explore.OnFragmentInteractionListener {
     final Fragment fragment1 = new fragment_topTours();
@@ -25,10 +26,13 @@ public class MainActivity extends AppCompatActivity implements fragment_explore.
     private ProgressDialog spinner;
     private Fragment fragment = fragment1;
     private FragmentManager fragmentManager;
+    public static MyApplication app;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        app = (MyApplication) getApplication();
+        Log.d("UserTokenAppMainAct",app.userToken);
         setContentView(R.layout.activity_main);
 
         final BottomNavigationView navView = findViewById(R.id.nav_view);
@@ -73,8 +77,6 @@ public class MainActivity extends AppCompatActivity implements fragment_explore.
                 return false;
             }
         });
-
-
     }
 
     @Override

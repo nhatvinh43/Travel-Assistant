@@ -3,23 +3,21 @@ package com.example.doan;
 
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
-import com.example.doan.data.model.StopPointTourInfoAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.doan.data.model.StopPointTourInfo;
+import com.example.doan.data.model.StopPointTourInfoAdapter;
 import com.example.doan.data.model.TourInfo;
 import com.example.doan.data.remote.API;
 import com.example.doan.data.remote.retrofit;
-import com.example.doan.ui.login.LoginActivity;
 
 import java.util.ArrayList;
 
@@ -107,7 +105,7 @@ public class TourInfo_Tab2 extends Fragment {
 
     public void fetchStopPointData(){
         final API api = retrofit.getClient().create(API.class);
-        Call<TourInfo> call = api.getTourInfoTV(LoginActivity.TOKEN,Integer.valueOf(TourInfo_Main.tourId));
+        Call<TourInfo> call = api.getTourInfoTV(((MyApplication)getActivity().getApplication()).userToken,Integer.valueOf(TourInfo_Main.tourId));
         call.enqueue(new Callback<TourInfo>() {
             @Override
             public void onResponse(Call<TourInfo> call, Response<TourInfo> response) {

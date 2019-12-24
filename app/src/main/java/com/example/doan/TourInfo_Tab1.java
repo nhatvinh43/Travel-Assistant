@@ -1,13 +1,8 @@
 package com.example.doan;
 
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,12 +11,12 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.example.doan.data.model.TourInfo;
 import com.example.doan.data.remote.API;
 import com.example.doan.data.remote.retrofit;
-import com.example.doan.ui.login.LoginActivity;
-
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 
@@ -70,7 +65,8 @@ public class TourInfo_Tab1 extends Fragment {
 
 
         API api = retrofit.getClient().create(API.class);
-        Call<TourInfo> call = api.getTourInfoTV(LoginActivity.TOKEN, Integer.valueOf(TourInfo_Main.tourId));
+        Call<TourInfo> call = api.getTourInfoTV(((MyApplication)getActivity().getApplication()).userToken,
+                Integer.valueOf(TourInfo_Main.tourId));
         call.enqueue(new Callback<TourInfo>() {
             @Override
             public void onResponse(Call<TourInfo> call, Response<TourInfo> response) {

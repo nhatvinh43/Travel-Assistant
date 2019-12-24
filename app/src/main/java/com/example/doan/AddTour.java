@@ -1,14 +1,9 @@
 package com.example.doan;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
-import android.text.GetChars;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -18,18 +13,16 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.doan.data.model.StopPoint;
 import com.example.doan.data.model.StopPointSetSP;
-import com.example.doan.data.model.Tour;
 import com.example.doan.data.model.TourCreate;
 import com.example.doan.data.model.TourResFromTourCreate;
 import com.example.doan.data.remote.API;
 import com.example.doan.data.remote.retrofit;
-import com.example.doan.ui.login.LoginActivity;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -62,8 +55,10 @@ public class AddTour extends AppCompatActivity {
     private static String addressLocationStart, addressLocationEnd;
     boolean flag = false;
 
+    private MyApplication app;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        app = (MyApplication) getApplication();
         startDateTime = 0;
         endDateTime = 0;
         LatStart = LatEnd = LngStart = LngEnd = 0;
@@ -162,7 +157,7 @@ public class AddTour extends AppCompatActivity {
                             LatEnd, LngEnd, pIsPrivate, numberOAd, numberOCh, minB, maxB, null);
 //                    TourCreate newTour = new TourCreate("test",-255797632,-255797632,10.1231,100.1231,
 //                            10.1233,100.1231,true,2,1,100,100,"test");
-                    Call<TourResFromTourCreate> call = api.createTour(LoginActivity.TOKEN, newTour);
+                    Call<TourResFromTourCreate> call = api.createTour(app.userToken, newTour);
 
                     call.enqueue(new Callback<TourResFromTourCreate>() {
                         @Override

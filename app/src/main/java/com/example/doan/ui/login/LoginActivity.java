@@ -1,7 +1,5 @@
 package com.example.doan.ui.login;
 
-import androidx.lifecycle.ViewModelProviders;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,9 +7,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -22,8 +17,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.doan.AddTour;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
+
 import com.example.doan.MainActivity;
+import com.example.doan.MyApplication;
 import com.example.doan.PasswordRecovery;
 import com.example.doan.R;
 import com.example.doan.data.model.LoginData;
@@ -40,26 +38,25 @@ import com.google.gson.JsonObject;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 import static com.example.doan.data.remote.retrofit.getClient;
-import static com.example.doan.data.remote.retrofit.retrofit;
 
 
 public class LoginActivity extends AppCompatActivity {
-    public static String TOKEN;
-    public static String USERID;
     private LoginViewModel loginViewModel;
     private CallbackManager callbackManager;
+
+    private MyApplication app;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        app = (MyApplication)getApplication();
+
         setContentView(R.layout.activity_login);
         loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
@@ -114,19 +111,17 @@ public class LoginActivity extends AppCompatActivity {
                             return;
                         }
                         JsonObject loginResponse = response.body();
-
+                        app.userToken = loginResponse.get("token").getAsString();
+                        app.userId = loginResponse.get("userId").getAsString();
                         Intent intent1 = new Intent(LoginActivity.this, MainActivity.class);
-                        TOKEN = loginResponse.get("token").getAsString();
-                        USERID = loginResponse.get("userId").getAsString();
-                        intent1.putExtra("userId",USERID);
-                        intent1.putExtra("token",TOKEN);
+                        Log.d("UserTokenAppLogin",app.userToken);
                         startActivity(intent1);
 
                         //share preferences save User Token
                         SharedPreferences sharedPreferences = getSharedPreferences("DoAn", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.clear();
-                        editor.putString("UserToken",TOKEN);
+                        editor.putString("UserToken",app.userToken);
                         editor.apply();
                         finish();
                     }
@@ -175,16 +170,15 @@ public class LoginActivity extends AppCompatActivity {
                         JsonObject loginResponse = response.body();
 
                         Intent intent1 = new Intent(LoginActivity.this, MainActivity.class);
-                        intent1.putExtra("userId",loginResponse.get("userId").getAsString());
-                        intent1.putExtra("token",loginResponse.get("token").getAsString());
-                        TOKEN = loginResponse.get("token").getAsString();
+                        app.userToken = loginResponse.get("token").getAsString();
+                        app.userId = loginResponse.get("token").getAsString();
                         startActivity(intent1);
 
                         //share preferences save User Token
                         SharedPreferences sharedPreferences = getSharedPreferences("DoAn", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.clear();
-                        editor.putString("UserToken",TOKEN);
+                        editor.putString("UserToken",app.userToken);
                         editor.apply();
 
                         finish();

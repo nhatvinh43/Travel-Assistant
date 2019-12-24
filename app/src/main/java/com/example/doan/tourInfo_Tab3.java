@@ -4,11 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,17 +11,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.doan.data.model.CommentAdapter;
-import com.example.doan.data.model.Comment;
 import com.example.doan.data.model.CommentForList;
 import com.example.doan.data.model.ListCommentForList;
 import com.example.doan.data.model.ListReview;
 import com.example.doan.data.model.Review;
 import com.example.doan.data.remote.API;
-import com.example.doan.ui.login.LoginActivity;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 
@@ -35,7 +29,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.doan.data.remote.retrofit.getClient;
-import static com.example.doan.data.remote.retrofit.retrofit;
 
 
 /**
@@ -127,8 +120,10 @@ public class tourInfo_Tab3 extends Fragment {
 
     public void fetchAllCommentNReview(){
         API api = getClient().create(API.class);
-        Call<ListCommentForList> call1 = api.getListComment(LoginActivity.TOKEN,TourInfo_Main.tourId, 1, "10");
-        Call<ListReview> call2 = api.getListReview(LoginActivity.TOKEN, Integer.valueOf(TourInfo_Main.tourId),1, "10");
+        Call<ListCommentForList> call1 = api.getListComment(((MyApplication) getActivity().getApplication()).userToken,
+                TourInfo_Main.tourId, 1, "10");
+        Call<ListReview> call2 = api.getListReview(((MyApplication)getActivity().getApplication()).userToken,
+                Integer.valueOf(TourInfo_Main.tourId),1, "10");
         call1.enqueue(new Callback<ListCommentForList>() {
             @Override
             public void onResponse(Call<ListCommentForList> call1, Response<ListCommentForList> response) {

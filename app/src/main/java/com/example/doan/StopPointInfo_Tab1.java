@@ -3,9 +3,6 @@ package com.example.doan;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,14 +10,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+
 import com.example.doan.data.model.ServiceDetail;
 import com.example.doan.data.remote.API;
 import com.example.doan.data.remote.retrofit;
-import com.example.doan.ui.login.LoginActivity;
-
-import org.w3c.dom.Text;
-
-import java.text.SimpleDateFormat;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -47,6 +41,7 @@ public class StopPointInfo_Tab1 extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    private MyApplication app;
     public StopPointInfo_Tab1() {
         // Required empty public constructor
     }
@@ -93,6 +88,13 @@ public class StopPointInfo_Tab1 extends Fragment {
         final TextView labelEndDate = view.findViewById(R.id.stopPointInfoLeaveDate);
         final TextView contact = view.findViewById(R.id.stopPointInfoContact);
 
+        if (getActivity()==null){
+            Log.d("NULLX","getActivity in stoppointInfo Tab1");
+        }
+        if (getActivity().getApplication()==null){
+            Log.d("NULLX","getApplication in stoppointInfo Tab2");
+        }
+        app = (MyApplication)getActivity().getApplication();
         if (StopPointInfo_Main.SeeFrom == 1){
             spStartDate.setVisibility(View.GONE);
             spEndDate.setVisibility(View.GONE);
@@ -100,7 +102,7 @@ public class StopPointInfo_Tab1 extends Fragment {
             labelStartDate.setVisibility(View.GONE);
         }
         API api = retrofit.getClient().create(API.class);
-        Call<ServiceDetail> call = api.getServiceDetail(LoginActivity.TOKEN,Integer.valueOf(StopPointInfo_Main.StopPointId));
+        Call<ServiceDetail> call = api.getServiceDetail(app.userToken,Integer.valueOf(StopPointInfo_Main.StopPointId));
         call.enqueue(new Callback<ServiceDetail>() {
             @Override
             public void onResponse(Call<ServiceDetail> call, Response<ServiceDetail> response) {

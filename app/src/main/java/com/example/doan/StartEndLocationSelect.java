@@ -1,12 +1,6 @@
 package com.example.doan;
 
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentActivity;
-
 import android.Manifest;
-import androidx.appcompat.app.AlertDialog;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -18,28 +12,27 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.Spinner;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentActivity;
 
 import com.example.doan.data.model.Coordinate;
 import com.example.doan.data.model.CoordinateSet;
 import com.example.doan.data.model.ListStopPoint;
 import com.example.doan.data.model.MoreOneCoordinate;
 import com.example.doan.data.model.OneCoordinate;
-import com.example.doan.data.model.ServiceDetail;
 import com.example.doan.data.model.StopPoint;
-import com.example.doan.data.model.StopPointSetSP;
 import com.example.doan.data.remote.API;
 import com.example.doan.data.remote.retrofit;
-import com.example.doan.ui.login.LoginActivity;
-import com.facebook.login.Login;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -80,7 +73,7 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
     private LatLng newLatLng;
     private ImageButton mCancel, mConfirm, mGetHome;
     private boolean flag = false;
-
+    private MyApplication app;
 
     //test data
     LatLng latlng1 = new LatLng(10.459765,106.721583);
@@ -89,7 +82,7 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_end_location_select);
-
+        app = (MyApplication) getApplication();
         client = LocationServices.getFusedLocationProviderClient(this);
         GetLastLocation();
 
@@ -287,7 +280,7 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
                 new Coordinate(onTouchLatLng.latitude,onTouchLatLng.longitude));
 
         API api = retrofit.getClient().create(API.class);
-        Call<ListStopPoint> call = api.oneCoordinate(LoginActivity.TOKEN, oneCoordinate);
+        Call<ListStopPoint> call = api.oneCoordinate(app.userToken, oneCoordinate);
 
         //Call<ListStopPoint> call2 = api.moreCoordinate(LoginActivity.TOKEN, moreOneCoordinate);
 

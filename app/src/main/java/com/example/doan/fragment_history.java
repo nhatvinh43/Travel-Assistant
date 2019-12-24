@@ -36,12 +36,12 @@ public class fragment_history extends Fragment {
     private TourMyTourAdapter adapter;
     private SwipeRefreshLayout swipeContainer;
     private ShimmerFrameLayout mShimmerViewContainer;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_navigation_history, container, false);
-
-
+        Log.d("UserTokenAppFragmentHi",MainActivity.app.userToken);
         ImageButton imageButton = view.findViewById(R.id.historyAddTour);
         imageButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v)
@@ -85,7 +85,7 @@ public class fragment_history extends Fragment {
     public void fetchItemList(){
         mShimmerViewContainer.startShimmerAnimation();
         Intent intent = getActivity().getIntent();
-        String Token = intent.getStringExtra("token");
+        String Token = MainActivity.app.userToken;
 
         API api = retrofit.getClient().create(API.class);
         Log.d("UserToken",Token);

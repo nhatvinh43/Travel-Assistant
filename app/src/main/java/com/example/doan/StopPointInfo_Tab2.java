@@ -4,11 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,12 +11,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.doan.data.model.FeedbackSP;
 import com.example.doan.data.model.FeedbackSPAdapter;
 import com.example.doan.data.model.ListFeedbackSP;
 import com.example.doan.data.remote.API;
 import com.example.doan.data.remote.retrofit;
-import com.example.doan.ui.login.LoginActivity;
 
 import java.util.ArrayList;
 
@@ -55,6 +53,7 @@ public class StopPointInfo_Tab2 extends Fragment {
     private FeedbackSPAdapter adapter;
     private Button rate;
 
+    private MyApplication app;
     public StopPointInfo_Tab2() {
         // Required empty public constructor
     }
@@ -126,7 +125,9 @@ public class StopPointInfo_Tab2 extends Fragment {
     private void fetchFeedbackData(){
         dataSet.clear();
         final API api = retrofit.getClient().create(API.class);
-        Call<ListFeedbackSP>call = api.getListFeedback(LoginActivity.TOKEN, Integer.valueOf(StopPointInfo_Main.StopPointId),
+
+        app = (MyApplication) getActivity().getApplication();
+        Call<ListFeedbackSP>call = api.getListFeedback(app.userToken, Integer.valueOf(StopPointInfo_Main.StopPointId),
                 1,"10");
         call.enqueue(new Callback<ListFeedbackSP>() {
             @Override

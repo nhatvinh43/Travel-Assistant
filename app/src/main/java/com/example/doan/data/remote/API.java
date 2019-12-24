@@ -2,8 +2,8 @@ package com.example.doan.data.remote;
 
 import androidx.annotation.Nullable;
 
-import com.example.doan.PasswordRecovery;
 import com.example.doan.data.model.CommentSend;
+import com.example.doan.data.model.EditUserInfo;
 import com.example.doan.data.model.FeedbackSend;
 import com.example.doan.data.model.ListCommentForList;
 import com.example.doan.data.model.ListFeedbackSP;
@@ -171,5 +171,13 @@ public interface API {
     Call<JsonObject> verifyPasswordRecoveryOtp(
             @Body VertifyPasswordRecoveryOtp vertifyPasswordRecoveryOtp
     );
-
+    @GET("/user/info")
+    Call<JsonObject> userInfo(
+            @Header("Authorization") String Auth
+    );
+    @POST("/user/edit-info")
+    Call<JsonObject> updateUserInfo(
+            @Header("Authorization") String Auth,
+            @Body EditUserInfo editUserInfo
+    );
 }
