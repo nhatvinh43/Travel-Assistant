@@ -102,8 +102,75 @@
                 android:fontFamily="@font/quicksand"
                 android:text="@string/speedLimitSign"/>
         </RelativeLayout>
+
     </RelativeLayout>
 
+    <TextView
+        android:id="@+id/tourInfoDialogSelectedNotification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/firstRow"
+        android:fontFamily="@font/quicksand_medium"
+        android:textSize="18sp"
+        android:visibility="gone"/>
 
+    <LinearLayout
+        android:id="@+id/secondRow"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/tourInfoDialogSelectedNotification">
+        <EditText
+            android:id="@+id/tourInfoDialogMsg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/form"
+            android:paddingTop="15dp"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:paddingBottom="15dp"
+            android:fontFamily="@font/quicksand"
+            android:textSize="15sp"
+            android:textAlignment="center"
+            android:inputType="text"
+            android:hint="@string/notificationMsg"
+            android:visibility="gone"
+            android:layout_marginBottom="10dp"/>
+        <EditText
+            android:id="@+id/tourInfoDialogVelocity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/form"
+            android:paddingTop="15dp"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:paddingBottom="15dp"
+            android:fontFamily="@font/quicksand"
+            android:textSize="15sp"
+            android:textAlignment="center"
+            android:inputType="number"
+            android:hint="@string/notificationMsgVelocity"
+            android:visibility="gone"
+            android:layout_marginBottom="10dp"/>
+    </LinearLayout>
+
+    <Button
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:id="@+id/tourInfoDialogConfirmButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/send"
+        android:textAllCaps="false"
+        android:fontFamily="@font/quicksand_medium"
+        android:background="@drawable/form"
+        android:textSize="15sp"
+        android:layout_below="@+id/secondRow"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"/>
 
 </RelativeLayout>

@@ -13,7 +13,6 @@ import com.ygaps.travelapp.ui.login.LoginActivity;
 
 public class Splash extends AppCompatActivity {
     private MyApplication app;
-    private int timer = 1500;
     Context context = this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
