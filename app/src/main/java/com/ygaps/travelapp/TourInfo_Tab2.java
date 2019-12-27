@@ -1,6 +1,7 @@
 package com.ygaps.travelapp;
 
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -87,6 +88,15 @@ public class TourInfo_Tab2 extends Fragment {
             editStopPoint.setVisibility(View.INVISIBLE);
         }
 
+        editStopPoint.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity().getApplicationContext(), StopPoints.class);
+                intent.putExtra("TourId", TourInfo_Main.tourId);
+                //startActivity(intent);
+                startActivityForResult(intent,111);
+            }
+        });
         recyclerView = view.findViewById(R.id.tourInfoStopPoints);
         adapter = new StopPointTourInfoAdapter(getActivity(), dataSet);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -103,7 +113,19 @@ public class TourInfo_Tab2 extends Fragment {
         return view;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==111){
+            if (resultCode==getActivity().RESULT_OK){
+                fetchStopPointData();
+                getActivity().recreate();
+            }
+        }
+    }
+
     public void fetchStopPointData(){
+        dataSet.clear();
         final API api = retrofit.getClient().create(API.class);
         Call<TourInfo> call = api.getTourInfoTV(((MyApplication)getActivity().getApplication()).userToken,Integer.valueOf(TourInfo_Main.tourId));
         call.enqueue(new Callback<TourInfo>() {

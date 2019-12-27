@@ -115,11 +115,22 @@ public class StopPointInfo_Tab2 extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), StopPointInfo_Rate.class);
-                //startActivityForResult(intent, 1001); //
-                startActivity(intent);
+                startActivityForResult(intent, 111); //
+                //startActivity(intent);
             }
         });
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==111){
+            if (resultCode==getActivity().RESULT_OK){
+                fetchFeedbackData();
+                getActivity().recreate();
+            }
+        }
     }
 
     private void fetchFeedbackData(){

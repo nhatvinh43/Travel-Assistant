@@ -1,14 +1,59 @@
 package com.ygaps.travelapp;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.Toast;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.ygaps.travelapp.data.model.Coordinate;
+import com.ygaps.travelapp.data.model.ListStopPoint;
+import com.ygaps.travelapp.data.model.OneCoordinate;
+import com.ygaps.travelapp.data.model.StopPoint;
+import com.ygaps.travelapp.data.remote.API;
+import com.ygaps.travelapp.data.remote.retrofit;
+
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,6 +75,15 @@ public class fragment_explore extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    private ArrayList<StopPoint> data = new ArrayList<>();
+    private GoogleMap mMap;
+    private Location currentLocation;
+    private FusedLocationProviderClient client;
+    private ImageButton mGetHome;
+    private SupportMapFragment supportMapFragment;
+    private MyApplication app;
+    private MapView mapView;
+    private String[] selection = {"See Detail"};
     public fragment_explore() {
         // Required empty public constructor
     }
@@ -65,7 +119,176 @@ public class fragment_explore extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_fragment_explore, container, false);
+        client = LocationServices.getFusedLocationProviderClient(getActivity().getApplicationContext());
+        GetLastLocation();
+        View view = inflater.inflate(R.layout.fragment_fragment_explore, container, false);
+        mGetHome = view.findViewById(R.id.exploreGetCurrentLocation);
+        mGetHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext().getApplicationContext(),"Get Current Location",Toast.LENGTH_SHORT).show();
+                GetLastLocation();
+            }
+        });
+        app = (MyApplication)getActivity().getApplication();
+
+        supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.exploreMap);
+        if (supportMapFragment==null){
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            supportMapFragment = SupportMapFragment.newInstance();
+            fragmentTransaction.replace(R.id.exploreMap, supportMapFragment).commit();
+        }
+        if (supportMapFragment!=null){
+            supportMapFragment.getMapAsync(new OnMapReadyCallback() {
+                @Override
+                public void onMapReady(GoogleMap googleMap) {
+                    mMap = googleMap;
+                    mMap.setMyLocationEnabled(true);
+
+                    mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                        @Override
+                        public void onMapClick(LatLng latLng) {
+                            onTouch(latLng);
+                        }
+                    });
+                    mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                        @Override
+                        public boolean onMarkerClick(Marker marker) {
+                            showDialog(marker);
+                            return false;
+                        }
+                    });
+
+                }
+            });
+        }
+        return view;
+    }
+
+
+
+    public void GetLastLocation() {
+        if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(getActivity().getParent(),
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},101);
+            return;
+        }
+        Task<Location> task = client.getLastLocation();
+        task.addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                if (location!=null){
+                    currentLocation=location;
+                    CameraPosition cameraPosition = new CameraPosition.Builder()
+                            .target(new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude())).zoom(10).build();
+                    CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
+                    mMap.animateCamera(cameraUpdate);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode){
+            case 101:
+                if (grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    GetLastLocation();
+                }
+                break;
+        }
+    }
+
+    private void onTouch(LatLng latLng){
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(new LatLng(latLng.latitude,latLng.longitude)).zoom(15).build();
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
+        mMap.animateCamera(cameraUpdate);
+        mMap.clear();
+        data.clear();
+        OneCoordinate oneCoordinate = new OneCoordinate(true,
+                new Coordinate(latLng.latitude,latLng.longitude));
+
+        API api = retrofit.getClient().create(API.class);
+        Call<ListStopPoint> call = api.oneCoordinate(app.userToken, oneCoordinate);
+        call.enqueue(new Callback<ListStopPoint>() {
+            @Override
+            public void onResponse(Call<ListStopPoint> call, Response<ListStopPoint> response) {
+                Log.d("GETONEAROUNDCODE", response.code() +"");
+                if (!response.isSuccessful()) {
+                    Gson gson = new Gson();
+                    JsonObject errorLogin =gson.fromJson(response.errorBody().charStream(),JsonObject.class);
+                    Toast.makeText(getContext(),errorLogin.get("message").getAsString(),Toast.LENGTH_LONG).show();
+                    return;
+                }
+                ListStopPoint resource = response.body();
+                data = resource.getStopPoints();
+                String allName = data.size()+"|";
+                Log.d("ALLNAMESTOPPOINT", allName);
+
+                generateStopPointMarker1(data);
+            }
+
+            @Override
+            public void onFailure(Call<ListStopPoint> call, Throwable t) {
+            }
+        });
+
+    }
+    private void showDialog(final Marker marker){
+        new AlertDialog.Builder(getContext())
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("What Do You Want To Do ?")
+                .setItems(selection, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case 0:
+                                Toast.makeText(getContext(),"See More", Toast.LENGTH_SHORT).show();
+                                Intent intent =  new Intent(getContext(), StopPointInfo_Main.class);
+                                if (marker.getSnippet() != ""){
+                                    intent.putExtra("StopPointIdForSeeDetail", marker.getSnippet());
+                                }
+                                intent.putExtra("SeeFrom",1); // see from map is 1, see from List StopPoint in Tour is 0
+                                startActivity(intent);
+                                break;
+                        }
+
+                    }
+                }).show()
+                .getWindow()
+                .setGravity(Gravity.BOTTOM);
+    }
+    public void generateStopPointMarker1(ArrayList<StopPoint> data)
+    {
+        for (int i =0 ;i<data.size();i++){
+            LatLng tempPos = new LatLng(Double.valueOf(data.get(i).getLat()),Double.valueOf(data.get(i).get_long()));
+            MarkerOptions markerOptions = new MarkerOptions().title(data.get(i).getName()).snippet(data.get(i).getId().toString())
+                    .position(tempPos);
+            switch (data.get(i).getServiceTypeId()+1)
+            {
+                case 1:
+                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.restaurant));
+                    break;
+                case 2:
+                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.hotel));
+                    break;
+                case 3:
+                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.reststation));
+                    break;
+                case 4:
+                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.other));
+                    break;
+
+            }
+            mMap.addMarker(markerOptions);
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event

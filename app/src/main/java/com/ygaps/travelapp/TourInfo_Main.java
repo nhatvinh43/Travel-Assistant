@@ -33,7 +33,6 @@ public class TourInfo_Main extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tour_info__main);
-
         app = (MyApplication) getApplication();
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         com.ygaps.travelapp.PagerAdapter myPagerAdapter = new com.ygaps.travelapp.PagerAdapter(getSupportFragmentManager());

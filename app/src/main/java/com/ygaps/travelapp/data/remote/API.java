@@ -9,6 +9,7 @@ import com.ygaps.travelapp.data.model.ListCommentForList;
 import com.ygaps.travelapp.data.model.ListFeedbackSP;
 import com.ygaps.travelapp.data.model.ListReview;
 import com.ygaps.travelapp.data.model.ListStopPoint;
+import com.ygaps.travelapp.data.model.ListStopPointSetSP;
 import com.ygaps.travelapp.data.model.ListTour;
 import com.ygaps.travelapp.data.model.ListTourMyTour;
 import com.ygaps.travelapp.data.model.LoginData;
@@ -180,4 +181,9 @@ public interface API {
             @Header("Authorization") String Auth,
             @Body EditUserInfo editUserInfo
     );
+    @POST("/tour/set-stop-points")
+    Call<JsonObject> setStopPoints(
+            @Header("Authorization") String Auth,
+            @Body ListStopPointSetSP data
+            );
 }

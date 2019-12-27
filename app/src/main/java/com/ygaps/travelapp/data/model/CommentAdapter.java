@@ -67,12 +67,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         Long DateL = Long.valueOf(rv.getCreatedOn());
         String DateF = sdf.format(DateL);
         holder.date.setText(DateF);
-        if (rv.getPoint()==0){
-            holder.rate.setVisibility(View.INVISIBLE);
-        }
-        else{
-            holder.rate.setRating(rv.getPoint());
-        }
+        holder.rate.setRating(rv.getPoint());
         holder.report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

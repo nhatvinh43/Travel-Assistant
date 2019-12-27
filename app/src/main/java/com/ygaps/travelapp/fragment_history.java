@@ -91,7 +91,7 @@ public class fragment_history extends Fragment {
 
         API api = retrofit.getClient().create(API.class);
         Log.d("UserToken",Token);
-        Call<ListTourMyTour> call1 = api.getHistoryTour(Token,1,10);
+        Call<ListTourMyTour> call1 = api.getHistoryTour(Token,1,30);
         call1.enqueue(new Callback<ListTourMyTour>() {
             @Override
             public void onResponse(Call<ListTourMyTour> call, Response<ListTourMyTour> response) {

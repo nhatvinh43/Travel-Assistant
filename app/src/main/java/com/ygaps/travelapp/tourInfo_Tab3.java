@@ -95,7 +95,6 @@ public class tourInfo_Tab3 extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tour_info__tab3, container, false);
-
         recyclerView = view.findViewById(R.id.tourInfoComments);
         adapter = new CommentAdapter(getActivity(), dataSet);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -111,44 +110,31 @@ public class tourInfo_Tab3 extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), TourInfo_Rate.class);
-                startActivity(intent);
+                //getActivity().startActivity(intent);
+                startActivityForResult(intent, 111);
             }
         });
 
         return view;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==111){
+            if (resultCode==getActivity().RESULT_OK){
+                fetchAllCommentNReview();
+                getActivity().recreate();
+            }
+        }
+    }
+
     public void fetchAllCommentNReview(){
+        dataSet.clear();
         API api = getClient().create(API.class);
-        Call<ListCommentForList> call1 = api.getListComment(((MyApplication) getActivity().getApplication()).userToken,
-                TourInfo_Main.tourId, 1, "10");
+
         Call<ListReview> call2 = api.getListReview(((MyApplication)getActivity().getApplication()).userToken,
                 Integer.valueOf(TourInfo_Main.tourId),1, "10");
-        call1.enqueue(new Callback<ListCommentForList>() {
-            @Override
-            public void onResponse(Call<ListCommentForList> call1, Response<ListCommentForList> response) {
-                Log.d("TourInfoTab3", "RESCODE CMT" + response.code());
-                if (!response.isSuccessful()){
-                    return;
-                }
-                ListCommentForList resource = response.body();
-                Log.d("TourInfoTab3","NumofCmt"+resource.getCommentForLists().size());
-                cmts = resource.getCommentForLists();
-                for (int i =0 ; i < cmts.size();i++){
-                    Review temp = new Review(cmts.get(i).getId(),cmts.get(i).getName(),
-                            cmts.get(i).getAvatar(),cmts.get(i).getComment(),0,cmts.get(i).getCreatedOn());
-                    Log.d("TourInfoTab3", "RV Point "+temp.getPoint());
-                    dataSet.add(temp);
-                    adapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ListCommentForList> call1, Throwable t) {
-                Toast.makeText(getContext().getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
-            }
-        });
-
         call2.enqueue(new Callback<ListReview>() {
             @Override
             public void onResponse(Call<ListReview> call2, Response<ListReview> response) {
@@ -183,6 +169,8 @@ public class tourInfo_Tab3 extends Fragment {
         }
     }
 
+
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -215,4 +203,9 @@ public class tourInfo_Tab3 extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        //this.onCreate(null);
+    }
 }

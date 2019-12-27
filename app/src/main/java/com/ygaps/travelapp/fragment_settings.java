@@ -70,7 +70,7 @@ public class fragment_settings extends Fragment {
             public void onClick(View v)
             {
                 Intent intent = new Intent(getActivity(),Settings_EditInfo.class);
-                startActivity(intent);
+                startActivityForResult(intent,111);
             }
         });
 
@@ -87,10 +87,18 @@ public class fragment_settings extends Fragment {
                 getActivity().finish();
             }
         });
-
         return view;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==111){
+            if (resultCode==getActivity().RESULT_OK){
+                getActivity().recreate();
+            }
+        }
+    }
 
     @Override
     public void onResume() {

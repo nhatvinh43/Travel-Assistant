@@ -59,11 +59,12 @@
             android:textAlignment="center" />
 
         <ImageButton
+            android:id="@+id/tourInfoChatSendBtn"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_alignParentEnd="true"
             android:layout_gravity="end"
             android:background="@drawable/form"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
             android:src="@drawable/ic_paper_plane" />
 
     </RelativeLayout>

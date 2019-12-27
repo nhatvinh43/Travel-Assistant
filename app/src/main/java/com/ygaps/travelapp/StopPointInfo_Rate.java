@@ -1,5 +1,6 @@
 package com.ygaps.travelapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -40,10 +41,12 @@ public class StopPointInfo_Rate extends AppCompatActivity {
                 finish();
             }
         });
-       send.setOnClickListener(new View.OnClickListener() {
+        send.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
                API api = getClient().create(API.class);
+               Intent ret = new Intent();
+               setResult(RESULT_OK, ret);
                FeedbackSend feedbackSend = new FeedbackSend(Integer.parseInt(StopPointInfo_Main.StopPointId),
                        comment.getText().toString(),(int)(ratingBar.getRating()));
                Call<JsonObject> call = api.sendFeedback(app.userToken,feedbackSend);
@@ -67,6 +70,7 @@ public class StopPointInfo_Rate extends AppCompatActivity {
                         finish();
                    }
                });
+
            }
        });
 

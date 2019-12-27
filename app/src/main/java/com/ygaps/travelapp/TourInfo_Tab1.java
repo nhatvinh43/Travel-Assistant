@@ -58,6 +58,7 @@ public class TourInfo_Tab1 extends Fragment {
         final TextView startTour = view.findViewById(R.id.startTourText);
         final ImageButton startTourBtn = view.findViewById(R.id.tourInfoStartTour);
         final ImageButton trackTourBtn = view.findViewById(R.id.tourInfoTrackTour);
+        final TextView  trackTour = view.findViewById(R.id.trackTourText);
 
         trackTourBtn.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -72,6 +73,8 @@ public class TourInfo_Tab1 extends Fragment {
             editTourInfo.setVisibility(View.INVISIBLE);
             startTour.setVisibility(View.GONE);
             startTourBtn.setVisibility(View.GONE);
+            trackTour.setVisibility(View.GONE);
+            trackTourBtn.setVisibility(View.GONE);
         }
 
 

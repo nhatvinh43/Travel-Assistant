@@ -8,6 +8,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 
 /**
@@ -62,6 +65,15 @@ public class TourInfo_Tab4 extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tour_info__tab4, container, false);
+        EditText chatContent = view.findViewById(R.id.tourInfoChatContent);
+        ImageButton chatBtn = view.findViewById(R.id.tourInfoChatSendBtn);
+        if (TourInfo_Main.privacy == 0){
+            chatContent.setVisibility(View.GONE);
+            chatBtn.setVisibility(View.GONE);
+            Toast.makeText(getContext().getApplicationContext(), "You Cannot Use That Feature Now", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(getContext().getApplicationContext(), "See Your Chat", Toast.LENGTH_SHORT).show();
+        }
 
         return view;
     }

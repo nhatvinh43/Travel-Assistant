@@ -1,6 +1,7 @@
 package com.ygaps.travelapp;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.google.gson.JsonObject;
 import com.ygaps.travelapp.data.model.EditUserInfo;
 import com.ygaps.travelapp.data.remote.API;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import retrofit2.Call;
@@ -31,6 +33,7 @@ public class Settings_EditInfo extends AppCompatActivity {
     private int CurDay;
     private int CurMonth;
     private int CurYear;
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +88,7 @@ public class Settings_EditInfo extends AppCompatActivity {
                     CurDay = Integer.parseInt(CurDob.substring(8,10));
                     CurDob = CurDay + "/" + CurMonth + "/" + CurYear;
                     Dob = CurYear + "-" + CurMonth + "-" + CurDay;
+                    Log.d("EditUserInfo", CurDay + CurMonth + CurYear + "");
                 }
                 gender.setSelection(genderselect);
                 userName.setText(name);
@@ -140,6 +144,7 @@ public class Settings_EditInfo extends AppCompatActivity {
         Confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 API api = getClient().create(API.class);
 
                 int genderSelected = 0;
@@ -171,6 +176,8 @@ public class Settings_EditInfo extends AppCompatActivity {
                         Log.d("ErrorOnSettingEditInfo",t.getMessage());
                     }
                 });
+//                Intent ret = new Intent();
+//                setResult(RESULT_OK, ret);
             }
         });
 

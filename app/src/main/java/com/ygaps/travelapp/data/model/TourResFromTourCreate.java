@@ -7,47 +7,58 @@ public class TourResFromTourCreate {
     @SerializedName("hostId")
     @Expose
     private String hostId;
+
     @SerializedName("status")
     @Expose
     private Integer status;
+
     @SerializedName("name")
     @Expose
     private String name;
+
     @SerializedName("minCost")
     @Expose
     private Integer minCost;
+
     @SerializedName("maxCost")
     @Expose
     private Integer maxCost;
+
     @SerializedName("startDate")
     @Expose
-    private Integer startDate;
+    private Long startDate;
+
     @SerializedName("endDate")
     @Expose
-    private Integer endDate;
+    private Long endDate;
+
     @SerializedName("adults")
     @Expose
     private Integer adults;
+
     @SerializedName("childs")
     @Expose
     private Integer childs;
+
     @SerializedName("isPrivate")
     @Expose
     private Boolean isPrivate;
+
     @SerializedName("avatar")
     @Expose
     private String avatar;
+
     @SerializedName("createdOn")
     @Expose
-    private Integer createdOn;
+    private Long createdOn;
+
     @SerializedName("id")
     @Expose
     private String id;
 
-
     public TourResFromTourCreate(String hostId, Integer status, String name, Integer minCost,
-                                 Integer maxCost, Integer startDate, Integer endDate, Integer adults,
-                                 Integer childs, Boolean isPrivate, String avatar, Integer createdOn, String id) {
+                                 Integer maxCost, Long startDate, Long endDate, Integer adults, Integer childs,
+                                 Boolean isPrivate, String avatar, Long createdOn, String id) {
         this.hostId = hostId;
         this.status = status;
         this.name = name;
@@ -103,19 +114,19 @@ public class TourResFromTourCreate {
         this.maxCost = maxCost;
     }
 
-    public Integer getStartDate() {
+    public Long getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Integer startDate) {
+    public void setStartDate(Long startDate) {
         this.startDate = startDate;
     }
 
-    public Integer getEndDate() {
+    public Long getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Integer endDate) {
+    public void setEndDate(Long endDate) {
         this.endDate = endDate;
     }
 
@@ -151,11 +162,11 @@ public class TourResFromTourCreate {
         this.avatar = avatar;
     }
 
-    public Integer getCreatedOn() {
+    public Long getCreatedOn() {
         return createdOn;
     }
 
-    public void setCreatedOn(Integer createdOn) {
+    public void setCreatedOn(Long createdOn) {
         this.createdOn = createdOn;
     }
 

@@ -59,13 +59,8 @@ import retrofit2.Response;
 public class StartEndLocationSelect extends FragmentActivity implements OnMapReadyCallback {
 
     private ArrayList<StopPoint> data = new ArrayList<>();
-    private ArrayList<StopPoint> allStopPointToShow1Coor = new ArrayList<>();
-    private ArrayList<StopPoint> cacheStopPoint = new ArrayList<>();
     public static String[] typeServiceID = {"Restaurant", "Hotel", "Rest Station", "Other"};
-    //ic_hotel ic_burger
     private String[] selection = {"Choose", "See Detail"};
-    private static final int REQUESTCODE = 101;
-    private static final int REQUSETCODE1 = 111;
     private GoogleMap mMap;
     private FusedLocationProviderClient client;
     private Location currentLocation;
@@ -75,9 +70,6 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
     private boolean flag = false;
     private MyApplication app;
 
-    //test data
-    LatLng latlng1 = new LatLng(10.459765,106.721583);
-    LatLng latlng2 = new LatLng(10.463614,106.720246);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,7 +82,7 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
         mConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (lat!=0){
+                if (lat!=0 || lng != 0){
                     flag = true;
                 }
                 if (flag) {
@@ -114,7 +106,6 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
             }
         });
 
-
         mCancel = findViewById(R.id.cancelStartEnd);
         mCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,69 +121,48 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
         mMap = googleMap;
         mMap.setMyLocationEnabled(true);
 
-        //mMap.getUiSettings().setMyLocationButtonEnabled(true);
-        //mMap.getUiSettings().setCompassEnabled(true);
+        mMap.getUiSettings().setMyLocationButtonEnabled(false);
+        mMap.getUiSettings().setCompassEnabled(false);
 
-        final LatLng latLng = new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
+        LatLng latLng = new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
 
         LatLng HCMC = new LatLng(10.775801, 106.693466);
 
         mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,15));
 
-        MarkerOptions markerOptions1 = new MarkerOptions().position(latlng1).title("CHO RG").draggable(true).snippet("123");
-        MarkerOptions markerOptions2 = new MarkerOptions().position(latlng2).title("AO DINH").draggable(true);
-        mMap.addMarker(markerOptions1);
-        mMap.addMarker(markerOptions2);
-
-
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                Toast.makeText(StartEndLocationSelect.this, marker.getPosition().latitude + " " + marker.getPosition().longitude,Toast.LENGTH_SHORT)
-                        .show();
-                lat = marker.getPosition().latitude;
-                lng = marker.getPosition().longitude;
-                return false;
-            }
-        });
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                //lay diem dung goi y roi hien thi
                 newLatLng = new LatLng(latLng.latitude, latLng.longitude);
                 lat = latLng.latitude;
                 lng = latLng.longitude;
                 mMap.animateCamera(CameraUpdateFactory.newLatLng(newLatLng));
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(newLatLng,15));
-                onTouch(latLng);
             }
         });
-        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
-            @Override
-            public void onMapLongClick(LatLng latLng) {
-                onHold(latLng);
-            }
-        });
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                showDialog(marker);
-                return false;
-            }
-        });
-
-        //getBound
-        //LatLngBounds bounds = mMap.getProjection().getVisibleRegion().latLngBounds;
-
-
+//        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+//            @Override
+//            public void onMapLongClick(LatLng latLng) {
+//                onHold(latLng);
+//            }
+//        });
+//        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+//            @Override
+//            public boolean onMarkerClick(Marker marker) {
+//                lat = marker.getPosition().latitude;
+//                lng = marker.getPosition().longitude;
+//                showDialog(marker);
+//                return false;
+//            }
+//        });
     }
 
-    private void GetLastLocation() {
+    public void GetLastLocation() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
         {
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},REQUESTCODE);
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},101);
             return;
         }
         Task<Location> task = client.getLastLocation();
@@ -201,8 +171,6 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
             public void onSuccess(Location location) {
                 if (location!=null){
                     currentLocation=location;
-                    Toast.makeText(getApplicationContext(),currentLocation.getLatitude()+" "+currentLocation.getLongitude(),Toast.LENGTH_SHORT)
-                            .show();
                     SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                             .findFragmentById(R.id.mapStartEnd);
                     mapFragment.getMapAsync(StartEndLocationSelect.this);
@@ -213,7 +181,7 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode){
-            case REQUESTCODE:{
+            case 101:{
                 if (grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     GetLastLocation();
                 }
@@ -240,11 +208,10 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
                 })
                 .show()
                 .getWindow().setGravity(Gravity.BOTTOM);
-
-
     }
 
-    public void onTouch(final LatLng onTouchLatLng){
+    public void onTouch(LatLng onTouchLatLng){
+        Log.d("StartEnd", "Address Here: " + convertToAddress(onTouchLatLng.latitude, onTouchLatLng.longitude));
         mMap.clear();
         data.clear();
         //show AlertDialog to Notify See Detail or Choose.
@@ -273,8 +240,6 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
         coordList.add(coordinateSetNear);
 
         MoreOneCoordinate moreOneCoordinate = new MoreOneCoordinate(false, coordList);
-
-
 
         OneCoordinate oneCoordinate = new OneCoordinate(true,
                 new Coordinate(onTouchLatLng.latitude,onTouchLatLng.longitude));
@@ -375,9 +340,6 @@ public class StartEndLocationSelect extends FragmentActivity implements OnMapRea
             if(addresses!=null){
                 Address returnAddr = addresses.get(0);
                 StringBuilder strReturnedAddr = new StringBuilder("");
-                if (returnAddr.getMaxAddressLineIndex() == 0){
-                    return strAddr;
-                }
                 for (int i = 0 ; i <=returnAddr.getMaxAddressLineIndex();i++){
                     strReturnedAddr.append(returnAddr.getAddressLine(i)).append("\n");
                 }

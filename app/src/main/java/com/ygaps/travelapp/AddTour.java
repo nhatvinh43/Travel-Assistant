@@ -41,15 +41,16 @@ public class AddTour extends AppCompatActivity {
     //write a function to get ID of Stop Point from LatLng of marker
     //ic_hotel ic_burger
 
-    //this list is used to save list Of Stop Point
-    static public ArrayList<StopPointSetSP> listStopPoint = null;
-    static public StopPointSetSP startLocation, endLocation;
+    public static String tourIdRev = "null";
+    public String tourID = ""; // receive after create Tour API Call
+
+    public StopPointSetSP startLocation, endLocation;
     private static double LatStart, LatEnd, LngStart, LngEnd;
 
     Context context = this;
     private Calendar c;
     private DatePickerDialog dpd;
-    public static String tourID = ""; // receive after create Tour API Call
+
     private static long startDateTime, endDateTime;
     private static String myDayStart, myDayEnd;
     private static String addressLocationStart, addressLocationEnd;
@@ -92,10 +93,9 @@ public class AddTour extends AppCompatActivity {
 
         cancelButton.setOnClickListener(cancel);
 
-        View.OnClickListener confirm = new View.OnClickListener(){
-
-            public void onClick(View v)
-            {
+        confirmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 API api = retrofit.getClient().create(API.class);
                 String pName = tourName.getText().toString();
                 //startDateTime
@@ -137,40 +137,39 @@ public class AddTour extends AppCompatActivity {
                 else {
                     maxB = Integer.parseInt(pMaxCost);
                 }
-                //avatar
 
                 if (pName.length() == 0 || startDateTime == 0 || endDateTime == 0 ||
-                LatStart == 0 || LatEnd == 0){
+                        LatStart == 0 || LatEnd == 0){
                     flag = false;
                 }
                 if (pName.length() != 0 && startDateTime != 0 && endDateTime != 0
-                && LatStart != 0 && LatEnd != 0){
+                        && LatStart != 0 && LatEnd != 0){
                     flag = true;
                 }
                 if (flag){
                     String res = pName + minB + maxB + startDateTime + endDateTime + numberOAd + numberOCh + LatStart + LngStart
                             + LatEnd + LngEnd + pIsPrivate;
-                    Toast.makeText(getApplicationContext(), res,Toast.LENGTH_SHORT).show();
                     Log.d("Data0", res);
-                    //Toast.makeText(getApplicationContext(),"Create Tour Success", Toast.LENGTH_SHORT).show();
                     TourCreate newTour = new TourCreate(pName, startDateTime, endDateTime, LatStart, LngStart,
                             LatEnd, LngEnd, pIsPrivate, numberOAd, numberOCh, minB, maxB, null);
-//                    TourCreate newTour = new TourCreate("test",-255797632,-255797632,10.1231,100.1231,
-//                            10.1233,100.1231,true,2,1,100,100,"test");
                     Call<TourResFromTourCreate> call = api.createTour(app.userToken, newTour);
-
                     call.enqueue(new Callback<TourResFromTourCreate>() {
                         @Override
                         public void onResponse(Call<TourResFromTourCreate> call, Response<TourResFromTourCreate> response) {
-                            Log.d("ADDTOURCODE", response.code()+" "+response.body().getId());
+                            Log.d("AddTour", response.code()+"");
                             if (!response.isSuccessful()){
-                                Gson gson = new Gson();
-                                JsonObject error = gson.fromJson(response.errorBody().charStream(),JsonObject.class);
-                                Log.d("ADDTOURERROR", error.get("message").getAsString());
+                                Log.d("AddTour", response.isSuccessful()+"");
+                                Toast.makeText(getApplicationContext(),"Error", Toast.LENGTH_SHORT).show();
                                 return;
                             }
-                            TourResFromTourCreate resource = response.body();
-                            tourID = resource.getId();
+                            TourResFromTourCreate data = response.body();
+                            tourID = data.getId().toString();
+                            tourIdRev = data.getId();
+                            Log.d("AddTour", data.getId()+"/"+tourID);
+                            Intent intent = new Intent(AddTour.this, StopPoints.class);
+                            Log.d("AddTour", tourID+" 2");
+                            intent.putExtra("TourId", tourID);
+                            startActivity(intent);
                         }
 
                         @Override
@@ -178,17 +177,15 @@ public class AddTour extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
                         }
                     });
-                    Intent intent = new Intent(context,StopPoints.class);
-                    //intent.putExtra("TourIDFromCreate", tourID);
-                    startActivity(intent);
                     finish();
+
                 }
                 else {
                     Toast.makeText(getApplicationContext(),"Cannot Create", Toast.LENGTH_SHORT).show();
                 }
-
             }
-        };
+        });
+
         startDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -262,8 +259,6 @@ public class AddTour extends AppCompatActivity {
                 startActivityForResult(intent,2);
             }
         });
-        confirmButton.setOnClickListener(confirm);
-
 
 
         /*Lưu ý:
@@ -297,7 +292,6 @@ public class AddTour extends AppCompatActivity {
                     addressLocationEnd = data.getStringExtra("ADDRESSLOCATION");
                     TextView locationEnd = (TextView) findViewById(R.id.endLocation);
                     locationEnd.setText(addressLocationEnd);
-
                 }
                 break;
             }
