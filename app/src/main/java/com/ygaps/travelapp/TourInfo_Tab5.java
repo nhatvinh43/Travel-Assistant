@@ -106,13 +106,25 @@ public class TourInfo_Tab5 extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(),TourInfo_AddMember.class);
-                startActivity(intent);
+                startActivityForResult(intent,111);
                 Toast.makeText(getContext().getApplicationContext(), "Add Member", Toast.LENGTH_SHORT).show();
             }
         });
         return view;
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==111){
+            if (resultCode == getActivity().RESULT_OK){
+                getActivity().recreate();
+            }
+        }
+    }
+
     private void fetchDataMember(){
+        dataSet.clear();
         API api = retrofit.getClient().create(API.class);
         Call<TourInfo> call = api.getTourInfoTV(((MyApplication)getActivity().getApplication()).userToken, Integer.valueOf(TourInfo_Main.tourId));
         call.enqueue(new Callback<TourInfo>() {

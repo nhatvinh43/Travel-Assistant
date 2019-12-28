@@ -178,10 +178,11 @@ public class CreateStopPoint extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //check validate
-                if (name.getText().toString().length() == 0 || ArrivalDateTime == 0 || LeaveDateTime ==0){
+                if (name.getText().toString().length() == 0 || ArrivalDateTime == 0 || LeaveDateTime ==0 ||
+                        minCost.getText().toString().length() == 0 || maxCost.getText().toString().length() ==0){
                     flag = false;
                 }
-                if (name.getText().toString().length() != 0 && ArrivalDateTime != 0 && LeaveDateTime !=0){
+                else{
                     flag = true;
                 }
 

@@ -51,6 +51,7 @@ public class LoginActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
 
     private MyApplication app;
+    public static String TOKEN;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -115,6 +116,7 @@ public class LoginActivity extends AppCompatActivity {
                             return;
                         }
                         JsonObject loginResponse = response.body();
+                        TOKEN = loginResponse.get("token").getAsString();
                         app.userToken = loginResponse.get("token").getAsString();
                         app.userId = loginResponse.get("userId").getAsString();
                         Intent intent1 = new Intent(LoginActivity.this, MainActivity.class);

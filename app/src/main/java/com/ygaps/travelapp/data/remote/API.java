@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import com.ygaps.travelapp.data.model.CommentSend;
 import com.ygaps.travelapp.data.model.EditUserInfo;
 import com.ygaps.travelapp.data.model.FeedbackSend;
+import com.ygaps.travelapp.data.model.Invitation;
 import com.ygaps.travelapp.data.model.ListCommentForList;
 import com.ygaps.travelapp.data.model.ListFeedbackSP;
 import com.ygaps.travelapp.data.model.ListReview;
@@ -14,8 +15,11 @@ import com.ygaps.travelapp.data.model.ListTour;
 import com.ygaps.travelapp.data.model.ListTourMyTour;
 import com.ygaps.travelapp.data.model.LoginData;
 import com.ygaps.travelapp.data.model.MoreOneCoordinate;
+import com.ygaps.travelapp.data.model.Notification;
+import com.ygaps.travelapp.data.model.NotificationOnRoad;
 import com.ygaps.travelapp.data.model.OneCoordinate;
 import com.ygaps.travelapp.data.model.PasswordRecoveryOtp;
+import com.ygaps.travelapp.data.model.RegisterFCM;
 import com.ygaps.travelapp.data.model.ReviewSend;
 import com.ygaps.travelapp.data.model.ServiceDetail;
 import com.ygaps.travelapp.data.model.TourCreate;
@@ -185,5 +189,26 @@ public interface API {
     Call<JsonObject> setStopPoints(
             @Header("Authorization") String Auth,
             @Body ListStopPointSetSP data
+            );
+
+    @POST("/user/notification/put-token")
+    Call<JsonObject> registerFCM(
+            @Header("Authorization") String Auth,
+            @Body RegisterFCM registerFCM
+            );
+    @POST("/tour/add/member")
+    Call<JsonObject> sendInvitation(
+            @Header("Authorization") String Auth,
+            @Body Invitation invitation
+            );
+    @POST("/tour/notification")
+    Call<JsonObject> sendNotification(
+            @Header("Authorization") String Auth,
+            @Body Notification notification
+            );
+    @POST("/tour/add/notification-on-road")
+    Call<JsonObject> sendNotificationOnRoad(
+            @Header("Authorization") String Auth,
+            @Body NotificationOnRoad notificationOnRoad
             );
 }

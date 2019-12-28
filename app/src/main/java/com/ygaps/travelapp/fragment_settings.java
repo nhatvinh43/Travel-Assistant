@@ -55,7 +55,7 @@ public class fragment_settings extends Fragment {
                 }
 
                 TextView userName = view.findViewById(R.id.settingsUsername);
-                userName.setText(name);
+                userName.setText(name+"|"+app.userId);
             }
 
             @Override

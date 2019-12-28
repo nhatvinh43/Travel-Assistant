@@ -63,7 +63,7 @@ import retrofit2.Response;
  * Use the {@link fragment_explore#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class fragment_explore extends Fragment {
+public class fragment_explore extends Fragment implements OnMapReadyCallback {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -119,9 +119,18 @@ public class fragment_explore extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
+        View view = inflater.inflate(R.layout.fragment_fragment_explore, container, false);
+//        supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.exploreMap);
+//        if (supportMapFragment == null){
+//            FragmentManager fragmentManager = getFragmentManager();
+//            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//            supportMapFragment = SupportMapFragment.newInstance();
+//            fragmentTransaction.replace(R.id.exploreMap, supportMapFragment).commit();
+//        }
+//        supportMapFragment.getMapAsync(this);
         client = LocationServices.getFusedLocationProviderClient(getActivity().getApplicationContext());
         GetLastLocation();
-        View view = inflater.inflate(R.layout.fragment_fragment_explore, container, false);
         mGetHome = view.findViewById(R.id.exploreGetCurrentLocation);
         mGetHome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,63 +140,51 @@ public class fragment_explore extends Fragment {
             }
         });
         app = (MyApplication)getActivity().getApplication();
-
-        supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.exploreMap);
-        if (supportMapFragment==null){
-            FragmentManager fragmentManager = getFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            supportMapFragment = SupportMapFragment.newInstance();
-            fragmentTransaction.replace(R.id.exploreMap, supportMapFragment).commit();
-        }
-        if (supportMapFragment!=null){
-            supportMapFragment.getMapAsync(new OnMapReadyCallback() {
-                @Override
-                public void onMapReady(GoogleMap googleMap) {
-                    mMap = googleMap;
-                    mMap.setMyLocationEnabled(true);
-
-                    mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                        @Override
-                        public void onMapClick(LatLng latLng) {
-                            onTouch(latLng);
-                        }
-                    });
-                    mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                        @Override
-                        public boolean onMarkerClick(Marker marker) {
-                            showDialog(marker);
-                            return false;
-                        }
-                    });
-
-                }
-            });
-        }
         return view;
     }
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        mMap.setMyLocationEnabled(true);
+        LatLng latLng = new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
+        mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,15));
 
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                onTouch(latLng);
+            }
+        });
 
-    public void GetLastLocation() {
-        if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                showDialog(marker);
+                return false;
+            }
+        });
+
+    }
+
+    private void GetLastLocation(){
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(getContext(),Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
         {
-            ActivityCompat.requestPermissions(getActivity().getParent(),
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},101);
+            ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.ACCESS_FINE_LOCATION},101);
             return;
         }
-        Task<Location> task = client.getLastLocation();
+        Task<Location>task = client.getLastLocation();
         task.addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
+                Log.d("Explore", location.getLatitude() +" "+location.getLongitude());
                 if (location!=null){
-                    currentLocation=location;
-                    CameraPosition cameraPosition = new CameraPosition.Builder()
-                            .target(new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude())).zoom(10).build();
-                    CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
-                    mMap.animateCamera(cameraUpdate);
+                    currentLocation = location;
+                    SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
+                            .findFragmentById(R.id.exploreMap);
+                    mapFragment.getMapAsync(fragment_explore.this);
                 }
             }
         });
