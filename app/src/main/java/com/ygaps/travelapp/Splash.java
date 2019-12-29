@@ -25,6 +25,8 @@ public class Splash extends AppCompatActivity {
                 SharedPreferences sharedPreferences = getSharedPreferences("DoAn", Context.MODE_PRIVATE);
                 String token = sharedPreferences.getString("UserToken","");
                 if (!token.equals("")){
+                    String userId = sharedPreferences.getString("userId","");
+                    app.userId = userId;
                     app.userToken = token;
                     Log.d("UserTokenSplash", token);
                     Intent intent = new Intent(context,MainActivity.class);

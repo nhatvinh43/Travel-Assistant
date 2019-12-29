@@ -65,7 +65,8 @@ public class StopPointTourInfoAdapter extends RecyclerView.Adapter<StopPointTour
                 Toast.makeText(context.getApplicationContext(),"Click On :"+sp.getServiceId()+" "+sp.getName(), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context, StopPointInfo_Main.class);
                 intent.putExtra("StopPointIdForSeeDetail",sp.getServiceId().toString());
-                intent.putExtra("SeeFrom",1);
+                intent.putExtra("SeeFrom",0);
+                intent.putExtra("StopPointId",sp.getId().toString());
                 context.startActivity(intent);
                 //go to StopPointInfoMain
                 //put StopPointId + SeeFrom

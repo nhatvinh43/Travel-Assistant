@@ -128,6 +128,7 @@ public class LoginActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.clear();
                         editor.putString("UserToken",app.userToken);
+                        editor.putString("UserId",app.userId);
                         editor.apply();
                         finish();
                     }

@@ -1,6 +1,7 @@
 package com.ygaps.travelapp;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -30,10 +31,33 @@ import retrofit2.Response;
  * A simple {@link Fragment} subclass.
  */
 public class TourInfo_Tab1 extends Fragment {
-
+    public static int REQUEST_CODE = 1;
+    private TextView mprice;
+    private TextView adults;
+    private TextView childs;
+    private TextView status;
+    private TextView startDate;
+    private TextView endDate;
+    private TextView pivacy;
+    private ImageButton editTourInfo;
+    private TextView startTour;
+    private ImageButton startTourBtn;
+    private ImageButton trackTourBtn;
+    private TextView  trackTour;
 
     public TourInfo_Tab1() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == REQUEST_CODE) {
+                loadData();
+                TourInfo_Main.setTourName(data.getStringExtra("name"));
+            }
+        }
     }
 
     @Override
@@ -47,25 +71,27 @@ public class TourInfo_Tab1 extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tour_info__tab1, container, false);
-        final TextView mprice = view.findViewById(R.id.tourInfoPrice);
-        final TextView adults = view.findViewById(R.id.tourInfoAdult);
-        final TextView childs = view.findViewById(R.id.tourInfoChildren);
-        final TextView status = view.findViewById(R.id.tourInfoStatus);
-        final TextView startDate = view.findViewById(R.id.tourInfoStartDate);
-        final TextView endDate = view.findViewById(R.id.tourInfoEndDate);
-        final TextView pivacy = view.findViewById(R.id.tourInfoPrivacy);
-        final ImageButton editTourInfo = view.findViewById(R.id.tourInfoEditTour);
-        final TextView startTour = view.findViewById(R.id.startTourText);
-        final ImageButton startTourBtn = view.findViewById(R.id.tourInfoStartTour);
-        final ImageButton trackTourBtn = view.findViewById(R.id.tourInfoTrackTour);
-        final TextView  trackTour = view.findViewById(R.id.trackTourText);
+        mprice = view.findViewById(R.id.tourInfoPrice);
+        adults = view.findViewById(R.id.tourInfoAdult);
+        childs = view.findViewById(R.id.tourInfoChildren);
+        status = view.findViewById(R.id.tourInfoStatus);
+        startDate = view.findViewById(R.id.tourInfoStartDate);
+        endDate = view.findViewById(R.id.tourInfoEndDate);
+        pivacy = view.findViewById(R.id.tourInfoPrivacy);
+        editTourInfo = view.findViewById(R.id.tourInfoEditTour);
+        startTour = view.findViewById(R.id.startTourText);
+        startTourBtn = view.findViewById(R.id.tourInfoStartTour);
+        trackTourBtn = view.findViewById(R.id.tourInfoTrackTour);
+        trackTour = view.findViewById(R.id.trackTourText);
+
+        loadData();
 
         trackTourBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v)
             {
                 Intent intent = new Intent(getActivity(),TourInfo_MapScreen.class);
-                startActivity(intent);
+                startActivityForResult(intent,REQUEST_CODE);
             }
         });
 
@@ -75,8 +101,20 @@ public class TourInfo_Tab1 extends Fragment {
             startTourBtn.setVisibility(View.GONE);
             trackTour.setVisibility(View.GONE);
             trackTourBtn.setVisibility(View.GONE);
+        }else {
+            editTourInfo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getContext(), TourInfo_Edit.class);
+                    intent.putExtra("tourId", TourInfo_Main.tourId);
+                    startActivityForResult(intent, REQUEST_CODE);
+                }
+            });
         }
+        return view;
+    }
 
+    private void loadData(){
 
         API api = retrofit.getClient().create(API.class);
         Call<TourInfo> call = api.getTourInfoTV(((MyApplication)getActivity().getApplication()).userToken,
@@ -127,7 +165,7 @@ public class TourInfo_Tab1 extends Fragment {
                 }
                 startDate.setText(startDateF);
                 endDate.setText(endDateF);
-
+                TourInfo_Main.setTourName(tourInfo.getName());
 
             }
 
@@ -136,9 +174,6 @@ public class TourInfo_Tab1 extends Fragment {
                 Toast.makeText(getContext().getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
             }
         });
-
-
-        return view;
     }
 
     public interface OnFragmentInteractionListener {

@@ -128,7 +128,7 @@
                             android:text="@string/statusAttr"
                             android:textSize="18sp" />
                         <androidx.appcompat.widget.AppCompatSpinner
-                            android:id="@+id/status"
+                            android:id="@+id/tourInfoEditStatus"
                             android:layout_marginTop="10dp"
                             android:layout_marginEnd="5dp"
                             android:layout_width="wrap_content"

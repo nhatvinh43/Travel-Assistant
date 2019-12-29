@@ -1,5 +1,6 @@
 package com.ygaps.travelapp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,10 +16,10 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.ygaps.travelapp.data.remote.API;
-import com.ygaps.travelapp.ui.login.LoginActivity;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.ygaps.travelapp.data.remote.API;
+import com.ygaps.travelapp.ui.login.LoginActivity;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,6 +29,7 @@ import static com.ygaps.travelapp.data.remote.retrofit.getClient;
 
 public class fragment_settings extends Fragment {
     private MyApplication app;
+    private TextView userName;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -35,6 +37,7 @@ public class fragment_settings extends Fragment {
 
         app = (MyApplication)getActivity().getApplication();
         Log.d("UserTokenSetting",app.userToken);
+        userName = view.findViewById(R.id.settingsUsername);
         API api = getClient().create(API.class);
         Call<JsonObject> call = api.userInfo(app.userToken);
         call.enqueue(new Callback<JsonObject>() {
@@ -69,7 +72,7 @@ public class fragment_settings extends Fragment {
             @Override
             public void onClick(View v)
             {
-                Intent intent = new Intent(getActivity(),Settings_EditInfo.class);
+                Intent intent = new Intent(getContext(),Settings_EditInfo.class);
                 startActivityForResult(intent,111);
             }
         });
@@ -94,8 +97,8 @@ public class fragment_settings extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode==111){
-            if (resultCode==getActivity().RESULT_OK){
-                getActivity().recreate();
+            if (resultCode== Activity.RESULT_OK){
+                userName.setText(data.getStringExtra("fullname"));
             }
         }
     }

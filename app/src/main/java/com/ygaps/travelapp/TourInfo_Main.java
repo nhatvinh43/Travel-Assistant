@@ -3,7 +3,6 @@ package com.ygaps.travelapp;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -12,14 +11,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
-import com.ygaps.travelapp.data.model.TourInfo;
-import com.ygaps.travelapp.data.remote.API;
-import com.ygaps.travelapp.data.remote.retrofit;
 import com.google.android.material.tabs.TabLayout;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import com.ygaps.travelapp.data.model.TourInfo;
 
 public class TourInfo_Main extends AppCompatActivity
         implements TourInfo_Tab1.OnFragmentInteractionListener,
@@ -29,6 +22,7 @@ public class TourInfo_Main extends AppCompatActivity
     public static int privacy; //this var stored you are Creater or not. See is 0. Own is 1.
     public static TourInfo tourInfo;
     private MyApplication app;
+    private static TextView tv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +41,7 @@ public class TourInfo_Main extends AppCompatActivity
                 finish();
             }
         });
-        final TextView tv = findViewById(R.id.tourInfoName);
+        tv = findViewById(R.id.tourInfoName);
 
         Intent intent = getIntent();
         if (intent.hasExtra("TourIdForInfo")){
@@ -77,34 +71,14 @@ public class TourInfo_Main extends AppCompatActivity
             deleteTour.setVisibility(View.INVISIBLE);
         }
 
-        Log.d("TourInfoMain TourId", privacy + " " + tourId);
-        //tv.setText(tourId);
-        API api = retrofit.getClient().create(API.class);
-        Call<TourInfo> call = api.getTourInfoTV(app.userToken, Integer.valueOf(tourId));
-        call.enqueue(new Callback<TourInfo>() {
-            @Override
-            public void onResponse(Call<TourInfo> call, Response<TourInfo> response) {
-                Log.d("TourInfoMain ResCode", response.code()+"");
-                if (!response.isSuccessful()){
-                    Log.d("TourInfoMain Succes",response.isSuccessful()+"");
-                    return;
-                }
-
-                TourInfo tourInfo = response.body();
-                Log.d("TourInfoMain TourName", tourInfo.getName() + "Name or Null");
-                tv.setText(tourInfo.getName());
-            }
-
-            @Override
-            public void onFailure(Call<TourInfo> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
-            }
-        });
-
     }
 
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    public static void setTourName(String name){
+        tv.setText(name);
     }
 }

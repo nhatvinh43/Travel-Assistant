@@ -176,8 +176,11 @@ public class Settings_EditInfo extends AppCompatActivity {
                         Log.d("ErrorOnSettingEditInfo",t.getMessage());
                     }
                 });
-//                Intent ret = new Intent();
-//                setResult(RESULT_OK, ret);
+
+                Intent ret = new Intent();
+                ret.putExtra("fullname",fullName.getText().toString());
+                setResult(RESULT_OK, ret);
+                finish();
             }
         });
 

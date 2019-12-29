@@ -2,6 +2,7 @@ package com.ygaps.travelapp.data.remote;
 
 import androidx.annotation.Nullable;
 
+import com.google.gson.JsonObject;
 import com.ygaps.travelapp.data.model.CommentSend;
 import com.ygaps.travelapp.data.model.EditUserInfo;
 import com.ygaps.travelapp.data.model.FeedbackSend;
@@ -25,8 +26,8 @@ import com.ygaps.travelapp.data.model.ServiceDetail;
 import com.ygaps.travelapp.data.model.TourCreate;
 import com.ygaps.travelapp.data.model.TourInfo;
 import com.ygaps.travelapp.data.model.TourResFromTourCreate;
+import com.ygaps.travelapp.data.model.UpdateTourInfoRequest;
 import com.ygaps.travelapp.data.model.VertifyPasswordRecoveryOtp;
-import com.google.gson.JsonObject;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -211,4 +212,14 @@ public interface API {
             @Header("Authorization") String Auth,
             @Body NotificationOnRoad notificationOnRoad
             );
+    @POST("/tour/update-tour")
+    Call<JsonObject> updateTour(
+            @Header("Authorization") String Auth,
+            @Body UpdateTourInfoRequest updateTourInfoRequest
+    );
+    @GET("/tour/remove-stop-point")
+    Call<JsonObject> removeStopPoint(
+            @Header("Authorization") String Auth,
+            @Query("stopPointId") String stopPointId
+    );
 }

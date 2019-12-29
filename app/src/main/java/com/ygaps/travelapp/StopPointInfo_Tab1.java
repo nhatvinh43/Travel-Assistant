@@ -1,12 +1,14 @@
 package com.ygaps.travelapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -87,6 +89,7 @@ public class StopPointInfo_Tab1 extends Fragment {
         final TextView labelStartDate = view.findViewById(R.id.stopPointInfoArrivalDate);
         final TextView labelEndDate = view.findViewById(R.id.stopPointInfoLeaveDate);
         final TextView contact = view.findViewById(R.id.stopPointInfoContact);
+        final ImageButton editStoppoint = view.findViewById(R.id.stopPointInfoEdit);
 
         if (getActivity()==null){
             Log.d("NULLX","getActivity in stoppointInfo Tab1");
@@ -122,6 +125,15 @@ public class StopPointInfo_Tab1 extends Fragment {
             @Override
             public void onFailure(Call<ServiceDetail> call, Throwable t) {
                 Toast.makeText(getContext().getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        editStoppoint.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(),StopPointInfo_Edit.class);
+                intent.putExtra("tourId",TourInfo_Main.tourId);
+                intent.putExtra("stoppointId",StopPointInfo_Main.StopPointId);
             }
         });
 
