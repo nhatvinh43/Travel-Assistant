@@ -222,4 +222,12 @@ public interface API {
             @Header("Authorization") String Auth,
             @Query("stopPointId") String stopPointId
     );
+    @FormUrlEncoded
+    @POST("/tour/update-tour")
+    Call<JsonObject> removeTour(
+            @Header("Authorization") String Auth,
+            @Field("id") String id,
+            @Field("status") int status
+    );
+
 }

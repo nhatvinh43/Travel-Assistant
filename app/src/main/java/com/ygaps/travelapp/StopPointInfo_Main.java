@@ -92,6 +92,8 @@ public class StopPointInfo_Main extends AppCompatActivity implements StopPointIn
                         JsonObject loginResponse = response.body();
                         Toast.makeText(StopPointInfo_Main.this,
                                 loginResponse.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+                        Intent intent1 = new Intent();
+                        setResult(RESULT_OK,intent1);
                         finish();
                     }
 

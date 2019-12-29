@@ -108,6 +108,9 @@ public class fragment_history extends Fragment {
                     TourMyTour tour = data.get(i);
                     if (data.get(i).getEndDate()==null||data.get(i).getStartDate()==null)
                         continue;
+                    if (data.get(i).getStatus()==-1){
+                        continue;
+                    }
                     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
                     Long tempStartDate = Long.valueOf(data.get(i).getStartDate());
                     String tempStartDateF = sdf.format(new Date(tempStartDate));

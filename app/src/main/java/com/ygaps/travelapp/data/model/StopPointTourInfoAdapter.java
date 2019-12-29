@@ -21,6 +21,7 @@ public class StopPointTourInfoAdapter extends RecyclerView.Adapter<StopPointTour
     private ArrayList<StopPointTourInfo> listSP;
     private Context context;
     private LayoutInflater inflater;
+    public static int REQUEST_CODE = 111;
     public StopPointTourInfoAdapter(Context context, ArrayList<StopPointTourInfo> obj){
         this.context = context;
         this.listSP = obj;
@@ -68,6 +69,7 @@ public class StopPointTourInfoAdapter extends RecyclerView.Adapter<StopPointTour
                 intent.putExtra("SeeFrom",0);
                 intent.putExtra("StopPointId",sp.getId().toString());
                 context.startActivity(intent);
+                //((Activity)context).startActivityForResult(intent,REQUEST_CODE);
                 //go to StopPointInfoMain
                 //put StopPointId + SeeFrom
             }
@@ -84,4 +86,5 @@ public class StopPointTourInfoAdapter extends RecyclerView.Adapter<StopPointTour
         listItems.addAll(listItems);
         notifyDataSetChanged();
     }
+
 }

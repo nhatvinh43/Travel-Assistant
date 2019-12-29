@@ -43,9 +43,15 @@ public class StopPointInfo_Tab1 extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    public static int REQUEST_CODE = 22;
     private MyApplication app;
     public StopPointInfo_Tab1() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     /**
@@ -90,13 +96,7 @@ public class StopPointInfo_Tab1 extends Fragment {
         final TextView labelEndDate = view.findViewById(R.id.stopPointInfoLeaveDate);
         final TextView contact = view.findViewById(R.id.stopPointInfoContact);
         final ImageButton editStoppoint = view.findViewById(R.id.stopPointInfoEdit);
-
-        if (getActivity()==null){
-            Log.d("NULLX","getActivity in stoppointInfo Tab1");
-        }
-        if (getActivity().getApplication()==null){
-            Log.d("NULLX","getApplication in stoppointInfo Tab2");
-        }
+        
         app = (MyApplication)getActivity().getApplication();
         if (StopPointInfo_Main.SeeFrom == 1){
             spStartDate.setVisibility(View.GONE);
@@ -134,6 +134,7 @@ public class StopPointInfo_Tab1 extends Fragment {
                 Intent intent = new Intent(getContext(),StopPointInfo_Edit.class);
                 intent.putExtra("tourId",TourInfo_Main.tourId);
                 intent.putExtra("stoppointId",StopPointInfo_Main.StopPointId);
+                startActivityForResult(intent,REQUEST_CODE);
             }
         });
 

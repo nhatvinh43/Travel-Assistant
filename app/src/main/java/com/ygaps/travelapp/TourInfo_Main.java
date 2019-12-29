@@ -12,7 +12,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.ygaps.travelapp.data.model.TourInfo;
+import com.ygaps.travelapp.data.remote.API;
+import com.ygaps.travelapp.data.remote.retrofit;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class TourInfo_Main extends AppCompatActivity
         implements TourInfo_Tab1.OnFragmentInteractionListener,
@@ -63,7 +71,27 @@ public class TourInfo_Main extends AppCompatActivity
         deleteTour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"Delete Click",Toast.LENGTH_SHORT).show();
+                API api = retrofit.getClient().create(API.class);
+                Call<JsonObject> call = api.removeTour(app.userToken,tourId,-1);
+                call.enqueue(new Callback<JsonObject>() {
+                    @Override
+                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                        if (!response.isSuccessful()) {
+                            Gson gson = new Gson();
+                            JsonObject error =gson.fromJson(response.errorBody().charStream(),JsonObject.class);
+                            Toast.makeText(getApplicationContext(),error.get("message").getAsString(),Toast.LENGTH_LONG).show();
+                        }else{
+                            Toast.makeText(TourInfo_Main.this, "Successs", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                        
+                    }
+
+                    @Override
+                    public void onFailure(Call<JsonObject> call, Throwable t) {
+
+                    }
+                });
             }
         });
 
