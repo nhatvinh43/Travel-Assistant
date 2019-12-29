@@ -175,8 +175,6 @@ public class TourInfo_MapScreen extends FragmentActivity implements OnMapReadyCa
 
         //Record and play audio
 
-
-
         recorder = new MediaRecorder();
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
