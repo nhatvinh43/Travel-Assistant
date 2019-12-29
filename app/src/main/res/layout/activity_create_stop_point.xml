@@ -336,6 +336,28 @@
                         android:gravity="center_vertical"/>
 
                 </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_marginTop="20dp"
+                    android:id="@+id/sixthRowSP"
+                    android:layout_below="@id/fifthRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <Button
+                        android:id="@+id/editStopPointDelete"
+                        android:layout_centerInParent="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/form"
+                        android:backgroundTint="@color/purpleRedAccent"
+                        android:textColor="@color/white"
+                        android:text="@string/delete"
+                        android:fontFamily="@font/quicksand_medium"
+                        android:textSize="15sp"
+                        android:elevation="0dp"
+                        style="@style/Widget.AppCompat.Button.Borderless"/>
+                </RelativeLayout>
+
             </RelativeLayout>
         </ScrollView>
 
