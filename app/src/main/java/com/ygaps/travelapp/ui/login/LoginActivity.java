@@ -164,6 +164,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 AccessToken accessToken = loginResult.getAccessToken();
+                Log.d("accessTokenFacebook",accessToken.getToken());
                 API api = getClient().create(API.class);
                 Call<JsonObject> call = api.loginFacebook(accessToken.getToken());
 
@@ -180,7 +181,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         Intent intent1 = new Intent(LoginActivity.this, MainActivity.class);
                         app.userToken = loginResponse.get("token").getAsString();
-                        app.userId = loginResponse.get("token").getAsString();
+                        app.userId = loginResponse.get("userId").getAsString();
                         startActivity(intent1);
 
                         //share preferences save User Token
