@@ -229,5 +229,4 @@ public interface API {
             @Field("id") String id,
             @Field("status") int status
     );
-
 }

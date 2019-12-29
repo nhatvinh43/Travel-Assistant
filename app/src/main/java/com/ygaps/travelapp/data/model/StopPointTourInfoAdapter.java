@@ -68,6 +68,8 @@ public class StopPointTourInfoAdapter extends RecyclerView.Adapter<StopPointTour
                 intent.putExtra("StopPointIdForSeeDetail",sp.getServiceId().toString());
                 intent.putExtra("SeeFrom",0);
                 intent.putExtra("StopPointId",sp.getId().toString());
+                intent.putExtra("arrivalAt",sp.getArrivalAt());
+                intent.putExtra("leaveAt",sp.getLeaveAt());
                 context.startActivity(intent);
                 //((Activity)context).startActivityForResult(intent,REQUEST_CODE);
                 //go to StopPointInfoMain

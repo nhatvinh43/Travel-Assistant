@@ -64,7 +64,7 @@ public class fragment_history extends Fragment {
         adapter.notifyDataSetChanged();
 
 
-        fetchItemList();
+        //fetchItemList();
 
 
 
@@ -88,6 +88,7 @@ public class fragment_history extends Fragment {
         mShimmerViewContainer.startShimmerAnimation();
         Intent intent = getActivity().getIntent();
         String Token = MainActivity.app.userToken;
+        dataSet.clear();
 
         API api = retrofit.getClient().create(API.class);
         Log.d("UserToken",Token);
@@ -137,6 +138,7 @@ public class fragment_history extends Fragment {
     public void onResume() {
         super.onResume();
         mShimmerViewContainer.startShimmerAnimation();
+        fetchItemList();
     }
 
     @Override

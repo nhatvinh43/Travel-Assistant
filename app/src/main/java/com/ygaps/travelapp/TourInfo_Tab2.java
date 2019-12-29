@@ -105,7 +105,7 @@ public class TourInfo_Tab2 extends Fragment {
 
         adapter.notifyDataSetChanged();
 
-        fetchStopPointData();
+        //fetchStopPointData();
 
         //get data from server
 
@@ -122,6 +122,12 @@ public class TourInfo_Tab2 extends Fragment {
                 getActivity().recreate();
             }
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        fetchStopPointData();
     }
 
     public void fetchStopPointData(){

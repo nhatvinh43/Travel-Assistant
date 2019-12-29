@@ -28,6 +28,7 @@ public class StopPointInfo_Main extends AppCompatActivity implements StopPointIn
     public static Integer SeeFrom = -1; //0 is from ListStopPoint Intour. 1 is from Map.
     public static String Id = "";
     private MyApplication app;
+    private static TextView SpName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +40,7 @@ public class StopPointInfo_Main extends AppCompatActivity implements StopPointIn
         TabLayout tablayout = (TabLayout) findViewById(R.id.tablayout2);
         tablayout.setupWithViewPager(viewPager);
 
-        final TextView SpName = findViewById(R.id.stopPointInfoName);
+        SpName = findViewById(R.id.stopPointInfoName);
         Intent intent = getIntent();
         if (intent.hasExtra("StopPointIdForSeeDetail")){
             StopPointId = intent.getStringExtra("StopPointIdForSeeDetail");
@@ -65,7 +66,7 @@ public class StopPointInfo_Main extends AppCompatActivity implements StopPointIn
                     return;
                 }
                 ServiceDetail serviceDetail = response.body();
-                SpName.setText(serviceDetail.getName());
+                setSpName(serviceDetail.getName());
             }
 
             @Override
@@ -118,5 +119,9 @@ public class StopPointInfo_Main extends AppCompatActivity implements StopPointIn
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    public static void setSpName(String name){
+        SpName.setText(name);
     }
 }
