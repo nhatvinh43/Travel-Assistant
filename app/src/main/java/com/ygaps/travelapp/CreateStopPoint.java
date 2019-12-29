@@ -62,7 +62,6 @@ public class CreateStopPoint extends AppCompatActivity {
         app = (MyApplication) getApplication();
 
         name = findViewById(R.id.stopPointName);
-        contact = findViewById(R.id.stopPointContact);
         minCost = findViewById(R.id.minCostSP);
         maxCost = findViewById(R.id.maxCostSP);
 
