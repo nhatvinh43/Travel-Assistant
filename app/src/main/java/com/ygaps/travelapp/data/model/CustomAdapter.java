@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,14 +20,16 @@ import com.ygaps.travelapp.TourInfo_Main;
 
 import java.util.ArrayList;
 
-public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder> {
+public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder> implements Filterable {
     private ArrayList<Tour> tourList;
+    private ArrayList<Tour> tourListFiltered;
     private Context context;
     private LayoutInflater inflater;
 
     public CustomAdapter(Context context, ArrayList<Tour> obj){
         this.context = context;
         this.tourList = obj;
+        this.tourListFiltered = this.tourList;
         this.inflater = LayoutInflater.from(context);
     }
 
@@ -52,7 +56,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
     @Override
     public int getItemCount() {
-        return tourList.size();
+        return tourListFiltered.size();
     }
 
     @NonNull
@@ -65,7 +69,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
-        final Tour tour = tourList.get(position);
+        final Tour tour = tourListFiltered.get(position);
         Tour t = tourList.get(position);
         String tempPrice = t.getMinCost() + "-" + t.getMaxCost();
         holder.mTourPrice.setText(tempPrice);
@@ -100,5 +104,40 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
     {
         tourList.addAll(listItems);
         notifyDataSetChanged();
+    }
+
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+
+                String charString = charSequence.toString();
+                if (charString.isEmpty()) {
+                    tourListFiltered = tourList;
+                } else {
+                    ArrayList<Tour> filteredList = new ArrayList<>();
+                    for (Tour item : tourList) {
+
+                        if (item.getName().toLowerCase().contains(charString.toLowerCase())) {
+                            filteredList.add(item);
+                        }
+                    }
+
+                    tourListFiltered = filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = tourListFiltered;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                tourListFiltered = (ArrayList<Tour>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 }
