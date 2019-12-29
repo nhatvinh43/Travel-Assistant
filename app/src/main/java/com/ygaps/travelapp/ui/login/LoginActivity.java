@@ -189,6 +189,7 @@ public class LoginActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.clear();
                         editor.putString("UserToken",app.userToken);
+                        editor.putString("UserId",app.userId);
                         editor.apply();
 
                         finish();
@@ -211,7 +212,7 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, "login error", Toast.LENGTH_SHORT).show();
                 try {
                     PackageInfo info = getPackageManager().getPackageInfo(
-                            "com.example.doan",
+                            "com.ygaps.travelapp",
                             PackageManager.GET_SIGNATURES);
                     for (Signature signature : info.signatures) {
                         MessageDigest md = MessageDigest.getInstance("SHA");
