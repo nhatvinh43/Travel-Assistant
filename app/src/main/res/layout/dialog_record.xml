@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:elevation="4dp"
+    android:paddingBottom="20dp"
+    android:background="@drawable/form"
+    android:backgroundTint="@color/white"
+    android:layout_marginStart="20dp"
+    android:layout_marginEnd="20dp">
+
+    <TextView
+        android:id="@+id/dialog_title_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/quicksand_medium"
+        android:text="@string/record"
+        android:textSize="25sp" />
+
+    <RelativeLayout
+        android:id="@+id/firstRow"
+        android:layout_below="@+id/dialog_title_1"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerInParent="true">
+
+            <Button
+                android:id="@+id/tourInfoStartRecord"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/form"
+                android:src="@drawable/ic_microphone_inner"
+                android:text="@string/recordPrompt"
+                android:textAllCaps="false"
+                android:backgroundTint="@color/adultCountBg"
+                android:elevation="0dp"
+                android:textSize="15sp"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:fontFamily="@font/quicksand"/>
+
+            <Button
+                android:visibility="gone"
+                android:id="@+id/tourInfoStopRecord"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/form"
+                android:src="@drawable/ic_microphone_inner"
+                android:text="@string/stop"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/purpleRedAccent"
+                android:elevation="0dp"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:fontFamily="@font/quicksand_medium" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tourInfoDialogSelectedNotification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/firstRow"
+        android:fontFamily="@font/quicksand_medium"
+        android:textSize="18sp"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/secondRow"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/tourInfoDialogSelectedNotification">
+        <TextView
+            android:id="@+id/tourInfoDialogRecordComplete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:paddingTop="15dp"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:paddingBottom="15dp"
+            android:fontFamily="@font/quicksand"
+            android:textSize="15sp"
+            android:visibility="gone"
+            android:textAlignment="center"
+            android:text="@string/recordComplete"
+            android:layout_marginBottom="10dp"/>
+    </LinearLayout>
+
+    <Button
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:id="@+id/tourInfoDialogPlayButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/play"
+        android:textAllCaps="false"
+        android:visibility="gone"
+        android:fontFamily="@font/quicksand_medium"
+        android:background="@drawable/form"
+        android:textSize="15sp"
+        android:layout_below="@+id/secondRow"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>

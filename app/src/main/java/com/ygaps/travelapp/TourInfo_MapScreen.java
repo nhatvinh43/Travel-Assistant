@@ -15,6 +15,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
+import android.media.Image;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -68,7 +70,6 @@ public class TourInfo_MapScreen extends FragmentActivity implements OnMapReadyCa
     private GoogleMap mMap;
     private FusedLocationProviderClient client;
     private MediaRecorder recorder ;
-    private String outputFile;
     private int currentFormat = 0;
     private Location currentLocation;
     private Dialog eventsDialog;
@@ -86,12 +87,20 @@ public class TourInfo_MapScreen extends FragmentActivity implements OnMapReadyCa
     private TextView selectedNotification;
     private ImageButton policeStation;
 
+    private Button startRecord;
+    private Button stopRecord;
+    private Button playRecord;
+    private TextView recordCompletedMsg;
+
+    String outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording.3gp";
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tour_info__map_screen);
-        final ImageButton record = findViewById(R.id.tourInfoMapSendVoiceRecorderButton);
         app = (MyApplication) getApplication();
         client = LocationServices.getFusedLocationProviderClient(this);
         GetLastLocation();
@@ -164,6 +173,93 @@ public class TourInfo_MapScreen extends FragmentActivity implements OnMapReadyCa
             }
         });
 
+        //Record and play audio
+
+
+
+        recorder = new MediaRecorder();
+        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        recorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
+        recorder.setOutputFile(outputFile);
+
+
+        final ImageButton sendRecord = findViewById(R.id.tourInfoMapSendVoiceRecorderButton);
+        sendRecord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                eventsDialog = new Dialog(TourInfo_MapScreen.this);
+                eventsDialog.setContentView(R.layout.dialog_record);
+                eventsDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                lp.copyFrom(eventsDialog.getWindow().getAttributes());
+                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+                eventsDialog.show();
+                eventsDialog.getWindow().setAttributes(lp);
+
+
+                startRecord = eventsDialog.findViewById(R.id.tourInfoStartRecord);
+                stopRecord = eventsDialog.findViewById(R.id.tourInfoStopRecord);
+                playRecord = eventsDialog.findViewById(R.id.tourInfoDialogPlayButton);
+                recordCompletedMsg = eventsDialog.findViewById(R.id.tourInfoDialogRecordComplete);
+
+
+                startRecord.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v)
+                    {
+                        try{
+                            recorder = new MediaRecorder();
+                            recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+                            recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+                            recorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
+                            recorder.setOutputFile(outputFile);
+                            recorder.prepare();
+                            playRecord.setVisibility(View.GONE);
+                            recordCompletedMsg.setVisibility(View.GONE);
+                            stopRecord.setVisibility(View.VISIBLE);
+                            startRecord.setVisibility(View.GONE);
+                        }catch (IOException e){
+
+                        }
+                        recorder.start();
+                    }
+                });
+
+                stopRecord.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v)
+                    {
+                        startRecord.setVisibility(View.VISIBLE);
+                        stopRecord.setVisibility(View.GONE);
+                        playRecord.setVisibility(View.VISIBLE);
+                        recordCompletedMsg.setVisibility(View.VISIBLE);
+                        recorder.stop();
+                        recorder.release();
+                        recorder = null;
+                    }
+                });
+
+                playRecord.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v)
+                    {
+                        MediaPlayer mediaPlayer = new MediaPlayer();
+                        try {
+                            mediaPlayer.setDataSource(outputFile);
+                            mediaPlayer.prepare();
+                            mediaPlayer.start();
+                            Toast.makeText(getApplicationContext(), "Playing Audio", Toast.LENGTH_LONG).show();
+                        } catch (Exception e) {
+                            // make something
+                        }
+                    }
+                });
+
+            }
+        });
+
         //map
     }
     class MyRunable implements Runnable{
@@ -186,39 +282,7 @@ public class TourInfo_MapScreen extends FragmentActivity implements OnMapReadyCa
         },111);
     }
 
-    private void setupMediaRecoder(){
-        recorder = new MediaRecorder();
-        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        recorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
-        recorder.setOutputFile(outputFile);
-    }
-    private void startRecording(){
-        try{
-            recorder.prepare();
-        }catch (IOException e){
 
-        }
-        recorder.start();
-    }
-
-    private void stopRecording(){
-        recorder.stop();
-        recorder.release();
-        recorder = null;
-    }
-
-    private void playRecording(){
-        MediaPlayer mediaPlayer = new MediaPlayer();
-        try {
-            mediaPlayer.setDataSource(outputFile);
-            mediaPlayer.prepare();
-        }catch (IOException e){
-
-        }
-        Toast.makeText(getApplicationContext(),"Play...", Toast.LENGTH_SHORT).show();
-        mediaPlayer.start();
-    }
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;

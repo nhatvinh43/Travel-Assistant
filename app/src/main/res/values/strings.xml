@@ -114,6 +114,11 @@
     <string name="notificationMsg">Type your message</string>
     <string name="notificationMsgVelocity">Velocity (for speed signs)</string>
     <string name="delete">Delete</string>
+    <string name="record">Audio record</string>
+    <string name="play">Play</string>
+    <string name="recordComplete">Your record is finished!</string>
+    <string name="recordPrompt">Record</string>
+    <string name="stop">Stop</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
