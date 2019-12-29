@@ -21,13 +21,17 @@ import com.ygaps.travelapp.data.model.NotificationOnRoad;
 import com.ygaps.travelapp.data.model.OneCoordinate;
 import com.ygaps.travelapp.data.model.PasswordRecoveryOtp;
 import com.ygaps.travelapp.data.model.RegisterFCM;
+import com.ygaps.travelapp.data.model.RevCoordinate;
 import com.ygaps.travelapp.data.model.ReviewSend;
+import com.ygaps.travelapp.data.model.SendCoordinate;
 import com.ygaps.travelapp.data.model.ServiceDetail;
 import com.ygaps.travelapp.data.model.TourCreate;
 import com.ygaps.travelapp.data.model.TourInfo;
 import com.ygaps.travelapp.data.model.TourResFromTourCreate;
 import com.ygaps.travelapp.data.model.UpdateTourInfoRequest;
 import com.ygaps.travelapp.data.model.VertifyPasswordRecoveryOtp;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -228,5 +232,10 @@ public interface API {
             @Header("Authorization") String Auth,
             @Field("id") String id,
             @Field("status") int status
+    );
+    @POST("/tour/current-users-coordinate")
+    Call<ArrayList<RevCoordinate>> getListCoord(
+            @Header("Authorization") String Auth,
+            @Body SendCoordinate sendCoordinate
     );
 }

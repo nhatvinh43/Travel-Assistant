@@ -1,13 +1,16 @@
 package com.ygaps.travelapp;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
@@ -31,6 +34,7 @@ public class TourInfo_Main extends AppCompatActivity
     public static TourInfo tourInfo;
     private MyApplication app;
     private static TextView tv;
+    private API api = retrofit.getClient().create(API.class);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,27 +75,41 @@ public class TourInfo_Main extends AppCompatActivity
         deleteTour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                API api = retrofit.getClient().create(API.class);
-                Call<JsonObject> call = api.removeTour(app.userToken,tourId,-1);
-                call.enqueue(new Callback<JsonObject>() {
-                    @Override
-                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                        if (!response.isSuccessful()) {
-                            Gson gson = new Gson();
-                            JsonObject error =gson.fromJson(response.errorBody().charStream(),JsonObject.class);
-                            Toast.makeText(getApplicationContext(),error.get("message").getAsString(),Toast.LENGTH_LONG).show();
-                        }else{
-                            Toast.makeText(TourInfo_Main.this, "Successs", Toast.LENGTH_SHORT).show();
-                            finish();
-                        }
-                        
-                    }
+                new AlertDialog.Builder(TourInfo_Main.this)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("Are You Sure?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Call<JsonObject> call = api.removeTour(app.userToken,tourId,-1);
+                                call.enqueue(new Callback<JsonObject>() {
+                                    @Override
+                                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                                        if (!response.isSuccessful()) {
+                                            Gson gson = new Gson();
+                                            JsonObject error =gson.fromJson(response.errorBody().charStream(),JsonObject.class);
+                                            Toast.makeText(getApplicationContext(),error.get("message").getAsString(),Toast.LENGTH_LONG).show();
+                                        }else{
+                                            Toast.makeText(TourInfo_Main.this, "Successs", Toast.LENGTH_SHORT).show();
+                                            //MainActivity.delTour = 1;
+                                            finish();
+                                        }
+                                    }
+                                    @Override
+                                    public void onFailure(Call<JsonObject> call, Throwable t) {
+                                    }
+                                });
 
-                    @Override
-                    public void onFailure(Call<JsonObject> call, Throwable t) {
-
-                    }
-                });
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .show()
+                        .getWindow()
+                        .setGravity(Gravity.BOTTOM);
             }
         });
 

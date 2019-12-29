@@ -1,14 +1,17 @@
 package com.ygaps.travelapp;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
@@ -29,6 +32,7 @@ public class StopPointInfo_Main extends AppCompatActivity implements StopPointIn
     public static String Id = "";
     private MyApplication app;
     private static TextView SpName;
+    private API api = retrofit.getClient().create(API.class);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +59,7 @@ public class StopPointInfo_Main extends AppCompatActivity implements StopPointIn
         Log.d("StopPointInfoMain",StopPointId);
         Log.d("StopPointInfoMain",Id);
 
-        API api = retrofit.getClient().create(API.class);
+
         Call<ServiceDetail> call = api.getServiceDetail(app.userToken,Integer.valueOf(StopPointId));
         call.enqueue(new Callback<ServiceDetail>() {
             @Override
@@ -79,30 +83,45 @@ public class StopPointInfo_Main extends AppCompatActivity implements StopPointIn
         btnEditSPInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                API api = retrofit.getClient().create(API.class);
-                Call<JsonObject> call = api.removeStopPoint(app.userToken,Id);
-                call.enqueue(new Callback<JsonObject>() {
-                    @Override
-                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                        if (!response.isSuccessful()) {
-                            Gson gson = new Gson();
-                            JsonObject error =gson.fromJson(response.errorBody().charStream(),JsonObject.class);
-                            Toast.makeText(getApplicationContext(),error.get("message").getAsString(),Toast.LENGTH_LONG).show();
-                            return;
-                        }
-                        JsonObject loginResponse = response.body();
-                        Toast.makeText(StopPointInfo_Main.this,
-                                loginResponse.get("message").getAsString(), Toast.LENGTH_SHORT).show();
-                        Intent intent1 = new Intent();
-                        setResult(RESULT_OK,intent1);
-                        finish();
-                    }
+                new AlertDialog.Builder(StopPointInfo_Main.this)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("Are You Sure?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Call<JsonObject> call = api.removeStopPoint(app.userToken,Id);
+                                call.enqueue(new Callback<JsonObject>() {
+                                    @Override
+                                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                                        if (!response.isSuccessful()) {
+                                            Gson gson = new Gson();
+                                            JsonObject error =gson.fromJson(response.errorBody().charStream(),JsonObject.class);
+                                            Toast.makeText(getApplicationContext(),error.get("message").getAsString(),Toast.LENGTH_LONG).show();
+                                            return;
+                                        }
+                                        JsonObject loginResponse = response.body();
+                                        Toast.makeText(StopPointInfo_Main.this,
+                                                loginResponse.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+                                        Intent intent1 = new Intent();
+                                        setResult(RESULT_OK,intent1);
+                                        finish();
+                                    }
 
-                    @Override
-                    public void onFailure(Call<JsonObject> call, Throwable t) {
-                        Log.d("ErrorOnStopPointInfo",t.getMessage());
-                    }
-                });
+                                    @Override
+                                    public void onFailure(Call<JsonObject> call, Throwable t) {
+                                        Log.d("ErrorOnStopPointInfo",t.getMessage());
+                                    }
+                                });
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .show()
+                        .getWindow()
+                        .setGravity(Gravity.BOTTOM);
             }
         });
 
